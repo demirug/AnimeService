@@ -1,10 +1,10 @@
-{% extends 'base.html' %}
+{% extends 'base.jinja' %}
 
 {% block title %}Login{% endblock title %}
 
 {% block body %}
 <form method="POST">{% csrf_token %}
-    {{ form.as_p }}
+    {{ form.as_p() }}
     <button>Submit</button>
 </form>
 {% endblock body %}
