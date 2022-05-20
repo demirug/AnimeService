@@ -16,8 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from apps.account.urls import urlpatterns as auth_urls
+from apps.movie.urls import urlpatterns as movie_urls
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
 urlpatterns += auth_urls
+urlpatterns += movie_urls
