@@ -1,0 +1,17 @@
+{% extends 'base.jinja' %}
+
+{% block title %}List{% endblock title %}
+
+{% block body %}
+
+    {% for object in object_list %}
+        <div class="card" style="width: 18rem;">
+          <img class="card-img-top" src="{{ object.poster.url }}" alt="Image cap">
+          <div class="card-body">
+            <h5 class="card-title">{{ object.name }}</h5>
+            <a href="{{ object.get_absolute_url() }}" class="btn btn-primary">Go</a>
+          </div>
+        </div>
+    {% endfor %}
+
+{% endblock body %}
