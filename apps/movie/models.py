@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 from shared.services.slugify import unique_slugify
 
-ALLOWED_VIDEO_FORMATS = ['webm', 'mpg', 'ogg', 'mp4', 'avi', 'mov', 'mkv', 'mod', 'mpeg']
+ALLOWED_VIDEO_FORMATS = ['webm', 'mpg', 'ogg', 'mp4', 'mpeg']
 
 
 class Anime(models.Model):
