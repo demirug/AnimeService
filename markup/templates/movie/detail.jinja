@@ -1,0 +1,82 @@
+{% extends 'base.jinja' %}
+
+{% block title %}List{% endblock title %}
+
+{% block head %}
+    <link href="{{ static("movie/css/quality-selector.css") }}" rel="stylesheet">
+    <link href="{{ static("movie/css/video-js.css") }}" rel="stylesheet" />
+
+    <script src="{{ static("movie/js/video.min.js") }}"></script>
+    <script src="{{ static("movie/js/silvermine-videojs-quality-selector.min.js") }}"></script>
+
+{% endblock head %}
+
+{% block body %}
+
+    <center>
+        <h4>{{ object }}: {{ season }}</h4>
+    </center>
+
+    <hr>
+
+    {% if season_list.count() > 1 %}
+
+        <center>
+            <h4>Seasons</h4>
+        </center>
+        {% for num in season_list %}
+           <a href="{{ url("detail", slug=object.slug, season=num) }}" class="btn {% if season.number == num %}btn-primary{% else %}btn-info{% endif %}">{{ num }}</a>
+        {% endfor %}
+        <hr>
+    {% endif %}
+
+    <video id="my-video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="640" height="264" data-setup="{}">
+
+    {% for episodeFile in episode.files.all() %}
+        <source src="{{ episodeFile.file.url }}" type="video/{{ episodeFile.extension() }}" label="{{ episodeFile.quality }}"/>
+    {% endfor %}
+
+    <p class="vjs-no-js">
+      To view this video please enable JavaScript, and consider upgrading to a
+      web browser that
+      <a href="https://videojs.com/html5-video-support/" target="_blank"
+        >supports HTML5 video</a
+      >
+    </p>
+    </video>
+
+    <hr>
+    
+    {% if episode_list.count() > 1 %}
+    
+        <center>
+            <h4>Episodes</h4>
+        </center>
+            {% for num in episode_list %}
+           <a href="{{ url("detail", slug=object.slug, season=season.number, episode=num) }}" class="btn {% if episode.number == num %}btn-primary{% else %}btn-info{% endif %}">{{ num }}</a>
+        {% endfor %}
+    
+    {% endif %}
+
+    <script>
+      var options = {
+           controlBar: {
+              children: [
+                 'playToggle',
+                 'CurrentTimeDisplay',
+                 'TimeDivider',
+                 'DurationDisplay',
+                 'progressControl',
+                 'volumePanel',
+                 'qualitySelector',
+                 'pictureInPictureToggle',
+                 'fullscreenToggle',
+              ],
+           },
+        };
+      var player = videojs('my-video', options, function () {});
+
+    </script>
+
+
+{% endblock body %}
