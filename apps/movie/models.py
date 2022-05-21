@@ -1,3 +1,5 @@
+import os
+
 from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.urls import reverse
@@ -106,6 +108,10 @@ class EpisodeFile(models.Model):
         verbose_name = _("Episode File")
         verbose_name_plural = _("Episode Files")
         unique_together = [('quality', 'episode')]
+
+    def extension(self):
+        name, extension = os.path.splitext(self.file.name)
+        return extension[1:]
 
     def __str__(self):
         return f"{self.episode}/{self.quality}"
