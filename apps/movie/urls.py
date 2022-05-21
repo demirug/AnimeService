@@ -1,7 +1,10 @@
 from django.urls import path
-from apps.movie.views import AnimeListView, AnimeDetailView
+from apps.movie.views import *
 
 urlpatterns = [
     path("", AnimeListView.as_view(), name="home"),
-    path("/<slug:name>/", AnimeDetailView.as_view(), name="detail"),
+
+    path("<slug:slug>/", AnimeDetailView.as_view(), name="detail"),
+    path("<slug:slug>/<int:season>/", AnimeDetailView.as_view(), name="detail"),
+    path("<slug:slug>/<int:season>/<int:episode>/", AnimeDetailView.as_view(), name="detail"),
 ]
