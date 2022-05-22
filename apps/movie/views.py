@@ -25,7 +25,7 @@ class AnimeDetailView(DetailView):
         """Adding to context seasons, seasons number list, episode, episodes number list"""
         context = super().get_context_data(**kwargs)
 
-        anime: Anime = self.get_object()
+        anime: Anime = self.object
 
         if "season" in self.kwargs:
             context['season'] = get_object_or_404(Season, anime=anime, number=int(self.kwargs['season']))

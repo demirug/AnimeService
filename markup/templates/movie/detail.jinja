@@ -19,7 +19,7 @@
 
     <hr>
 
-    {% if season_list.count() > 1 %}
+    {% if season_list|length > 1 %}
 
         <center>
             <h4>Seasons</h4>
@@ -32,7 +32,7 @@
 
     <video id="my-video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="640" height="264" data-setup="{}">
 
-    {% for episodeFile in episode.files.all() %}
+    {% for episodeFile in episode.files.all().select_related("quality") %}
         <source src="{{ episodeFile.file.url }}" type="video/{{ episodeFile.extension() }}" label="{{ episodeFile.quality }}"/>
     {% endfor %}
 
@@ -46,16 +46,16 @@
     </video>
 
     <hr>
-    
-    {% if episode_list.count() > 1 %}
-    
+
+    {% if episode_list|length > 1 %}
+
         <center>
             <h4>Episodes</h4>
         </center>
             {% for num in episode_list %}
            <a href="{{ url("detail", slug=object.slug, season=season.number, episode=num) }}" class="btn {% if episode.number == num %}btn-primary{% else %}btn-info{% endif %}">{{ num }}</a>
         {% endfor %}
-    
+
     {% endif %}
 
     <script>
