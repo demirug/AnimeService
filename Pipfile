@@ -9,6 +9,7 @@ pillow = "*"
 python-dotenv = "*"
 django-jinja = "*"
 jinja2 = "*"
+django-debug-toolbar = "*"
 
 [dev-packages]
 
