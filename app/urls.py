@@ -8,6 +8,7 @@ from apps.movie.urls import urlpatterns as movie_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', include(('api.urls', 'api'))),
 ]
 
 urlpatterns += auth_urls
