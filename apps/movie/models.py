@@ -54,14 +54,7 @@ class Season(models.Model):
 class Quality(models.Model):
     """Quality model"""
     name = models.CharField(_("Name"), max_length=15, blank=True)
-    height = models.PositiveSmallIntegerField(_("Height"))
-    wight = models.PositiveSmallIntegerField(_("Wight"))
-
-    def save(self, *args, **kwargs):
-        """If name not setted generate name"""
-        if not self.name:
-            self.name = f"{self.wight}x{self.height}"
-        super().save(*args, **kwargs)
+    wight = models.SmallIntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -69,7 +62,7 @@ class Quality(models.Model):
     class Meta:
         verbose_name = _("Quality")
         verbose_name_plural = _("Quality")
-        unique_together = [('height', 'wight')]
+        ordering = ['wight']
 
 
 class Episode(models.Model):

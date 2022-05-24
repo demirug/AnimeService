@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'django_jinja',
     'rest_framework',
+    'adminsortable2',
 
     'shared',
     'apps.account',

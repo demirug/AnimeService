@@ -1,3 +1,4 @@
+from adminsortable2.admin import SortableAdminMixin
 from django.contrib import admin
 
 from apps.movie.models import EpisodeFile, Episode, Quality, Season, Anime
@@ -15,6 +16,10 @@ class EpisodeAdmin(admin.ModelAdmin):
     ]
 
 
-admin.site.register(Quality)
+@admin.register(Quality)
+class SortableBookAdmin(SortableAdminMixin, admin.ModelAdmin):
+    list_display = ['name', 'wight']
+
+
 admin.site.register(Season)
 admin.site.register(Anime)

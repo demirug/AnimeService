@@ -32,7 +32,7 @@
 
     <video id="my-video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="640" height="264" data-setup="{}">
 
-    {% for episodeFile in episode.files.all().select_related("quality") %}
+    {% for episodeFile in episode.files.all().select_related("quality").order_by('quality__wight') %}
         <source src="{{ episodeFile.file.url }}" type="video/{{ episodeFile.extension() }}" label="{{ episodeFile.quality }}"/>
     {% endfor %}
 
