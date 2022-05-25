@@ -6,5 +6,4 @@ urlpatterns = [
 
     path("<slug:slug>/", AnimeDetailView.as_view(), name="detail"),
     path("<slug:slug>/<int:season>/", AnimeDetailView.as_view(), name="detail"),
-    path("<slug:slug>/<int:season>/<int:episode>/", AnimeDetailView.as_view(), name="detail"),
 ]
