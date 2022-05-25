@@ -1,4 +1,5 @@
 from django.db.models import Count
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django_jinja.views.generic import DetailView, ListView
 
@@ -32,10 +33,10 @@ class AnimeDetailView(DetailView):
         else:
             context['season'] = anime.seasons.order_by('number').first()
 
-        if "episode" in self.kwargs:
-            context['episode'] = get_object_or_404(Episode, season=context['season'], number=int(self.kwargs['episode']))
-        else:
-            context['episode'] = context['season'].episodes.order_by('number').first()
+        if context['season'].episodes.count() == 0:
+            raise Http404()
+
+        context['episode'] = context['season'].episodes.order_by('number').first()
 
         context['season_list'] = anime.seasons.annotate(episode_cnt=Count("episodes"))\
             .filter(episode_cnt__gt=0)\
