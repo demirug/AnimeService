@@ -54,10 +54,16 @@
         <center>
             <h4>Episodes</h4>
         </center>
-            {% for num in episode_list %}
-           <a href="{{ url("detail", slug=object.slug, season=season.number, episode=num) }}" class="btn {% if episode.number == num %}btn-primary{% else %}btn-info{% endif %}">{{ num }}</a>
-        {% endfor %}
 
+        <div id="episode-selector" anime="{{ object.slug }}" season="{{ season.number }}">
+            {% for num in episode_list %}
+                {% if episode.number == num %}
+                    <button id="episode-selected" class="btn btn-primary">{{ num }}</button>
+                {% else %}
+                    <button class="btn btn-info">{{ num }}</button>
+                {% endif %}
+            {% endfor %}
+        </div>
     {% endif %}
 
     <script>
