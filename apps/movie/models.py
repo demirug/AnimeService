@@ -67,8 +67,6 @@ class Quality(models.Model):
 
 class Episode(models.Model):
     """Episode model"""
-    name = models.CharField(_("Name"), max_length=150)
-    description = models.TextField(_("Description"))
     number = models.PositiveSmallIntegerField()
     season = models.ForeignKey(Season, on_delete=models.CASCADE, related_name="episodes")
 
@@ -79,7 +77,7 @@ class Episode(models.Model):
         ordering = ['number']
 
     def __str__(self):
-        return self.name
+        return f"Episode {self.number}"
 
 
 def anime_path(instance, filename):
