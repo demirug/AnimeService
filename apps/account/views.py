@@ -9,7 +9,7 @@ from django.views.generic import TemplateView
 class ValidateEmailView(TemplateView):
     """View check if username and token correct to validate user email"""
 
-    template_name = "account/verified.html"
+    template_name = "account/verified.jinja"
 
     def dispatch(self, request, *args, **kwargs):
 
