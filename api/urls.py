@@ -7,4 +7,5 @@ urlpatterns = [
         path('episode/<slug:slug>/<int:season>/<int:episode>/', EpisodeRetrieveAPIView.as_view(), name='episode'),
         path('anime/<slug:slug>/', AnimeRetrieveApiView.as_view(), name='anime')
     ])),
+    path('api-auth/', include('rest_framework.urls')),
 ]
