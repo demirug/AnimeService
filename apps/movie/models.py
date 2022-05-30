@@ -106,3 +106,21 @@ class EpisodeFile(models.Model):
 
     def __str__(self):
         return f"{self.episode}/{self.quality}"
+
+
+class Review(models.Model):
+    """Review model"""
+    season: Season = models.ForeignKey(Season, on_delete=models.CASCADE, related_name="reviews")
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    text = models.TextField(_("Review"))
+
+    datetime = models.DateTimeField(auto_now_add=True)
+    verified = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = _("Review")
+        verbose_name_plural = _("Reviews")
+        unique_together = [("season", "user")]
+
+    def __str__(self):
+        return f"Review #{self.pk}"
