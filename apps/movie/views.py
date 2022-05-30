@@ -47,7 +47,7 @@ class AnimeDetailView(DetailView):
             .values_list('number', flat=True)
         context['episode_list'] = context['season'].episodes.values_list('number', flat=True)
 
-        context['reviews'] = context['season'].reviews.select_related("user").order_by("-datetime")
+        context['reviews'] = context['season'].reviews.order_by("-datetime").values("text", "datetime", "user__username")
 
         if self.request.user.is_authenticated:
             context['form'] = ReviewForm(instance=Review.objects.filter(user=self.request.user, season=context['season']).first())
