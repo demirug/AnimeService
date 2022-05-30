@@ -1,5 +1,6 @@
 import os
 
+from django.contrib.auth import get_user_model
 from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.urls import reverse
@@ -49,6 +50,9 @@ class Season(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse("detail", kwargs={"slug": self.anime.slug, "season": self.number})
 
 
 class Quality(models.Model):
