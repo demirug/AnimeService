@@ -1,9 +1,12 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
 from django.http import Http404
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
+from django.views.generic.edit import BaseFormView
 from django_jinja.views.generic import DetailView, ListView
 
-from apps.movie.models import Anime, Season, Episode
+from apps.movie.forms import ReviewForm
+from apps.movie.models import Anime, Season, Review
 
 
 class AnimeListView(ListView):
@@ -44,3 +47,23 @@ class AnimeDetailView(DetailView):
         context['episode_list'] = context['season'].episodes.values_list('number', flat=True)
 
         return context
+
+
+class ReviewCreateUpdateView(LoginRequiredMixin, BaseFormView):
+
+    form_class = ReviewForm
+
+    def get(self, request, *args, **kwargs):
+        return redirect("home")
+
+    def form_valid(self, form: ReviewForm):
+
+        season: Season = get_object_or_404(Season, anime__slug=self.kwargs["slug"], number=self.kwargs["season"])
+
+        Review.objects.update_or_create(
+            season=season,
+            user=self.request.user,
+            defaults={'text': form.cleaned_data['text'], 'verified': False}
+        )
+
+        return redirect(season.get_absolute_url())
