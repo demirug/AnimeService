@@ -13,5 +13,5 @@ def send_email(email, subject, template, context=None):
     if isinstance(email, str):
         email = [email]
 
-    send_task_mail(subject, html_message, plain_message, email)
+    send_task_mail.delay(subject, html_message, plain_message, email)
 
