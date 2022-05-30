@@ -81,6 +81,9 @@ class Episode(models.Model):
     def __str__(self):
         return f"Episode {self.number}"
 
+    def get_absolute_url(self):
+        return f"{self.season.get_absolute_url()}?episode={self.number}"
+
 
 def anime_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/movie/files/anime_name/season_name/episode_name/<filename>
