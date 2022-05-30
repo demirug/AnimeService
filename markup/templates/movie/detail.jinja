@@ -34,10 +34,6 @@
 
     <video id="my-video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="640" height="264" data-setup="{}">
 
-    {% for episodeFile in episode.files.all().select_related("quality").order_by('quality__wight') %}
-        <source src="{{ episodeFile.file.url }}" type="video/{{ episodeFile.extension() }}" label="{{ episodeFile.quality }}"/>
-    {% endfor %}
-
     <p class="vjs-no-js">
       To view this video please enable JavaScript, and consider upgrading to a
       web browser that
@@ -49,13 +45,8 @@
 
     <hr>
 
-    {% if episode_list|length > 1 %}
-
-        <center>
-            <h4>Episodes</h4>
-        </center>
-
-        <div id="episode-selector" anime="{{ object.slug }}" season="{{ season.number }}">
+    <div id="episode-selector" anime="{{ object.slug }}" season="{{ season.number }}" episode="{{ episode.number }}">
+        {% if episode_list|length > 1 %}
             {% for num in episode_list %}
                 {% if episode.number == num %}
                     <button id="episode-selected" class="btn btn-primary">{{ num }}</button>
@@ -63,7 +54,26 @@
                     <button class="btn btn-info">{{ num }}</button>
                 {% endif %}
             {% endfor %}
-        </div>
+        {% endif %}
+    </div>
+
+
+    {% if form %}
+    <form method="post" action="{{ url("review", slug=object.slug, season=season.number) }}"> {% csrf_token %}
+        {{ form.as_p() }}
+        <button class="btn btn-primary btn-sm">Send</button>
+    </form>
+    {% else %}
+        <center>
+            <h5>Authorize to post review</h5>
+        </center>
+    {% endif %}
+
+    {% if reviews|length > 0 %}
+        <hr>
+        {% for review in reviews %}
+            <p>{{ review.user }}: {{review.text }} | Date: {{ review.datetime }}</p>
+        {% endfor %}
     {% endif %}
 
     <script>
