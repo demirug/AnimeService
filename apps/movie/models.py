@@ -59,9 +59,7 @@ class Quality(models.Model):
     """Quality model"""
     name = models.CharField(_("Name"), max_length=15, unique=True)
     wight = models.SmallIntegerField(default=0)
-
-    def __str__(self):
-        return self.name
+    default = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = _("Quality")
