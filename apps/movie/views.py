@@ -15,9 +15,10 @@ class AnimeListView(ListView):
     model = Anime
     template_name = "movie/list.jinja"
 
-    def get_queryset(self, ):
-        """Display anime's with available seasons"""
-        return Anime.objects.annotate(seasons_cnt=Count('seasons')).filter(seasons_cnt__gt=0)
+    def get_queryset(self):
+        """Display anime with available seasons if there are episodes"""
+        return Anime.objects.annotate(seasons_cnt=Count('seasons'), episodes_cnt=Count('seasons__episodes'))\
+            .filter(seasons_cnt__gt=0, episodes_cnt__gt=0)
 
 
 class AnimeDetailView(DetailView):
