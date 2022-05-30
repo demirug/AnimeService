@@ -66,6 +66,14 @@ class Quality(models.Model):
         verbose_name_plural = _("Quality")
         ordering = ['wight']
 
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if self.default:
+            Quality.objects.filter(default=True).update(default=False)
+        super().save(*args, **kwargs)
+
 
 class Episode(models.Model):
     """Episode model"""
@@ -90,7 +98,6 @@ def anime_path(instance, filename):
     return 'movie/files/{0}/{1}/{2}/'.format(
                             instance.episode.season.anime.name,
                             instance.episode.season.name,
-                            instance.episode.name,
                             filename)
 
 
