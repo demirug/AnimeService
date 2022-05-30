@@ -1,7 +1,7 @@
 from adminsortable2.admin import SortableAdminMixin
 from django.contrib import admin
 
-from apps.movie.models import EpisodeFile, Episode, Quality, Season, Anime
+from apps.movie.models import EpisodeFile, Episode, Quality, Season, Anime, Review
 
 
 class EpisodeFileInline(admin.TabularInline):
@@ -14,6 +14,11 @@ class EpisodeAdmin(admin.ModelAdmin):
     inlines = [
         EpisodeFileInline,
     ]
+
+
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
+    list_filter = ['verified', 'datetime']
 
 
 @admin.register(Quality)
