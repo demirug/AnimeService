@@ -94,7 +94,7 @@ class Episode(models.Model):
 
 
 def anime_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/movie/files/anime_name/season_name/episode_name/<filename>
+    # file will be uploaded to MEDIA_ROOT/movie/files/anime_name/season_name/<filename>
     return 'movie/files/{0}/{1}/{2}/'.format(
                             instance.episode.season.anime.name,
                             instance.episode.season.name,
