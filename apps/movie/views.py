@@ -1,6 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
-from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic.edit import BaseFormView
 from django_jinja.views.generic import DetailView, ListView
@@ -37,17 +36,13 @@ class AnimeDetailView(DetailView):
         else:
             context['season'] = anime.seasons.order_by('number').first()
 
-        if context['season'].episodes.count() == 0:
-            raise Http404()
-
         context['episode'] = context['season'].episodes.order_by('number').first()
 
-        context['season_list'] = anime.seasons.annotate(episode_cnt=Count("episodes"))\
-            .filter(episode_cnt__gt=0)\
-            .values_list('number', flat=True)
+        context['season_list'] = anime.seasons.values_list('number', flat=True)
         context['episode_list'] = context['season'].episodes.values_list('number', flat=True)
 
-        context['reviews'] = context['season'].reviews.order_by("-datetime").values("text", "datetime", "user__username")
+        context['reviews'] = context['season'].reviews.order_by("-datetime")\
+            .values("text", "datetime", "user__username")
 
         if self.request.user.is_authenticated:
             context['form'] = ReviewForm(instance=Review.objects.filter(user=self.request.user, season=context['season']).first())

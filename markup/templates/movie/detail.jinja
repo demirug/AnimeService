@@ -72,7 +72,7 @@
     {% if reviews|length > 0 %}
         <hr>
         {% for review in reviews %}
-            <p>{{ review.user }}: {{review.text }} | Date: {{ review.datetime }}</p>
+            <p>{{ review.user__username }}: {{review.text }} | Date: {{ review.datetime }}</p>
         {% endfor %}
     {% endif %}
 
