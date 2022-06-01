@@ -1,6 +1,6 @@
 from django import forms
 
-from apps.movie.models import Review
+from apps.movie.models import Review, Anime
 
 
 class ReviewForm(forms.ModelForm):
