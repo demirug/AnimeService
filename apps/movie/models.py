@@ -11,6 +11,19 @@ from shared.services.slugify import unique_slugify
 ALLOWED_VIDEO_FORMATS = ['webm', 'mpg', 'ogg', 'mp4', 'mpeg']
 
 
+class Tag(models.Model):
+    """Tag model"""
+    name = models.CharField(_("Name"), max_length=150, unique=True)
+    display = models.BooleanField(_("Display"), default=True)
+
+    class Meta:
+        verbose_name = _("Tag")
+        verbose_name_plural = _("Tags")
+
+    def __str__(self):
+        return self.name
+
+
 class Anime(models.Model):
     """Anime object model"""
     name = models.CharField(_("Name"), max_length=150)
