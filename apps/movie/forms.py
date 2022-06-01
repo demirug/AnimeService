@@ -10,3 +10,10 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ['text']
+
+
+class AnimeForm(forms.ModelForm):
+
+    class Meta:
+        model = Anime
+        exclude = ['tag_list']

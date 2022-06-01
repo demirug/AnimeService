@@ -30,10 +30,17 @@ class Anime(models.Model):
     slug = models.SlugField(unique=True, blank=True)
     poster = models.ImageField(_("Poster"), upload_to="posters/%Y/%m/%d/")
 
+    tags = models.TextField(_("Tags"), blank=True)
+    tag_list = models.ManyToManyField(Tag, blank=True, related_name="anime")
+
     class Meta:
         verbose_name = _("Anime")
         verbose_name_plural = _("Anime's")
         ordering = ['name']
+
+    def __init__(self, *args, **kwargs):
+        super(Anime, self).__init__(*args, **kwargs)
+        self._tags = self.tags
 
     def __str__(self):
         return self.name
@@ -62,7 +69,7 @@ class Season(models.Model):
         ordering = ['number']
 
     def __str__(self):
-        return self.name
+        return f"{self.anime.name} | Season #{self.number}"
 
     def get_absolute_url(self):
         return reverse("detail", kwargs={"slug": self.anime.slug, "season": self.number})
