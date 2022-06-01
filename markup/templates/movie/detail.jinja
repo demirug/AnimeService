@@ -32,17 +32,23 @@
         <hr>
     {% endif %}
 
-    <video id="my-video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="640" height="264" data-setup="{}">
+    {% if episode_list|length == 0 %}
+        <center>
+            <h4>Episodes not found</h4>
+        </center>
+    {% else %}
 
-    <p class="vjs-no-js">
-      To view this video please enable JavaScript, and consider upgrading to a
-      web browser that
-      <a href="https://videojs.com/html5-video-support/" target="_blank"
-        >supports HTML5 video</a
-      >
-    </p>
-    </video>
+        <video id="my-video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="640" height="264" data-setup="{}">
 
+        <p class="vjs-no-js">
+          To view this video please enable JavaScript, and consider upgrading to a
+          web browser that
+          <a href="https://videojs.com/html5-video-support/" target="_blank"
+            >supports HTML5 video</a
+          >
+        </p>
+        </video>
+    {% endif %}
     <hr>
 
     <div id="episode-selector" anime="{{ object.slug }}" season="{{ season.number }}" episode="{{ episode.number }}">
