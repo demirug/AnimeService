@@ -1,7 +1,9 @@
 from adminsortable2.admin import SortableAdminMixin
 from django.contrib import admin
+from django.utils.html import format_html
 
-from apps.movie.models import EpisodeFile, Episode, Quality, Season, Anime, Review
+from .forms import AnimeForm
+from .models import EpisodeFile, Episode, Quality, Season, Anime, Review, Tag
 
 
 class EpisodeFileInline(admin.TabularInline):
@@ -26,5 +28,27 @@ class SortableBookAdmin(SortableAdminMixin, admin.ModelAdmin):
     list_display = ['name', 'wight']
 
 
+@admin.register(Anime)
+class AnimeAdmin(admin.ModelAdmin):
+
+    form = AnimeForm
+
+    def save_model(self, request, obj: Anime, form, change):
+        """If tags has been changed. Set to m2m rel new tags relation"""
+        if obj._tags != obj.tags:
+            obj.tag_list.clear()
+
+            tags = set(form.cleaned_data['tags'].split(" "))
+
+            for tag_name in tags:
+                if tag_name != "":
+                    tag, _ = Tag.objects.get_or_create(name=tag_name)
+                    obj.tag_list.add(tag)
+            form.cleaned_data['tag_list'] = obj.tag_list.all()
+            obj.tags = " ".join(tags)
+
+        super().save_model(request, obj, form, change)
+
+
 admin.site.register(Season)
-admin.site.register(Anime)
+admin.site.register(Tag)
