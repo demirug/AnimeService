@@ -1,6 +1,6 @@
 from django.urls import path
 import django.contrib.auth.views as auth_views
-from apps.account.views import ValidateEmailView
+from apps.account.views import ValidateEmailView, AccountRegisterView
 
 urlpatterns = [
     path("verify/<str:username>/<str:token>/", ValidateEmailView.as_view(), name="verify"),
