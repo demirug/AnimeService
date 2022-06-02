@@ -17,10 +17,10 @@ class UserAdmin(BaseUserAdmin):
     # that reference specific fields on auth.User.
     list_display = ('username', 'email', 'is_active', 'is_admin')
     list_filter = ('is_admin',)
-    readonly_fields = ()
+    readonly_fields = ('last_login',)
     fieldsets = (
         (None, {'fields': ('username', 'email', 'is_active')}),
-        ('Personal info', {'fields': ('avatar',)}),
+        ('Personal info', {'fields': ('avatar', 'last_login')}),
         ('Permissions', {'fields': ('is_admin',)}),
     )
 
