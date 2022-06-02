@@ -11,6 +11,6 @@ from shared.services.email import send_email
 def account_handler(sender, instance: User, **kwargs):
     """Sending welcome email on user register with token to verify account"""
     if kwargs.get("created", False) and not instance.is_active:
-        send_email(instance.email, _("Welcome to AnimeService"), "email/registered.html",
+        send_email(instance.email, _("Welcome to AnimeService"), "email/registered.jinja",
                    context={"name": instance.username, "token": generator.make_token(instance)})
 
