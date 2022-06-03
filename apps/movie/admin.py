@@ -23,6 +23,9 @@ class ReviewAdmin(admin.ModelAdmin):
     list_filter = ['verified', 'datetime']
     readonly_fields = ['datetime', 'user', 'season_link']
 
+    def has_add_permission(self, request):
+        return False
+
     def season_link(self, instance):
         """Displays redirect button to season"""
         return format_html(f'<a target="_blank" href="{instance.season.get_absolute_url()}">View</a>')
