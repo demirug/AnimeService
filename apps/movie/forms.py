@@ -1,6 +1,6 @@
 from django import forms
 
-from apps.movie.models import Review, Anime
+from apps.movie.models import Review, Anime, Episode, Season
 
 
 class ReviewForm(forms.ModelForm):
@@ -17,3 +17,13 @@ class AnimeForm(forms.ModelForm):
     class Meta:
         model = Anime
         exclude = ['tag_list']
+
+
+class EpisodeForm(forms.ModelForm):
+
+    class Meta:
+        model = Episode
+        fields = "__all__"
+        labels = {
+            "season": "Anime"
+        }
