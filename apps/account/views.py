@@ -1,12 +1,25 @@
-from django.contrib.auth import get_user_model, authenticate, login
+from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.tokens import default_token_generator as generator
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse_lazy
 
 from django.views.generic import TemplateView
-from django_jinja.views.generic import CreateView
+from django_jinja.views.generic import CreateView, UpdateView
 
-from .forms import UserCreationForm
+from .forms import UserCreationForm, AccountUpdateForm
+
+
+class AccountProfileView(LoginRequiredMixin, UpdateView):
+    """Change user profile view"""
+    model = get_user_model()
+    template_name = "account/profile.jinja"
+    success_url = reverse_lazy('profile')
+    form_class = AccountUpdateForm
+
+    def get_object(self, queryset=None):
+        return self.request.user
 
 
 class AccountRegisterView(CreateView):

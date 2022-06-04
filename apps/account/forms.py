@@ -65,3 +65,24 @@ class UserChangeForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('email', 'password', 'is_active', 'is_admin')
+
+
+class AccountUpdateForm(forms.ModelForm):
+    """Form for changing user data"""
+    avatar = forms.ImageField(label=False, required=False, widget=forms.FileInput(attrs={"style": "display: none;"}))
+    email = forms.EmailField(label="Email", widget=forms.EmailInput(attrs={"class": "form-control"}))
+
+    def clean_email(self):
+        _email = self.cleaned_data['email']
+
+        if 'email' not in self.changed_data:
+            return _email
+
+        if User.objects.filter(email=_email).exists():
+            raise ValidationError(_("User with that email already exists"))
+
+        return _email
+
+    class Meta:
+        model = User
+        fields = ('avatar', 'email')
