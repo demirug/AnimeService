@@ -1,0 +1,30 @@
+{% extends 'base.jinja' %}
+
+{% block title %}Profile{% endblock title %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ static("account/css/profile.css") }}">
+    <script src="{{ static("account/js/uploadAvatar.js") }}"></script>
+{% endblock head %}
+
+{% block body %}
+    <br>
+    <center>
+        <h4>User settings</h4>
+        <br>
+        <div class="img-container">
+          {% if object.avatar %}
+            <img id="avatar" class="upper-image" src="{{ object.avatar.url }}" alt="">
+          {% else %}
+            <img id="avatar" class="upper-image" src="{{ static("account/images/default_avatar.png") }}" alt="">
+          {% endif %}
+            <img id="upload" src="{{ static("account/images/upload.png") }}">
+        </div>
+    </center>
+
+<form id="user_form" method="POST" enctype="multipart/form-data">{% csrf_token %}
+    {{ form.as_p() }}
+    <button class="btn btn-primary">Save</button>
+    <a href="{{ url("password_change") }}">Change password</a>
+</form>
+{% endblock body %}
