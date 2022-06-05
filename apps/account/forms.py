@@ -1,8 +1,14 @@
 from django import forms
+from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.contrib.sites.models import Site
 from django.core.exceptions import ValidationError
+from django.urls import reverse
+from django.utils.crypto import salted_hmac
 from django.utils.translation import gettext_lazy as _
 from apps.account.models import User
+from shared.services.email import send_email
 
 
 class UserCreationForm(forms.ModelForm):
@@ -85,7 +91,23 @@ class AccountUpdateForm(forms.ModelForm):
         if User.objects.filter(email=_email).exists():
             raise ValidationError(_("User with that email already exists"))
 
-        return _email
+        # Generate user email hash
+        _hash = salted_hmac(
+            self.request.user.pk,
+            f"{self.request.user.email}{_email}",
+            secret=settings.SECRET_KEY,
+            algorithm='sha1'
+        ).hexdigest()[::2]
+
+        url = '{domain}{path}'.format(domain=Site.objects.get_current().domain,
+                                      path=reverse("change_email", kwargs={"email": _email, "hash": _hash}))
+
+        send_email(_email, _("Change email"), "email/change_email.jinja",
+                   context={"email": _email, "url": url})
+
+        messages.success(self.request, _('Confirm email changing at mailbox'))
+
+        return self.request.user.email
 
     class Meta:
         model = User
