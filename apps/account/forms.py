@@ -72,6 +72,10 @@ class AccountUpdateForm(forms.ModelForm):
     avatar = forms.ImageField(label=False, required=False, widget=forms.FileInput(attrs={"style": "display: none;"}))
     email = forms.EmailField(label="Email", widget=forms.EmailInput(attrs={"class": "form-control"}))
 
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request')
+        super().__init__(*args, **kwargs)
+
     def clean_email(self):
         _email = self.cleaned_data['email']
 

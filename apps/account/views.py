@@ -21,6 +21,11 @@ class AccountProfileView(LoginRequiredMixin, UpdateView):
     def get_object(self, queryset=None):
         return self.request.user
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'request': self.request})
+        return kwargs
+
 
 class AccountRegisterView(CreateView):
     """Register user account view"""
