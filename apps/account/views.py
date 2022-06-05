@@ -1,11 +1,15 @@
+from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.tokens import default_token_generator as generator
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
+from django.utils.crypto import salted_hmac
+from django.utils.translation import gettext_lazy as _
 
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, RedirectView
 from django_jinja.views.generic import CreateView, UpdateView
 
 from .forms import UserCreationForm, AccountUpdateForm
@@ -65,3 +69,32 @@ class ValidateEmailView(TemplateView):
 
             return super().dispatch(request, *args, **kwargs)
         raise Http404("Incorrect user token")
+
+
+class AccountEmailChangeView(LoginRequiredMixin, RedirectView):
+    """Change user email View"""
+    url = reverse_lazy("profile")
+
+    def dispatch(self, request, *args, **kwargs):
+        user = request.user
+
+        _email = kwargs['email']
+        _hash = kwargs['hash']
+
+        # Check if given hash valid
+
+        check_hash = salted_hmac(
+            self.request.user.pk,
+            f"{self.request.user.email}{_email}",
+            secret=settings.SECRET_KEY,
+            algorithm='sha1'
+        ).hexdigest()[::2]
+
+        if _hash != check_hash:
+            raise Http404("Incorrect hash=")
+
+        messages.success(self.request, _('Email has been changed success'))
+        user.email = _email
+        user.save()
+
+        return super().dispatch(request, *args, **kwargs)
