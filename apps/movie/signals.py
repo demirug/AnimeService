@@ -1,7 +1,10 @@
-from django.db.models.signals import pre_delete
+from django.contrib.sites.models import Site
+from django.db.models.signals import pre_delete, post_save
 from django.dispatch import receiver
+from django.utils.translation import gettext_lazy as _
 
-from .models import Tag
+from shared.services.email import send_email
+from .models import Tag, Episode
 
 
 @receiver(pre_delete, sender=Tag)
@@ -12,3 +15,20 @@ def tag_handler(sender, instance: Tag, **kwargs):
         tags.remove(instance.name)
         anime.tags = " ".join(tags)
         anime.save()
+
+
+@receiver(post_save, sender=Episode)
+def episode_handler(sender, instance: Episode, **kwargs):
+    """On new Episode send email to subscribers"""
+    if kwargs.get("created", False):
+        anime = instance.season.anime
+        subscribers = list(anime.subscribes.values_list("user__email", flat=True))
+        if len(subscribers) == 0:
+            return
+
+        send_email(subscribers, _(f"New Episode {anime.name} #{instance.number}"), "email/new_episode.jinja",
+                   context={"url": "{domain}{url}".format(domain=Site.objects.get_current().domain,
+                                                          url=instance.get_absolute_url()),
+                            "episode": instance,
+                            "anime": anime,
+                            })
