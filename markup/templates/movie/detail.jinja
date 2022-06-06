@@ -15,9 +15,13 @@
 
 {% block body %}
 
-    <center>
+    <div style="text-align: center;">
         <h4>{{ object }}: {{ season }}</h4>
-    </center>
+        <div id="subscribe" path="{{ url("subscribe", slug=anime.slug) }}">
+            <button id="unsub" {% if not subscribe %}style="display: none" {% endif %} class="btn btn-secondary">Unsubscribe</button>
+            <button id="sub" {% if subscribe %}style="display: none" {% endif %} class="btn btn-success">Subscribe</button>
+        </div>
+    </div>
 
     <hr>
 
