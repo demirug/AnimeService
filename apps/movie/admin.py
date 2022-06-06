@@ -15,6 +15,8 @@ class EpisodeFileInline(admin.TabularInline):
 class EpisodeAdmin(admin.ModelAdmin):
     form = EpisodeForm
     autocomplete_fields = ('season',)
+    list_display = ['season', 'number']
+    search_fields = ['season__anime__name']
     inlines = [
         EpisodeFileInline,
     ]
