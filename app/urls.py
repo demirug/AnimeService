@@ -7,8 +7,9 @@ from apps.account.urls import urlpatterns as auth_urls
 from apps.movie.urls import urlpatterns as movie_urls
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('api/', include(('api.urls', 'api'))),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('admin/', admin.site.urls),
 ]
 
 urlpatterns += auth_urls
