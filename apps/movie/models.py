@@ -156,3 +156,12 @@ class Review(models.Model):
 
     def __str__(self):
         return f"Review #{self.pk}"
+
+
+class Subscribe(models.Model):
+    """User subscribe to anime model"""
+    anime: Anime = models.ForeignKey(Anime, on_delete=models.CASCADE, related_name="subscribes")
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name="subscribes")
+
+    class Meta:
+        unique_together = [('anime', 'user')]
