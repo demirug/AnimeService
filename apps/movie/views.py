@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse
 from django.views import View
 from django.views.generic.edit import BaseFormView
 from django_jinja.views.generic import DetailView, ListView
@@ -73,15 +74,12 @@ class ReviewCreateUpdateView(LoginRequiredMixin, BaseFormView):
 class SubscribeView(LoginRequiredMixin, View):
     """Subscribe create/delete view"""
 
-    def dispatch(self, request, *args, **kwargs):
-        self.episode = Episode.objects.filter(pk=kwargs.pop('pk')).first()
-        return super().dispatch(request, *args, **kwargs)
-
     def get(self, request, *args, **kwargs):
-        return redirect(self.episode.get_absolute_url())
+        return redirect(reverse("home"))
 
     def post(self, request, *args, **kwargs):
-        obj, created = Subscribe.objects.get_or_create(user=request.user, anime=self.episode.season.anime)
+        obj, created = Subscribe.objects.get_or_create(user=request.user,
+                                                       anime=get_object_or_404(Anime, slug=kwargs['slug']))
         if not created:
             obj.delete()
 
