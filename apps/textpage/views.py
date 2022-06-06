@@ -1,3 +1,11 @@
-from django.shortcuts import render
+from django_jinja.views.generic import DetailView
+from apps.textpage.models import TextPage
 
-# Create your views here.
+
+class TextPageDetailView(DetailView):
+    """TextPage detail view"""
+    model = TextPage
+    template_name = "textpage/page.jinja"
+
+    def get_queryset(self):
+        return TextPage.objects.filter(draft=False)
