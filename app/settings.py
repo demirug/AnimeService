@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'adminsortable2',
 
     'shared',
+    'apps.menu',
     'apps.account',
     'apps.movie'
 ]
