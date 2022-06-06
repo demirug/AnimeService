@@ -1,11 +1,13 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect
+from django.views import View
 from django.views.generic.edit import BaseFormView
 from django_jinja.views.generic import DetailView, ListView
 
 from apps.movie.forms import ReviewForm
-from apps.movie.models import Anime, Season, Review
+from apps.movie.models import Anime, Season, Review, Subscribe, Episode
 
 
 class AnimeListView(ListView):
@@ -37,7 +39,7 @@ class AnimeDetailView(DetailView):
             context['season'] = anime.seasons.order_by('number').first()
 
         context['episode'] = context['season'].episodes.order_by('number').first()
-
+        context['subscribe'] = Subscribe.objects.filter(anime=anime, user=self.request.user).exists()
         context['season_list'] = anime.seasons.values_list('number', flat=True)
         context['episode_list'] = context['season'].episodes.values_list('number', flat=True)
 
@@ -51,14 +53,12 @@ class AnimeDetailView(DetailView):
 
 
 class ReviewCreateUpdateView(LoginRequiredMixin, BaseFormView):
-
     form_class = ReviewForm
 
     def get(self, request, *args, **kwargs):
         return redirect("home")
 
     def form_valid(self, form: ReviewForm):
-
         season: Season = get_object_or_404(Season, anime__slug=self.kwargs["slug"], number=self.kwargs["season"])
 
         Review.objects.update_or_create(
@@ -68,3 +68,21 @@ class ReviewCreateUpdateView(LoginRequiredMixin, BaseFormView):
         )
 
         return redirect(season.get_absolute_url())
+
+
+class SubscribeView(LoginRequiredMixin, View):
+    """Subscribe create/delete view"""
+
+    def dispatch(self, request, *args, **kwargs):
+        self.episode = Episode.objects.filter(pk=kwargs.pop('pk')).first()
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        return redirect(self.episode.get_absolute_url())
+
+    def post(self, request, *args, **kwargs):
+        obj, created = Subscribe.objects.get_or_create(user=request.user, anime=self.episode.season.anime)
+        if not created:
+            obj.delete()
+
+        return JsonResponse({"status": created})
