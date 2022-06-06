@@ -1,3 +1,4 @@
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django import forms
 
 from apps.movie.models import Review, Anime, Episode, Season
@@ -5,7 +6,7 @@ from apps.movie.models import Review, Anime, Episode, Season
 
 class ReviewForm(forms.ModelForm):
 
-    text = forms.CharField(label="Text", widget=forms.Textarea(attrs={"class": "form-control"}))
+    text = forms.CharField(label="Text", widget=CKEditorUploadingWidget(config_name='review'))
 
     class Meta:
         model = Review
