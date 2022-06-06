@@ -51,6 +51,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'adminsortable2',
 
+    'ckeditor',
+    'ckeditor_uploader',
+
     'shared',
     'apps.menu',
     'apps.account',
