@@ -1,0 +1,21 @@
+{% extends 'base.jinja' %}
+
+{% block title %}List{% endblock title %}
+
+{% block body %}
+
+    {% for object in object_list %}
+        <div class="card" style="width: 18rem;">
+          <img class="card-img-top" src="{{ object.anime.poster.url }}" alt="Image cap">
+          <form method="post" class="card-body">
+            {% csrf_token %}
+            <input style="display: none;" type="text" name="slug" value="{{ object.anime.slug }}">
+            <h5 class="card-title">{{ object.anime.name }}</h5>
+            <a href="{{ object.anime.get_absolute_url() }}" class="btn btn-primary">Go</a>
+            <button class="btn btn-danger">Unsubscribe</button>
+          </form>
+
+        </div>
+    {% endfor %}
+
+{% endblock body %}

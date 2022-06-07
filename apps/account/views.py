@@ -3,16 +3,18 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.tokens import default_token_generator as generator
+from django.core.handlers.wsgi import WSGIRequest
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils.crypto import salted_hmac
 from django.utils.translation import gettext_lazy as _
 
-from django.views.generic import TemplateView, RedirectView
+from django.views.generic import TemplateView, RedirectView, ListView
 from django_jinja.views.generic import CreateView, UpdateView
 
 from .forms import UserCreationForm, AccountUpdateForm
+from ..movie.models import Subscribe
 
 
 class AccountProfileView(LoginRequiredMixin, UpdateView):
@@ -29,6 +31,20 @@ class AccountProfileView(LoginRequiredMixin, UpdateView):
         kwargs = super().get_form_kwargs()
         kwargs.update({'request': self.request})
         return kwargs
+
+
+class AccountSubscribersView(LoginRequiredMixin, ListView):
+    """Display all user subscribers"""
+    model = Subscribe
+    template_name = "account/subscribers.jinja"
+
+    def get_queryset(self):
+        return self.request.user.subscribes.select_related("anime").all()
+
+    def post(self, request: WSGIRequest, *args, **kwargs):
+        if "slug" in request.POST:
+            get_object_or_404(Subscribe, user=self.request.user, anime__slug=request.POST["slug"]).delete()
+        return redirect(reverse("subscribes"))
 
 
 class AccountRegisterView(CreateView):
