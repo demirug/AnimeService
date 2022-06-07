@@ -51,7 +51,7 @@ class AnimeAdmin(admin.ModelAdmin):
         if obj._tags != obj.tags:
             obj.tag_list.clear()
 
-            tags = set(form.cleaned_data['tags'].split(" "))
+            tags = set(form.cleaned_data['tags'].lower().split(" "))
 
             for tag_name in tags:
                 if tag_name != "":
