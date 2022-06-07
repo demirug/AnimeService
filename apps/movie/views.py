@@ -5,17 +5,20 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.views import View
 from django.views.generic.edit import BaseFormView
+from django_filters.views import FilterView
 from django_jinja.views.generic import DetailView, ListView
 
+from apps.movie.filters import AnimeFilter
 from apps.movie.forms import ReviewForm
 from apps.movie.models import Anime, Season, Review, Subscribe, Episode
 
 
-class AnimeListView(ListView):
+class AnimeListView(FilterView):
     """Controller to display List of Anime's"""
 
     model = Anime
     template_name = "movie/list.jinja"
+    filterset_class = AnimeFilter
 
     def get_queryset(self):
         """Display anime with available seasons if there are episodes"""
