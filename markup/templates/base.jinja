@@ -65,6 +65,10 @@
 
             {% endfor %}
 
+            {% if breadcrumbs %}
+                {{ breadcrumbs }}
+            {% endif %}
+
             {% block body %}
             {% endblock %}
 
