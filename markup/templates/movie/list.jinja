@@ -4,6 +4,11 @@
 
 {% block body %}
 
+    <form method="get">
+        {{ filter.form.as_p() }}
+        <input type="submit" />
+    </form>
+
     {% for object in object_list %}
         <div class="card" style="width: 18rem;">
           <img class="card-img-top" src="{{ object.poster.url }}" alt="Image cap">
