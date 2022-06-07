@@ -4,10 +4,10 @@ from apps.movie.models import Anime, Tag
 
 
 class AnimeFilter(django_filters.FilterSet):
-    name = django_filters.CharFilter(label='Search', method='name_tag_filter')
+    search = django_filters.CharFilter(label='Search', method='name_tag_filter')
 
-    def name_tag_filter(self, queryset, name, value: str):
-        """Filter """
+    def name_tag_filter(self, queryset, name, value):
+        """Filter search by name & tags"""
         data = value.split(' ')
 
         tags = [tag.lower()[1:] for tag in data if tag.startswith('#')]
@@ -26,4 +26,4 @@ class AnimeFilter(django_filters.FilterSet):
 
     class Meta:
         model = Anime
-        fields = ['name']
+        fields = ['search']
