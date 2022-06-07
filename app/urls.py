@@ -11,7 +11,7 @@ urlpatterns = [
     path('api/', include(('api.urls', 'api'))),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('admin/', admin.site.urls),
-    path('<slug:slug>/', TextPageDetailView.as_view(), name="textpage")
+    path('page/<slug:slug>/', TextPageDetailView.as_view(), name="textpage")
 ]
 
 urlpatterns += auth_urls
