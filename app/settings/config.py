@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 
     'debug_toolbar',
     'django_jinja',
+    'django_filters',
     'rest_framework',
     'adminsortable2',
 
