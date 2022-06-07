@@ -11,6 +11,7 @@ from django_jinja.views.generic import DetailView, ListView
 from apps.movie.filters import AnimeFilter
 from apps.movie.forms import ReviewForm
 from apps.movie.models import Anime, Season, Review, Subscribe, Episode
+from shared.mixins.breadcrumbs import BreadCrumbsMixin
 
 
 class AnimeListView(FilterView):
@@ -26,10 +27,13 @@ class AnimeListView(FilterView):
             .filter(seasons_cnt__gt=0, episodes_cnt__gt=0)
 
 
-class AnimeDetailView(DetailView):
+class AnimeDetailView(BreadCrumbsMixin, DetailView):
     """Controller to display Anime View"""
     model = Anime
     template_name = "movie/detail.jinja"
+
+    def get_breadcrumbs(self):
+        return [("Anime", reverse("home")), (self.object.name,)]
 
     def get_context_data(self, **kwargs):
         """Adding to context seasons, seasons number list, episode, episodes number list"""
