@@ -3,7 +3,9 @@
 {% block title %}List{% endblock title %}
 
 {% block body %}
-
+    <center>
+        <h4>Subscribes</h4>
+    </center>
     {% for object in object_list %}
         <div class="card" style="width: 18rem;">
           <img class="card-img-top" src="{{ object.anime.poster.url }}" alt="Image cap">
