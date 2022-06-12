@@ -13,7 +13,8 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import TemplateView, RedirectView, ListView
 from django_jinja.views.generic import CreateView, UpdateView
 
-from .forms import UserCreationForm, AccountUpdateForm
+from shared.mixins.breadcrumbs import BreadCrumbsMixin
+from .forms import UserCreationForm, AccountUpdateForm, UserPasswordChangeForm
 from ..movie.models import Subscribe
 
 
@@ -24,6 +25,9 @@ class AccountProfileView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('profile')
     form_class = AccountUpdateForm
 
+    def get_breadcrumbs(self):
+        return [("Anime", reverse("home")), ("Profile",)]
+
     def get_object(self, queryset=None):
         return self.request.user
 
@@ -33,13 +37,16 @@ class AccountProfileView(LoginRequiredMixin, UpdateView):
         return kwargs
 
 
-class AccountSubscribersView(LoginRequiredMixin, ListView):
+class AccountSubscribersView(LoginRequiredMixin, BreadCrumbsMixin, ListView):
     """Display all user subscribers"""
     model = Subscribe
     template_name = "account/subscribers.jinja"
 
     def get_queryset(self):
         return self.request.user.subscribes.select_related("anime").all()
+
+    def get_breadcrumbs(self):
+        return [("Anime", reverse("home")), ("Profile", reverse("profile")), ("Subscribes",)]
 
     def post(self, request: WSGIRequest, *args, **kwargs):
         if "slug" in request.POST:
