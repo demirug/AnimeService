@@ -52,7 +52,6 @@ class AnimeDetailView(BreadCrumbsMixin, DetailView):
             context['season'] = anime.seasons.order_by('number').first()
 
         context['episode'] = context['season'].episodes.order_by('number').first()
-        context['subscribe'] = Subscribe.objects.filter(anime=anime, user=self.request.user).exists()
         context['season_list'] = anime.seasons.values_list('number', flat=True)
         context['episode_list'] = context['season'].episodes.values_list('number', flat=True)
 
@@ -61,7 +60,7 @@ class AnimeDetailView(BreadCrumbsMixin, DetailView):
 
         if self.request.user.is_authenticated:
             context['form'] = ReviewForm(instance=Review.objects.filter(user=self.request.user, season=context['season']).first())
-
+            context['subscribe'] = Subscribe.objects.filter(anime=anime, user=self.request.user).exists()
         return context
 
 
