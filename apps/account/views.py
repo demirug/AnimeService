@@ -117,7 +117,7 @@ class AccountEmailChangeView(LoginRequiredMixin, RedirectView):
     """Change user email View"""
     url = reverse_lazy("profile")
 
-    def dispatch(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         user = request.user
 
         _email = kwargs['email']
@@ -125,7 +125,7 @@ class AccountEmailChangeView(LoginRequiredMixin, RedirectView):
 
         # Check if given hash valid
 
-        check_hash = salted_hmac(
+        check_token = salted_hmac(
             self.request.user.pk,
             f"{self.request.user.email}{_email}",
             secret=settings.SECRET_KEY,
@@ -139,4 +139,4 @@ class AccountEmailChangeView(LoginRequiredMixin, RedirectView):
         user.email = _email
         user.save()
 
-        return super().dispatch(request, *args, **kwargs)
+        return super().get(request, *args, **kwargs)
