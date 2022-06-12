@@ -15,4 +15,9 @@ urlpatterns = [
         path("change_email/<str:email>/<str:token>/", AccountEmailChangeView.as_view(), name="change_email"),
         path("changepass/", AccountChangePasswordView.as_view(), name="password_change"),
     ])),
+
+    path("reset/", include([
+        path("", AccountResetView.as_view(), name="reset"),
+        path("<str:email>/<str:token>/", AccountResetConfirmView.as_view(), name="reset_confirm"),
+    ])),
 ]
