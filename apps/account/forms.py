@@ -112,3 +112,57 @@ class AccountUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('avatar', 'email')
+
+
+class UserPasswordChangeForm(forms.Form):
+    """Form for user password change"""
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super().__init__(*args, **kwargs)
+
+    old_password = forms.CharField(
+        label=_("Old password"),
+        strip=False,
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+    )
+
+    new_password1 = forms.CharField(
+        label=_("New password"),
+        strip=False,
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+    )
+
+    new_password2 = forms.CharField(
+        label=_("Confirm password"),
+        strip=False,
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+    )
+
+
+    def clean_old_password(self):
+        """Validate old password"""
+        old_password = self.cleaned_data["old_password"]
+        if not self.user.check_password(old_password):
+            raise ValidationError(_("Указан неверный старый пароль"))
+        return old_password
+
+    def clean_new_password2(self):
+        """Validate new password"""
+        new_password1 = self.cleaned_data["new_password1"]
+        new_password2 = self.cleaned_data["new_password2"]
+
+        if new_password2 != new_password1:
+            raise ValidationError(_("Пароли не совпадают"))
+
+        if len(new_password2) < 8:
+            raise ValidationError(_("Минимальная длина пароля 8 символов"))
+
+        return new_password2
+
+    def save(self, commit=True):
+        """Set new password for user"""
+        self.user.set_password(self.cleaned_data['new_password1'])
+        if commit:
+            self.user.save()
+        return self.user
