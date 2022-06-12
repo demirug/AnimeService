@@ -91,8 +91,8 @@ class AccountUpdateForm(forms.ModelForm):
         if User.objects.filter(email=_email).exists():
             raise ValidationError(_("User with that email already exists"))
 
-        # Generate user email hash
-        _hash = salted_hmac(
+        # Generate user email token
+        _token = salted_hmac(
             self.request.user.pk,
             f"{self.request.user.email}{_email}",
             secret=settings.SECRET_KEY,
@@ -100,7 +100,7 @@ class AccountUpdateForm(forms.ModelForm):
         ).hexdigest()[::2]
 
         url = '{domain}{path}'.format(domain=Site.objects.get_current().domain,
-                                      path=reverse("change_email", kwargs={"email": _email, "hash": _hash}))
+                                      path=reverse("change_email", kwargs={"email": _email, "token": _token}))
 
         send_email(_email, _("Change email"), "email/change_email.jinja",
                    context={"email": _email, "url": url})

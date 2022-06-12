@@ -121,7 +121,7 @@ class AccountEmailChangeView(LoginRequiredMixin, RedirectView):
         user = request.user
 
         _email = kwargs['email']
-        _hash = kwargs['hash']
+        _token = kwargs['token']
 
         # Check if given hash valid
 
@@ -132,8 +132,8 @@ class AccountEmailChangeView(LoginRequiredMixin, RedirectView):
             algorithm='sha1'
         ).hexdigest()[::2]
 
-        if _hash != check_hash:
-            raise Http404("Incorrect hash=")
+        if _token != check_token:
+            raise Http404("Incorrect token")
 
         messages.success(self.request, _('Email has been changed success'))
         user.email = _email

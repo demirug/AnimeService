@@ -12,7 +12,7 @@ urlpatterns = [
     path("profile/", include([
         path("", AccountProfileView.as_view(), name="profile"),
         path("subscribes/", AccountSubscribersView.as_view(), name="subscribes"),
-        path("change_email/<str:email>/<str:hash>/", AccountEmailChangeView.as_view(), name="change_email"),
+        path("change_email/<str:email>/<str:token>/", AccountEmailChangeView.as_view(), name="change_email"),
         path("changepass/", AccountChangePasswordView.as_view(), name="password_change"),
     ])),
 ]
