@@ -166,3 +166,37 @@ class UserPasswordChangeForm(forms.Form):
         if commit:
             self.user.save()
         return self.user
+
+
+class AccountResetForm(forms.Form):
+
+    email = forms.EmailField(widget=forms.EmailInput(attrs={"class": "form-control"}))
+
+
+class AccountResetConfirmForm(forms.Form):
+    """Form for user registration"""
+    password1 = forms.CharField(label=_('Password'), widget=forms.PasswordInput(attrs={"class": "form-control"}))
+
+    password2 = forms.CharField(label=_('Confirm password'), widget=forms.PasswordInput(
+        attrs={"class": "form-control"}
+    ))
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super().__init__(*args, **kwargs)
+
+    def clean(self, *args, **kwargs):
+
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+
+        if password1 and password2 and password1 != password2:
+            raise ValidationError(_("Passwords don't match"))
+
+        if len(password2) < 8:
+            raise ValidationError(_("Minimum password length 8 chars"))
+
+        if password2 == self.user.email or password2 == self.user.username:
+            raise ValidationError(_("Password can't be as email or nickname"))
+
+        return super().clean(*args, **kwargs)
