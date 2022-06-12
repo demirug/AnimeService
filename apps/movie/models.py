@@ -23,6 +23,9 @@ class Tag(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return f"{reverse('home')}?search=%23{self.name}"
+
 
 class Anime(models.Model):
     """Anime object model"""
