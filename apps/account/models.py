@@ -6,6 +6,7 @@ from django.contrib.auth.models import (
 )
 
 from django.utils.translation import gettext_lazy as _
+from solo.models import SingletonModel
 
 from apps.account.managers import AccountManager
 
@@ -47,3 +48,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def is_staff(self):
         return self.is_admin
+
+
+class AccountSettings(SingletonModel):
+    """Account settings"""
+    min_password_len = models.PositiveIntegerField(help_text=_("Minimum password length of user account"), default=8)
+    max_password_len = models.PositiveIntegerField(help_text=_("Maximum password length of user account"), default=64)
+
+    def __str__(self):
+        return "User Configuration"
+
+    class Meta:
+        verbose_name = "User Configuration"

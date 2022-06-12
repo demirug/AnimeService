@@ -1,9 +1,10 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from solo.admin import SingletonModelAdmin
 
 from .forms import UserChangeForm, UserCreationForm
-from .models import User
+from .models import User, AccountSettings
 
 
 @admin.register(User)
@@ -37,3 +38,4 @@ class UserAdmin(BaseUserAdmin):
 
 
 admin.site.unregister(Group)
+admin.site.register(AccountSettings, SingletonModelAdmin)
