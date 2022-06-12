@@ -14,5 +14,7 @@ class TextPageAdmin(ModelAdmin):
     readonly_fields = ['page_link']
 
     def page_link(self, instance):
-        """Displays redirect button to season"""
-        return format_html(f'<a target="_blank" href="{instance.get_absolute_url()}">View</a>')
+        """Displays redirect page button if not draft"""
+        if instance.pk is None or instance.draft:
+            return "-"
+        return format_html(f'<a target="_blank" class="btn btn-primary" href="{instance.get_absolute_url()}">View</a>')
