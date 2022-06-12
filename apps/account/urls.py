@@ -13,11 +13,6 @@ urlpatterns = [
         path("", AccountProfileView.as_view(), name="profile"),
         path("subscribes/", AccountSubscribersView.as_view(), name="subscribes"),
         path("change_email/<str:email>/<str:hash>/", AccountEmailChangeView.as_view(), name="change_email"),
-
-        path("changepass/", auth_views.PasswordChangeView.as_view(template_name="account/password_change.jinja"),
-             name='password_change'),
-        path("changepass/done/",
-             auth_views.PasswordChangeDoneView.as_view(template_name="account/password_change_done.jinja"),
-             name='password_change_done'),
+        path("changepass/", AccountChangePasswordView.as_view(), name="password_change"),
     ])),
 ]

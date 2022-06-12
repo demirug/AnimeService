@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, update_session_auth_hash
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.tokens import default_token_generator as generator
 from django.core.handlers.wsgi import WSGIRequest
@@ -10,12 +10,31 @@ from django.urls import reverse_lazy, reverse
 from django.utils.crypto import salted_hmac
 from django.utils.translation import gettext_lazy as _
 
-from django.views.generic import TemplateView, RedirectView, ListView
+from django.views.generic import TemplateView, RedirectView, ListView, FormView
 from django_jinja.views.generic import CreateView, UpdateView
 
 from shared.mixins.breadcrumbs import BreadCrumbsMixin
 from .forms import UserCreationForm, AccountUpdateForm, UserPasswordChangeForm
 from ..movie.models import Subscribe
+
+
+class AccountChangePasswordView(LoginRequiredMixin, BreadCrumbsMixin, FormView):
+    form_class = UserPasswordChangeForm
+    template_name = "account/change_password.jinja"
+
+    def get_breadcrumbs(self):
+        return [("Anime", reverse("home")), ("Profile", reverse("profile")), ("Change password",)]
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({"user": self.request.user})
+        return kwargs
+
+    def form_valid(self, form):
+        form.save()
+        update_session_auth_hash(self.request, form.user)
+        messages.success(self.request, _("Password has been changed"))
+        return redirect(reverse("profile"))
 
 
 class AccountProfileView(LoginRequiredMixin, UpdateView):
