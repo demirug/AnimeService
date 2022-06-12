@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.utils.crypto import salted_hmac
 from django.utils.translation import gettext_lazy as _
-from apps.account.models import User
+from apps.account.models import User, AccountSettings
 from shared.services.email import send_email
 
 
@@ -36,8 +36,13 @@ class UserCreationForm(forms.ModelForm):
         if password1 and password2 and password1 != password2:
             raise ValidationError(_("Passwords don't match"))
 
-        if len(password2) < 8:
-            raise ValidationError(_("Minimum password length 8 chars"))
+        config = AccountSettings.get_solo()
+
+        if len(password2) < config.min_password_len:
+            raise ValidationError(_(f"Minimum password length {config.min_password_len} chars"))
+
+        if len(password2) > config.max_password_len:
+            raise ValidationError(_(f"Maximum password length {config.max_password_len} chars"))
 
         if password2 == email or password2 == username:
             raise ValidationError(_("Password can't be as email or nickname"))
@@ -139,7 +144,6 @@ class UserPasswordChangeForm(forms.Form):
         widget=forms.PasswordInput(attrs={'class': 'form-control'}),
     )
 
-
     def clean_old_password(self):
         """Validate old password"""
         old_password = self.cleaned_data["old_password"]
@@ -155,8 +159,13 @@ class UserPasswordChangeForm(forms.Form):
         if new_password2 != new_password1:
             raise ValidationError(_("Passwords not match"))
 
-        if len(new_password2) < 8:
-            raise ValidationError(_("Minimum length of password 8 chars"))
+        config = AccountSettings.get_solo()
+
+        if len(new_password2) < config.min_password_len:
+            raise ValidationError(_(f"Minimum password length {config.min_password_len} chars"))
+
+        if len(new_password2) > config.max_password_len:
+            raise ValidationError(_(f"Maximum password length {config.max_password_len} chars"))
 
         return new_password2
 
@@ -169,7 +178,6 @@ class UserPasswordChangeForm(forms.Form):
 
 
 class AccountResetForm(forms.Form):
-
     email = forms.EmailField(widget=forms.EmailInput(attrs={"class": "form-control"}))
 
 
@@ -193,8 +201,13 @@ class AccountResetConfirmForm(forms.Form):
         if password1 and password2 and password1 != password2:
             raise ValidationError(_("Passwords don't match"))
 
-        if len(password2) < 8:
-            raise ValidationError(_("Minimum password length 8 chars"))
+        config = AccountSettings.get_solo()
+
+        if len(password2) < config.min_password_len:
+            raise ValidationError(_(f"Minimum password length {config.min_password_len} chars"))
+
+        if len(password2) > config.max_password_len:
+            raise ValidationError(_(f"Maximum password length {config.min_password_len} chars"))
 
         if password2 == self.user.email or password2 == self.user.username:
             raise ValidationError(_("Password can't be as email or nickname"))
