@@ -144,7 +144,7 @@ class UserPasswordChangeForm(forms.Form):
         """Validate old password"""
         old_password = self.cleaned_data["old_password"]
         if not self.user.check_password(old_password):
-            raise ValidationError(_("Указан неверный старый пароль"))
+            raise ValidationError(_("Incorrect old password"))
         return old_password
 
     def clean_new_password2(self):
@@ -153,10 +153,10 @@ class UserPasswordChangeForm(forms.Form):
         new_password2 = self.cleaned_data["new_password2"]
 
         if new_password2 != new_password1:
-            raise ValidationError(_("Пароли не совпадают"))
+            raise ValidationError(_("Passwords not match"))
 
         if len(new_password2) < 8:
-            raise ValidationError(_("Минимальная длина пароля 8 символов"))
+            raise ValidationError(_("Minimum length of password 8 chars"))
 
         return new_password2
 
