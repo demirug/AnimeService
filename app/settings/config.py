@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework',
     'adminsortable2',
+    'solo',
 
     'ckeditor',
     'ckeditor_uploader',
