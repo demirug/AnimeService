@@ -1,0 +1,14 @@
+{% extends 'base.jinja' %}
+
+{% block title %}Reset{% endblock title %}
+
+{% block body %}
+    <center>
+        <h5>Change password</h5>
+    </center>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p() }}
+        <button>Submit</button>
+    </form>
+{% endblock body %}
