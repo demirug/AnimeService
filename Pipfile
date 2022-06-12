@@ -17,6 +17,7 @@ django-redis = "*"
 eventlet = "*"
 django-ckeditor = "*"
 django-filter = "*"
+django-solo = "*"
 
 [dev-packages]
 
