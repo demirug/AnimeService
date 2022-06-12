@@ -6,11 +6,11 @@ from django.urls import reverse
 from django.views import View
 from django.views.generic.edit import BaseFormView
 from django_filters.views import FilterView
-from django_jinja.views.generic import DetailView, ListView
+from django_jinja.views.generic import DetailView
 
 from apps.movie.filters import AnimeFilter
 from apps.movie.forms import ReviewForm
-from apps.movie.models import Anime, Season, Review, Subscribe, Episode
+from apps.movie.models import Anime, Season, Review, Subscribe, Tag
 from shared.mixins.breadcrumbs import BreadCrumbsMixin
 
 
@@ -25,6 +25,11 @@ class AnimeListView(FilterView):
         """Display anime with available seasons if there are episodes"""
         return Anime.objects.annotate(seasons_cnt=Count('seasons'), episodes_cnt=Count('seasons__episodes'))\
             .filter(seasons_cnt__gt=0, episodes_cnt__gt=0)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["popular_tags"] = Tag.objects.annotate(anime_count=Count("anime")).filter(anime_count__gt=0)[:5]
+        return context
 
 
 class AnimeDetailView(BreadCrumbsMixin, DetailView):
