@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function(){
             if(this.id != "episode-selected") {
 
                 setEpisodeButton_El(this);
+                setCookie(anime_slug + "@" + season, this.innerText)
                 json = JSON.parse(request("/api/v1/episode/" + anime_slug + "/" + season + "/" + this.innerText));
                 playEpisode(json);
 
@@ -40,9 +41,20 @@ document.addEventListener('DOMContentLoaded', function(){
             window.location.replace("/404/");
             return;
         }
+        setCookie(anime_slug + "@" + season, GET_episode)
         setEpisodeButton_Num(GET_episode)
     } else {
-        json = JSON.parse(request("/api/v1/episode/" + anime_slug + "/" + season + "/" + episode_selector.getAttribute("episode")));
+        let cookie = getCookie(anime_slug + "@" + season)
+        if(cookie == undefined) {
+           json = JSON.parse(request("/api/v1/episode/" + anime_slug + "/" + season + "/" + episode_selector.getAttribute("episode")));
+        } else {
+            json = JSON.parse(request("/api/v1/episode/" + anime_slug + "/" + season + "/" + cookie));
+            if(json.detail != null) {
+                 json = JSON.parse(request("/api/v1/episode/" + anime_slug + "/" + season + "/" + episode_selector.getAttribute("episode")));
+            } else {
+                setEpisodeButton_Num(cookie)
+            }
+        }
     }
 
     playEpisode(json);
@@ -52,6 +64,7 @@ document.addEventListener('DOMContentLoaded', function(){
 function setEpisodeButton_Num(num) {
     //Set episode selected button by episode number
     let element = document.getElementById("episode-" + num);
+    if(element == undefined) return
     setEpisodeButton_El(element)
 }
 
