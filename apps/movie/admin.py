@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 
 from .forms import AnimeForm, EpisodeForm
-from .models import EpisodeFile, Episode, Quality, Season, Anime, Review, Tag
+from .models import EpisodeFile, Episode, Quality, Season, Anime, Review, Tag, Style
 
 
 class EpisodeFileInline(admin.TabularInline):
@@ -40,11 +40,16 @@ class SortableBookAdmin(SortableAdminMixin, admin.ModelAdmin):
     list_display = ['name', 'wight']
 
 
+@admin.register(Style)
+class StyleAdmin(admin.ModelAdmin):
+    search_fields = ('name',)
+
+
 @admin.register(Anime)
 class AnimeAdmin(admin.ModelAdmin):
-
     form = AnimeForm
     search_fields = ('name',)
+    autocomplete_fields = ('style',)
 
     def save_model(self, request, obj: Anime, form, change):
         """If tags has been changed. Set to m2m rel new tags relation"""
