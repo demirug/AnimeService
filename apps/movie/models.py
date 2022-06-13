@@ -27,12 +27,21 @@ class Tag(models.Model):
         return f"{reverse('home')}?search=%23{self.name}"
 
 
+class Style(models.Model):
+    """Style model for Anime model customization"""
+    name = models.CharField(_("Name"), unique=True, max_length=150)
+    style = models.TextField(_("Style"))
+
+    def __str__(self):
+        return self.name
+
+
 class Anime(models.Model):
     """Anime object model"""
     name = models.CharField(_("Name"), max_length=150)
     slug = models.SlugField(unique=True, blank=True)
     poster = models.ImageField(_("Poster"), upload_to="posters/%Y/%m/%d/")
-
+    style = models.ForeignKey(Style, null=True, blank=True, related_name="anime", on_delete=models.SET_NULL)
     tags = models.TextField(_("Tags"), blank=True)
     tag_list = models.ManyToManyField(Tag, blank=True, related_name="anime")
 
@@ -119,9 +128,9 @@ class Episode(models.Model):
 def anime_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/movie/files/anime_name/season_name/<filename>
     return 'movie/files/{0}/{1}/{2}/'.format(
-                            instance.episode.season.anime.name,
-                            instance.episode.season.name,
-                            filename)
+        instance.episode.season.anime.name,
+        instance.episode.season.name,
+        filename)
 
 
 class EpisodeFile(models.Model):
