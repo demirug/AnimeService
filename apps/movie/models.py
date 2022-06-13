@@ -24,7 +24,7 @@ class Tag(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return f"{reverse('home')}?search=%23{self.name}"
+        return f"{reverse('movie:home')}?search=%23{self.name}"
 
 
 class Style(models.Model):
@@ -64,7 +64,7 @@ class Anime(models.Model):
         super().save(**kwargs)
 
     def get_absolute_url(self):
-        return reverse("detail", kwargs={"slug": self.slug})
+        return reverse("movie:detail", kwargs={"slug": self.slug})
 
 
 class Season(models.Model):
@@ -84,7 +84,7 @@ class Season(models.Model):
         return f"{self.anime.name} | Season #{self.number}"
 
     def get_absolute_url(self):
-        return reverse("detail", kwargs={"slug": self.anime.slug, "season": self.number})
+        return reverse("movie:detail", kwargs={"slug": self.anime.slug, "season": self.number})
 
 
 class Quality(models.Model):

@@ -26,7 +26,7 @@ class AccountChangePasswordView(LoginRequiredMixin, BreadCrumbsMixin, FormView):
     template_name = "account/change_password.jinja"
 
     def get_breadcrumbs(self):
-        return [("Anime", reverse("home")), ("Profile", reverse("profile")), ("Change password",)]
+        return [("Anime", reverse("movie:home")), ("Profile", reverse("account:profile")), ("Change password",)]
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -37,18 +37,18 @@ class AccountChangePasswordView(LoginRequiredMixin, BreadCrumbsMixin, FormView):
         form.save()
         update_session_auth_hash(self.request, form.user)
         messages.success(self.request, _("Password has been changed"))
-        return redirect(reverse("profile"))
+        return redirect("account:profile")
 
 
 class AccountProfileView(LoginRequiredMixin, UpdateView):
     """Change user profile view"""
     model = get_user_model()
     template_name = "account/profile.jinja"
-    success_url = reverse_lazy('profile')
+    success_url = reverse_lazy('account:profile')
     form_class = AccountUpdateForm
 
     def get_breadcrumbs(self):
-        return [("Anime", reverse("home")), ("Profile",)]
+        return [("Anime", reverse("movie:home")), ("Profile",)]
 
     def get_object(self, queryset=None):
         return self.request.user
@@ -68,12 +68,12 @@ class AccountSubscribersView(LoginRequiredMixin, BreadCrumbsMixin, ListView):
         return self.request.user.subscribes.select_related("anime").all()
 
     def get_breadcrumbs(self):
-        return [("Anime", reverse("home")), ("Profile", reverse("profile")), ("Subscribes",)]
+        return [("Anime", reverse("movie:home")), ("Profile", reverse("account:profile")), ("Subscribes",)]
 
     def post(self, request: WSGIRequest, *args, **kwargs):
         if "slug" in request.POST:
             get_object_or_404(Subscribe, user=self.request.user, anime__slug=request.POST["slug"]).delete()
-        return redirect(reverse("subscribes"))
+        return redirect(reverse("account:subscribes"))
 
 
 class AccountRegisterView(CreateView):
@@ -84,7 +84,7 @@ class AccountRegisterView(CreateView):
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return redirect('home')
+            return redirect('movie:home')
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
@@ -118,7 +118,7 @@ class ValidateEmailView(TemplateView):
 
 class AccountEmailChangeView(LoginRequiredMixin, RedirectView):
     """Change user email View"""
-    url = reverse_lazy("profile")
+    url = reverse_lazy("account:profile")
 
     def get(self, request, *args, **kwargs):
         user = request.user
@@ -152,7 +152,7 @@ class AccountResetView(FormView):
 
     def dispatch(self, request, *args, **kwargs):
         if self.request.user.is_authenticated:
-            return redirect(reverse("home"))
+            return redirect("movie:home")
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
@@ -163,7 +163,7 @@ class AccountResetView(FormView):
             token = generator.make_token(user)
 
             url = '{domain}{path}'.format(domain=Site.objects.get_current().domain,
-                                          path=reverse("reset_confirm", kwargs={"email": _email, "token": token}))
+                                          path=reverse("account:reset_confirm", kwargs={"email": _email, "token": token}))
 
             send_email(_email, _("Reset account"), "email/reset_account.jinja", context={"url": url})
 
@@ -178,7 +178,7 @@ class AccountResetConfirmView(FormView):
     def dispatch(self, request, *args, **kwargs):
         """If user or token incorrect 404"""
         if self.request.user.is_authenticated:
-            return redirect(reverse("home"))
+            return redirect(reverse("movie:home"))
         self.user = get_object_or_404(get_user_model(), email=kwargs['email'])
 
         if not generator.check_token(self.user, kwargs['token']):
@@ -199,4 +199,4 @@ class AccountResetConfirmView(FormView):
         login(self.request, self.user)
 
         messages.success(self.request, _("Password changed success"))
-        return redirect("profile")
+        return redirect("account:profile")

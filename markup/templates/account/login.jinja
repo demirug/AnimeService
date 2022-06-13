@@ -7,6 +7,6 @@
     {{ form.as_p() }}
     <button>Submit</button>
 </form>
-<a href="{{ url("register") }}">Not have account yet?</a>
-<a href="{{ url("reset") }}">Forgot your password?</a>
+<a href="{{ url("account:register") }}">Not have account yet?</a>
+<a href="{{ url("account:reset") }}">Forgot your password?</a>
 {% endblock body %}

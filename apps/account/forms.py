@@ -105,7 +105,7 @@ class AccountUpdateForm(forms.ModelForm):
         ).hexdigest()[::2]
 
         url = '{domain}{path}'.format(domain=Site.objects.get_current().domain,
-                                      path=reverse("change_email", kwargs={"email": _email, "token": _token}))
+                                      path=reverse("account:change_email", kwargs={"email": _email, "token": _token}))
 
         send_email(_email, _("Change email"), "email/change_email.jinja",
                    context={"email": _email, "url": url})

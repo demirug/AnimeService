@@ -3,19 +3,16 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-from apps.account.urls import urlpatterns as auth_urls
-from apps.movie.urls import urlpatterns as movie_urls
 from apps.textpage.views import TextPageDetailView
 
 urlpatterns = [
     path('api/', include(('api.urls', 'api'))),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('admin/', admin.site.urls),
-    path('page/<slug:slug>/', TextPageDetailView.as_view(), name="textpage")
+    path("anime/", include(("apps.movie.urls", "movie"))),
+    path("", include(("apps.account.urls", "account"))),
+    path("page/<slug:slug>/", TextPageDetailView.as_view(), name="textpage"),
 ]
-
-urlpatterns += auth_urls
-urlpatterns += movie_urls
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

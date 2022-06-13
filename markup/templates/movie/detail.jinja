@@ -25,7 +25,7 @@
 
     <div style="text-align: center;">
         <h4>{{ object }}: {{ season }}</h4>
-        <div id="subscribe" path="{{ url("subscribe", slug=anime.slug) }}">
+        <div id="subscribe" path="{{ url("movie:subscribe", slug=anime.slug) }}">
             <button id="unsub" {% if not subscribe %}style="display: none" {% endif %} class="btn btn-secondary">Unsubscribe</button>
             <button id="sub" {% if subscribe %}style="display: none" {% endif %} class="btn btn-success">Subscribe</button>
         </div>
@@ -39,7 +39,7 @@
             <h4>Seasons</h4>
         </center>
         {% for num in season_list %}
-           <a href="{{ url("detail", slug=object.slug, season=num) }}" class="btn {% if season.number == num %}btn-primary{% else %}btn-info{% endif %}">{{ num }}</a>
+           <a href="{{ url("movie:detail", slug=object.slug, season=num) }}" class="btn {% if season.number == num %}btn-primary{% else %}btn-info{% endif %}">{{ num }}</a>
         {% endfor %}
         <hr>
     {% endif %}
@@ -77,7 +77,7 @@
 
 
     {% if form %}
-    <form method="post" action="{{ url("review", slug=object.slug, season=season.number) }}">
+    <form method="post" action="{{ url("movie:review", slug=object.slug, season=season.number) }}">
         {% csrf_token %}
         {{ form.media }}
         {{ form.as_p() }}

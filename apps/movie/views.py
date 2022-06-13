@@ -38,7 +38,7 @@ class AnimeDetailView(BreadCrumbsMixin, DetailView):
     template_name = "movie/detail.jinja"
 
     def get_breadcrumbs(self):
-        return [("Anime", reverse("home")), (self.object.name,)]
+        return [("Anime", reverse("movie:home")), (self.object.name,)]
 
     def get_context_data(self, **kwargs):
         """Adding to context seasons, seasons number list, episode, episodes number list"""
@@ -68,7 +68,7 @@ class ReviewCreateUpdateView(LoginRequiredMixin, BaseFormView):
     form_class = ReviewForm
 
     def get(self, request, *args, **kwargs):
-        return redirect("home")
+        return redirect("movie:home")
 
     def form_valid(self, form: ReviewForm):
         season: Season = get_object_or_404(Season, anime__slug=self.kwargs["slug"], number=self.kwargs["season"])
@@ -86,7 +86,7 @@ class SubscribeView(LoginRequiredMixin, View):
     """Subscribe create/delete view"""
 
     def get(self, request, *args, **kwargs):
-        return redirect(reverse("home"))
+        return redirect("movie:home")
 
     def post(self, request, *args, **kwargs):
         obj, created = Subscribe.objects.get_or_create(user=request.user,
