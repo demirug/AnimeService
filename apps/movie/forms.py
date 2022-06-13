@@ -1,7 +1,7 @@
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django import forms
 
-from apps.movie.models import Review, Anime, Episode, Season
+from apps.movie.models import Review, Anime, Episode
 
 
 class ReviewForm(forms.ModelForm):
