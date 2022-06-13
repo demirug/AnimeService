@@ -26,7 +26,7 @@ class AccountChangePasswordView(LoginRequiredMixin, BreadCrumbsMixin, FormView):
     template_name = "account/change_password.jinja"
 
     def get_breadcrumbs(self):
-        return [("Anime", reverse("movie:home")), ("Profile", reverse("account:profile")), ("Change password",)]
+        return [(_("Home"), reverse("home")), (_("Profile"), reverse("account:profile")), ("Change password",)]
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -40,7 +40,7 @@ class AccountChangePasswordView(LoginRequiredMixin, BreadCrumbsMixin, FormView):
         return redirect("account:profile")
 
 
-class AccountProfileView(LoginRequiredMixin, UpdateView):
+class AccountProfileView(LoginRequiredMixin, BreadCrumbsMixin, UpdateView):
     """Change user profile view"""
     model = get_user_model()
     template_name = "account/profile.jinja"
@@ -48,7 +48,7 @@ class AccountProfileView(LoginRequiredMixin, UpdateView):
     form_class = AccountUpdateForm
 
     def get_breadcrumbs(self):
-        return [("Anime", reverse("movie:home")), ("Profile",)]
+        return [(_("Home"), reverse("home")), ("Profile",)]
 
     def get_object(self, queryset=None):
         return self.request.user
@@ -68,7 +68,7 @@ class AccountSubscribersView(LoginRequiredMixin, BreadCrumbsMixin, ListView):
         return self.request.user.subscribes.select_related("anime").all()
 
     def get_breadcrumbs(self):
-        return [("Anime", reverse("movie:home")), ("Profile", reverse("account:profile")), ("Subscribes",)]
+        return [(_("Home"), reverse("home")), (_("Profile"), reverse("account:profile")), ("Subscribes",)]
 
     def post(self, request: WSGIRequest, *args, **kwargs):
         if "slug" in request.POST:

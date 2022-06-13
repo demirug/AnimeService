@@ -3,6 +3,7 @@ from django.db.models import Count
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 from django.views import View
 from django.views.generic.edit import BaseFormView
 from django_filters.views import FilterView
@@ -14,12 +15,15 @@ from apps.movie.models import Anime, Season, Review, Subscribe, Tag
 from shared.mixins.breadcrumbs import BreadCrumbsMixin
 
 
-class AnimeListView(FilterView):
+class AnimeListView(BreadCrumbsMixin, FilterView):
     """Controller to display List of Anime's"""
 
     model = Anime
     template_name = "movie/list.jinja"
     filterset_class = AnimeFilter
+
+    def get_breadcrumbs(self):
+        return [(_("Home"), reverse("home")), (_("Anime"),)]
 
     def get_queryset(self):
         """Display anime with available seasons if there are episodes"""
@@ -38,7 +42,7 @@ class AnimeDetailView(BreadCrumbsMixin, DetailView):
     template_name = "movie/detail.jinja"
 
     def get_breadcrumbs(self):
-        return [("Anime", reverse("movie:home")), (self.object.name,)]
+        return [(_("Home"), reverse("home")), (_("Anime", reverse("movie:home"))), (self.object.name,)]
 
     def get_context_data(self, **kwargs):
         """Adding to context seasons, seasons number list, episode, episodes number list"""
