@@ -1,6 +1,6 @@
 from rest_framework.generics import RetrieveAPIView, get_object_or_404
-
-from api.v1.movie.serializers import EpisodeSerializer, AnimeSerializer
+from django.db.models import Count, Q
+from api.v1.movie.serializers import EpisodeSerializer, AnimeSerializer, AnimeRandomSerializer
 from apps.movie.models import Episode, Anime
 
 
@@ -22,3 +22,18 @@ class EpisodeRetrieveAPIView(RetrieveAPIView):
                                 season__number=self.kwargs['season'],
                                 season__anime__slug=self.kwargs['slug'])
         return obj
+
+
+class AnimeRandomApiView(RetrieveAPIView):
+    """Return a random anime by accepting ignore pk param"""
+    serializer_class = AnimeRandomSerializer
+    queryset = Anime.objects.all()
+
+    def get_object(self):
+        if 'pk' in self.kwargs:
+            random_object = self.queryset.annotate(seasons_cnt=Count("seasons")) \
+                .filter(~Q(pk=self.kwargs['pk']) & Q(seasons_cnt__gt=0)).order_by("?")[0]
+        else:
+            random_object = self.queryset.annotate(seasons_cnt=Count("seasons")) \
+                .filter(seasons_cnt__gt=0).order_by("?")[0]
+        return random_object
