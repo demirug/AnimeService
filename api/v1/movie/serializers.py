@@ -24,9 +24,14 @@ class AnimeSerializer(serializers.ModelSerializer):
 class AnimeRandomSerializer(serializers.ModelSerializer):
     poster = serializers.ReadOnlyField(source='poster.url')
 
+    url = serializers.SerializerMethodField()
+
+    def get_url(self, obj):
+        return obj.get_absolute_url()
+
     class Meta:
         model = Anime
-        exclude = ['tag_list', 'style']
+        exclude = ['id', 'tag_list', 'style']
 
 
 class QualitySerializer(serializers.ModelSerializer):
