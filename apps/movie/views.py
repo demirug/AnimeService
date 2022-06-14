@@ -42,7 +42,7 @@ class AnimeDetailView(BreadCrumbsMixin, DetailView):
     template_name = "movie/detail.jinja"
 
     def get_breadcrumbs(self):
-        return [(_("Home"), reverse("home")), (_("Anime", reverse("movie:home"))), (self.object.name,)]
+        return [(_("Home"), reverse("home")), (_("Anime"), reverse("movie:home")), (self.object.name,)]
 
     def get_context_data(self, **kwargs):
         """Adding to context seasons, seasons number list, episode, episodes number list"""
