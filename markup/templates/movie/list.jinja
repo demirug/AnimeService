@@ -9,11 +9,13 @@
         <input type="submit" />
     </form>
 
-    <h4>Popular tags</h4>
-    {% for tag in popular_tags %}
-        <a href="{{ tag.get_absolute_url() }}">#{{ tag.name }}</a>
-    {% endfor %}
-    <br>
+    {% if popular_tags %}
+        <h4>Popular tags</h4>
+        {% for tag in popular_tags %}
+            <a href="{{ tag.get_absolute_url() }}">#{{ tag.name }}</a>
+        {% endfor %}
+        <br>
+    {% endif %}
 
     {% for object in object_list %}
         <div class="card" style="width: 18rem;">
