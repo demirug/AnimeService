@@ -177,3 +177,25 @@ class Subscribe(models.Model):
 
     class Meta:
         unique_together = [('anime', 'user')]
+
+
+def anime_image_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/movie/season_images/anime_name/season_name/<filename>
+    return 'movie/season_images/{0}/{1}/{2}/'.format(
+        instance.season.anime.name,
+        instance.season.name,
+        filename)
+
+
+class AnimeImage(models.Model):
+    season: Season = models.ForeignKey(Season, on_delete=models.CASCADE, related_name="images")
+    file = models.ImageField(upload_to=anime_image_path)
+    wight = models.SmallIntegerField(default=0)
+
+    class Meta:
+        verbose_name = _("Anime Image")
+        verbose_name_plural = _("Anime Images")
+        ordering = ['wight']
+
+    def __str__(self):
+        return f"AnimeImage #{self.pk}"
