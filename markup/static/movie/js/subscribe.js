@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function(){
         btn.addEventListener('click', function(event) {
 
 
-            data = JSON.parse(post_rqs(request_path));
+            data = JSON.parse(request(request_path, "POST"));
             if(data.status) {
                 unsub_btn.style.display = null;
                 sub_btn.style.display = "none";
@@ -22,10 +22,3 @@ document.addEventListener('DOMContentLoaded', function(){
     })
 });
 
-function post_rqs(url) {
-    var request = new XMLHttpRequest();
-    request.open( "POST", url, false );
-    request.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-    request.send();
-    return request.responseText
-}

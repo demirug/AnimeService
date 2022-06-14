@@ -112,11 +112,3 @@ function playView(files) {
     }
     player.src(data);
 }
-
-function request(url) {
-    //Made GET request and return answer
-    var request = new XMLHttpRequest();
-    request.open( "GET", url, false );
-    request.send();
-    return request.responseText;
-}
