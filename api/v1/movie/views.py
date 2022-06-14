@@ -1,5 +1,6 @@
 from rest_framework.generics import RetrieveAPIView, get_object_or_404
 from django.db.models import Count, Q
+from django.http import Http404
 from api.v1.movie.serializers import EpisodeSerializer, AnimeSerializer, AnimeRandomSerializer
 from apps.movie.models import Episode, Anime
 
@@ -35,5 +36,7 @@ class AnimeRandomApiView(RetrieveAPIView):
                 .filter(~Q(slug=self.kwargs['slug']) & Q(seasons_cnt__gt=0)).order_by("?")
         else:
             random_object = self.queryset.annotate(seasons_cnt=Count("seasons")) \
-                .filter(seasons_cnt__gt=0).order_by("?")[0]
-        return random_object
+                .filter(seasons_cnt__gt=0).order_by("?")
+        if not random_object:
+            raise Http404("Recommendation Anime not found")
+        return random_object[0]
