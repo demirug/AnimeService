@@ -13,3 +13,13 @@ function setCookie(name,value,days) {
     }
     document.cookie = name + "=" + (value || "")  + expires + "; path=/";
 }
+
+function request(url, type = "GET") {
+    var request = new XMLHttpRequest();
+    request.open(type, url, false );
+    if(type === "POST") {
+        request.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+    }
+    request.send();
+    return request.responseText;
+}
