@@ -27,8 +27,8 @@ class AnimeListView(BreadCrumbsMixin, FilterView):
 
     def get_queryset(self):
         """Display anime with available seasons if there are episodes"""
-        return Anime.objects.annotate(seasons_cnt=Count('seasons'), episodes_cnt=Count('seasons__episodes'))\
-            .filter(seasons_cnt__gt=0, episodes_cnt__gt=0)
+        return Anime.objects.annotate(seasons_cnt=Count('seasons')) \
+            .filter(seasons_cnt__gt=0)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -63,7 +63,8 @@ class AnimeDetailView(BreadCrumbsMixin, DetailView):
             .values("text", "datetime", "user__username")
 
         if self.request.user.is_authenticated:
-            context['form'] = ReviewForm(instance=Review.objects.filter(user=self.request.user, season=context['season']).first())
+            context['form'] = ReviewForm(
+                instance=Review.objects.filter(user=self.request.user, season=context['season']).first())
             context['subscribe'] = Subscribe.objects.filter(anime=anime, user=self.request.user).exists()
         return context
 
