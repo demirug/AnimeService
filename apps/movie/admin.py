@@ -1,9 +1,9 @@
-from adminsortable2.admin import SortableAdminMixin
+from adminsortable2.admin import SortableAdminMixin, SortableInlineAdminMixin
 from django.contrib import admin
 from django.utils.html import format_html
 
 from .forms import AnimeForm, EpisodeForm
-from .models import EpisodeFile, Episode, Quality, Season, Anime, Review, Tag, Style
+from .models import EpisodeFile, Episode, Quality, Season, Anime, Review, Tag, Style, AnimeImage
 
 
 class EpisodeFileInline(admin.TabularInline):
@@ -68,8 +68,14 @@ class AnimeAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
 
+class AnimeImageInline(SortableInlineAdminMixin, admin.TabularInline):
+    model = AnimeImage
+    extra = 1
+
+
 @admin.register(Season)
 class SeasonAdmin(admin.ModelAdmin):
+    inlines = [AnimeImageInline]
     search_fields = ('anime__name',)
     autocomplete_fields = ('anime',)
 
