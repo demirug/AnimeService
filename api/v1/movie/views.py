@@ -30,9 +30,9 @@ class AnimeRandomApiView(RetrieveAPIView):
     queryset = Anime.objects.all()
 
     def get_object(self):
-        if 'pk' in self.kwargs:
+        if 'slug' in self.kwargs:
             random_object = self.queryset.annotate(seasons_cnt=Count("seasons")) \
-                .filter(~Q(pk=self.kwargs['pk']) & Q(seasons_cnt__gt=0)).order_by("?")[0]
+                .filter(~Q(slug=self.kwargs['slug']) & Q(seasons_cnt__gt=0)).order_by("?")
         else:
             random_object = self.queryset.annotate(seasons_cnt=Count("seasons")) \
                 .filter(seasons_cnt__gt=0).order_by("?")[0]
