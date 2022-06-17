@@ -44,6 +44,7 @@ class Anime(models.Model):
     style = models.ForeignKey(Style, null=True, blank=True, related_name="anime", on_delete=models.SET_NULL)
     tags = models.TextField(_("Tags"), blank=True)
     tag_list = models.ManyToManyField(Tag, blank=True, related_name="anime")
+    rating = models.PositiveIntegerField(_("Rating"), default=0)
 
     class Meta:
         verbose_name = _("Anime")
@@ -199,3 +200,27 @@ class AnimeImage(models.Model):
 
     def __str__(self):
         return f"AnimeImage #{self.pk}"
+
+
+class RatingStar(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    value = models.PositiveIntegerField(unique=True)
+
+    class Meta:
+        verbose_name = _("Rating Star")
+        verbose_name_plural = _("Rating Stars")
+        ordering = ['value']
+
+    def __str__(self):
+        return self.name
+
+
+class Rating(models.Model):
+    rating = models.ForeignKey(RatingStar, on_delete=models.CASCADE, related_name="ratings")
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name="ratings")
+    anime = models.ForeignKey(Anime, on_delete=models.CASCADE, related_name="ratings")
+
+    class Meta:
+        verbose_name = _("Rating")
+        verbose_name_plural = _("Ratings")
+        unique_together = [('user', 'anime')]
