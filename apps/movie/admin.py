@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 
 from .forms import AnimeForm, EpisodeForm
-from .models import EpisodeFile, Episode, Quality, Season, Anime, Review, Tag, Style, AnimeImage
+from .models import EpisodeFile, Episode, Quality, Season, Anime, Review, Tag, Style, AnimeImage, RatingStar
 
 
 class EpisodeFileInline(admin.TabularInline):
@@ -78,6 +78,11 @@ class SeasonAdmin(admin.ModelAdmin):
     inlines = [AnimeImageInline]
     search_fields = ('anime__name',)
     autocomplete_fields = ('anime',)
+
+
+@admin.register(RatingStar)
+class RatingStarAdmin(admin.ModelAdmin):
+    list_display = ['name', 'value']
 
 
 admin.site.register(Tag)
