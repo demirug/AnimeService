@@ -99,6 +99,18 @@
         {% endif %}
     </div>
 
+    {% if ratings %}
+        {% if rating_selected %}
+            {% for rating in ratings %}
+                <button val="{{ rating.value }}">{{ rating.name }}</button>
+            {% endfor %}
+        {% else %}
+             {% for rating in ratings %}
+                <button valng="{{ rating.value }}">{{ rating.name }}</button>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+
 
     {% if form %}
     <form method="post" action="{{ url("movie:review", slug=object.slug, season=season.number) }}">
