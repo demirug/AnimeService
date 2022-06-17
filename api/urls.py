@@ -1,16 +1,19 @@
 from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 
 from api.v1.account.views import CurrentUserView
-from api.v1.movie.views import EpisodeRetrieveAPIView, AnimeRetrieveApiView, AnimeRandomApiView
+from api.v1.movie.views import *
+
+router = DefaultRouter()
+router.register('anime', AnimeViewSet, basename='anime')
+router.register('season', SeasonRetrieveViewSet, basename='season')
+router.register('episode', EpisodeRetrieveViewSet, basename='episode')
+
+router.register('random', AnimeRandomViewSet, basename='random')
 
 urlpatterns = [
     path('v1/', include([
-        path('episode/<slug:slug>/<int:season>/<int:episode>/', EpisodeRetrieveAPIView.as_view(), name='episode'),
-        path("anime/", include([
-            path("random/", AnimeRandomApiView.as_view(), name='random'),
-            path("random/<slug:slug>/", AnimeRandomApiView.as_view(), name='random'),
-            path("view/<slug:slug>/", AnimeRetrieveApiView.as_view(), name='anime'),
-        ])),
+        path("movie/", include(router.urls)),
         path('user/', CurrentUserView.as_view(), name="user"),
     ])),
     path('api-auth/', include('rest_framework.urls')),
