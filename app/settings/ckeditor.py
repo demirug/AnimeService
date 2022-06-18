@@ -14,6 +14,7 @@ CKEDITOR_CONFIGS = {
             ['Indent', 'Outdent'],
             ['Maximize'],
         ],
+        'removePlugins': 'exportpdf'
     },
 
     'review': {
@@ -23,7 +24,8 @@ CKEDITOR_CONFIGS = {
             ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
             ['Link', 'Unlink'],
             ['RemoveFormat']
-        ]
+        ],
+        'removePlugins': 'exportpdf'
     }
 }
 
