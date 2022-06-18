@@ -11,7 +11,7 @@ from django_jinja.views.generic import DetailView
 
 from apps.movie.filters import AnimeFilter
 from apps.movie.forms import ReviewForm
-from apps.movie.models import Anime, Season, Review, Subscribe, Tag, Rating, RatingStar
+from apps.movie.models import Anime, Season, Review, Subscribe, Tag, Rating, RatingStar, MovieSettings
 from shared.mixins.breadcrumbs import BreadCrumbsMixin
 
 
@@ -21,6 +21,12 @@ class AnimeListView(BreadCrumbsMixin, FilterView):
     model = Anime
     template_name = "movie/list.jinja"
     filterset_class = AnimeFilter
+
+    def get(self, *args, **kwargs):
+        """Set settings and paginate_by property"""
+        self.settings = MovieSettings.get_solo()
+        self.paginate_by = self.settings.movie_per_page
+        return super().get(*args, **kwargs)
 
     def get_breadcrumbs(self):
         return [(_("Home"), reverse("home")), (_("Anime"),)]
