@@ -1,5 +1,6 @@
 from django.db.models import Count, Q
 from django.http import Http404
+from django.shortcuts import get_object_or_404
 from rest_framework import permissions, mixins, status
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
@@ -20,6 +21,8 @@ from apps.movie.models import Episode, Anime, Season, Subscribe
 # movie/subscribe/<anime_pk>/
 
 # movie/rating/<anime_pk>/
+# movie/rating/
+
 # movie/review/
 
 
@@ -87,7 +90,7 @@ class SubscribeCreateDeleteViewSet(GenericViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         """Returns if the player is subscribed to the anime"""
-        instance = Subscribe.objects.filter(user=self.request.user, anime_id=self.kwargs['pk']).first()
+        instance = get_object_or_404(Subscribe, user=self.request.user, anime_id=self.kwargs['pk'])
         return Response({'subscribe': instance is not None})
 
     def create(self, request, *args, **kwargs):
@@ -104,3 +107,27 @@ class SubscribeCreateDeleteViewSet(GenericViewSet):
         if not created:
             obj.delete()
         return Response({'subscribe': created}, status=status.HTTP_200_OK)
+
+
+class RatingCreateUpdateViewSet(GenericViewSet):
+    """Create/Update viewset for Rating"""
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = RatingSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        """Returns if the player is subscribed to the anime"""
+        instance = get_object_or_404(Rating, user=self.request.user, anime_id=self.kwargs['pk'])
+        return Response({'rating': instance.rating.value})
+
+    def create(self, request, *args, **kwargs):
+        """Updated subscribe status and returned it"""
+        serializer: RatingSerializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        obj, created = Rating.objects.update_or_create(
+            anime=serializer.validated_data['anime'],
+            user=request.user,
+            defaults={'rating': serializer.validated_data['rating']}
+        )
+
+        return Response({"status": "Okay"}, status=status.HTTP_200_OK)

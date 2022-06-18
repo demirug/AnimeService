@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from apps.movie.models import Episode, EpisodeFile, Anime, Season, Quality, Review, MovieSettings, Subscribe
+from apps.movie.models import Episode, EpisodeFile, Anime, Season, Quality, Review, MovieSettings, Subscribe, Rating
 
 
 class QualitySerializer(serializers.ModelSerializer):
@@ -110,3 +110,10 @@ class SubscribeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subscribe
         fields = ['anime']
+
+
+class RatingSerializer(serializers.ModelSerializer):
+    """Serializer for Rating model"""
+    class Meta:
+        model = Rating
+        fields = ['anime', 'rating']
