@@ -10,6 +10,7 @@ router.register('season', SeasonRetrieveViewSet, basename='season')
 router.register('episode', EpisodeRetrieveViewSet, basename='episode')
 
 router.register('random', AnimeRandomViewSet, basename='random')
+router.register('review', ReviewCreateViewSet, basename='review')
 
 urlpatterns = [
     path('v1/', include([

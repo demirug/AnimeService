@@ -1,5 +1,7 @@
 from django.db.models import Count, Q
 from django.http import Http404
+from rest_framework import permissions, mixins
+from rest_framework.viewsets import GenericViewSet
 
 from api.mixins import ListRetrieveViewSet, RetrieveViewSet
 from api.v1.movie.serializers import *
@@ -64,3 +66,12 @@ class EpisodeRetrieveViewSet(RetrieveViewSet):
     """Retrieve viewset for Episode model"""
     queryset = Episode.objects.prefetch_related('files__quality').all()
     serializer_class = EpisodeFileSerializer
+
+
+class ReviewCreateViewSet(mixins.CreateModelMixin, GenericViewSet):
+    """CreateViewSet for Review model"""
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = ReviewSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
