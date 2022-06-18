@@ -87,14 +87,10 @@
     {% endif %}
     <hr>
 
-    <div id="episode-selector" anime="{{ object.slug }}" season="{{ season.number }}" episode="{{ episode.number }}">
+    <div id="episode-selector" anime="{{ object.slug }}" season="{{ season.pk }}">
         {% if episode_list|length > 1 %}
-            {% for num in episode_list %}
-                {% if episode.number == num %}
-                    <button id="episode-selected" class="btn btn-primary">{{ num }}</button>
-                {% else %}
-                    <button id="episode-{{ num }}"class="btn btn-info">{{ num }}</button>
-                {% endif %}
+            {% for eps in episode_list %}
+                <button pk="{{ eps.pk }}" id="episode-{{ eps.number }}" class="btn btn-info">{{ eps.number }}</button>
             {% endfor %}
         {% endif %}
     </div>
