@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'django_jinja',
     'django_filters',
     'rest_framework',
+    'rest_framework.authtoken',
     'adminsortable2',
     'solo',
 
