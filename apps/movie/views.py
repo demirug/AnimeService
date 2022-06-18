@@ -1,17 +1,15 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
-from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-from django.views import View
 from django.views.generic.edit import BaseFormView
 from django_filters.views import FilterView
 from django_jinja.views.generic import DetailView
 
 from apps.movie.filters import AnimeFilter
 from apps.movie.forms import ReviewForm
-from apps.movie.models import Anime, Season, Review, Subscribe, Tag, Rating, RatingStar, MovieSettings
+from apps.movie.models import Anime, Season, Review, Subscribe, Tag, RatingStar, MovieSettings
 from shared.mixins.breadcrumbs import BreadCrumbsMixin
 
 
@@ -92,18 +90,3 @@ class ReviewCreateUpdateView(LoginRequiredMixin, BaseFormView):
         )
 
         return redirect(season.get_absolute_url())
-
-
-class SubscribeView(LoginRequiredMixin, View):
-    """Subscribe create/delete view"""
-
-    def get(self, request, *args, **kwargs):
-        return redirect("movie:home")
-
-    def post(self, request, *args, **kwargs):
-        obj, created = Subscribe.objects.get_or_create(user=request.user,
-                                                       anime=get_object_or_404(Anime, slug=kwargs['slug']))
-        if not created:
-            obj.delete()
-
-        return JsonResponse({"status": created})
