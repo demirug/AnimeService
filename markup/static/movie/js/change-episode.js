@@ -1,4 +1,4 @@
-let episode_selector, anime_slug, season;
+let episode_selector, anime_slug, season_pk, episodes;
 
 document.addEventListener('DOMContentLoaded', function(){
 
@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     //Getting slug/season to build request url
     anime_slug = episode_selector.getAttribute("anime");
-    season = episode_selector.getAttribute("season");
+    season_pk = episode_selector.getAttribute("season");
 
     //Getting all episode buttons
     let elements = episode_selector.querySelectorAll("button");
@@ -22,44 +22,58 @@ document.addEventListener('DOMContentLoaded', function(){
             if(this.id != "episode-selected") {
 
                 setEpisodeButton_El(this);
-                setCookie(anime_slug + "@" + season, this.innerText)
-                json = JSON.parse(request("/api/v1/episode/" + anime_slug + "/" + season + "/" + this.innerText));
+                setCookie(anime_slug + "@" + season_pk, this.getAttribute("pk"))
+                json = api_request(this.getAttribute("pk"))
                 playEpisode(json);
 
             }
         }
     }
 
-    //Getting episode number from GET
-    let GET_episode = new URL(window.location.href).searchParams.get("episode");
-
-    //If episode exists and positive and not selected yet
-    //Do request to get data
-    if(GET_episode != null && !isNaN(GET_episode) && parseInt(GET_episode) >= 0 && GET_episode != episode_selector.getAttribute("episode")) {
-        json = JSON.parse(request("/api/v1/episode/" + anime_slug + "/" + season + "/" + GET_episode));
-        if(json.detail != null) {
-            window.location.replace("/404/");
-            return;
-        }
-        setCookie(anime_slug + "@" + season, GET_episode)
-        setEpisodeButton_Num(GET_episode)
-    } else {
-        let cookie = getCookie(anime_slug + "@" + season)
-        if(cookie == undefined) {
-           json = JSON.parse(request("/api/v1/episode/" + anime_slug + "/" + season + "/" + episode_selector.getAttribute("episode")));
-        } else {
-            json = JSON.parse(request("/api/v1/episode/" + anime_slug + "/" + season + "/" + cookie));
-            if(json.detail != null) {
-                 json = JSON.parse(request("/api/v1/episode/" + anime_slug + "/" + season + "/" + episode_selector.getAttribute("episode")));
-            } else {
-                setEpisodeButton_Num(cookie)
+    let json = parse_GET();
+    if(json == undefined) {
+        json = parse_Cookie();
+        if (json == undefined) {
+            let elem = document.querySelector("#episode-selector > button");
+            if (elem != undefined) {
+                setEpisodeButton_El(elem)
+                json = api_request(elem.getAttribute('pk'));
             }
         }
     }
-
-    playEpisode(json);
-
+    if(json != undefined) {
+        playEpisode(json);
+    }
 });
+
+function parse_GET() {
+    let GET_episode = new URL(window.location.href).searchParams.get("episode");
+    if(GET_episode != undefined) {
+        let elem = document.getElementById("episode-" + GET_episode)
+        if(elem != undefined) {
+           setCookie(anime_slug + "@" + season_pk, GET_episode)
+           setEpisodeButton_El(elem)
+           return api_request(elem.getAttribute('pk'));
+        }
+    }
+    return undefined;
+}
+
+function parse_Cookie() {
+    let cookie_rs = getCookie(anime_slug + "@" + season_pk)
+    if(cookie_rs != undefined) {
+        let elem = document.getElementById("episode-" + cookie_rs)
+        if(elem != undefined) {
+           setEpisodeButton_El(elem)
+           return api_request(elem.getAttribute('pk'));
+        }
+    }
+    return undefined;
+}
+
+function api_request(anime_pk) {
+     return JSON.parse(request("/api/v1/movie/episode/" + anime_pk))
+}
 
 function setEpisodeButton_Num(num) {
     //Set episode selected button by episode number
@@ -75,9 +89,10 @@ function setEpisodeButton_El(element) {
     if(element == null) return;
 
     let old = document.getElementById("episode-selected");
-    old.className = "btn btn-info";
-    old.id = "episode-" + old.innerText;
-
+    if(old != undefined) {
+        old.className = "btn btn-info";
+        old.id = "episode-" + old.innerText;
+    }
     element.id = "episode-selected";
     element.className = "btn btn-primary";
 
