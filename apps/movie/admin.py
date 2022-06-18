@@ -1,9 +1,11 @@
 from adminsortable2.admin import SortableAdminMixin, SortableInlineAdminMixin
 from django.contrib import admin
 from django.utils.html import format_html
+from solo.admin import SingletonModelAdmin
 
 from .forms import AnimeForm, EpisodeForm
-from .models import EpisodeFile, Episode, Quality, Season, Anime, Review, Tag, Style, AnimeImage, RatingStar
+from .models import EpisodeFile, Episode, Quality, Season, Anime, Review, Tag, Style, AnimeImage, RatingStar, \
+    MovieSettings
 
 
 class EpisodeFileInline(admin.TabularInline):
@@ -86,3 +88,4 @@ class RatingStarAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Tag)
+admin.site.register(MovieSettings, SingletonModelAdmin)

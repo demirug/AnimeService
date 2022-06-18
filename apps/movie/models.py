@@ -1,10 +1,11 @@
 import os
 
 from django.contrib.auth import get_user_model
-from django.core.validators import FileExtensionValidator
+from django.core.validators import FileExtensionValidator, MinValueValidator
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+from solo.models import SingletonModel
 
 from shared.services.slugify import unique_slugify
 
@@ -223,3 +224,37 @@ class Rating(models.Model):
         verbose_name = _("Rating")
         verbose_name_plural = _("Ratings")
         unique_together = [('user', 'anime')]
+
+
+class MovieSettings(SingletonModel):
+    """Model of Movie settings"""
+    movie_per_page = models.PositiveSmallIntegerField(_("Movie per page"),
+                                                      help_text="How many movies will be shown per page",
+                                                      validators=[MinValueValidator(1)],
+                                                      default=10)
+
+    paginator_pages_show = models.PositiveSmallIntegerField(_("Paginator pages show"),
+                                                            help_text="How many additional pages will be shown in paginator",
+                                                            validators=[MinValueValidator(1)],
+                                                            default=3)
+
+    max_reviews_per_season = models.PositiveSmallIntegerField(_("Reviews per season"),
+                                                              help_text="How many reviews can a user send on an season",
+                                                              validators=[MinValueValidator(1)],
+                                                              default=2)
+
+    min_review_length = models.PositiveSmallIntegerField(_("Min Review length"),
+                                                      help_text="Minimum length of review text",
+                                                      validators=[MinValueValidator(1)],
+                                                      default=20)
+
+    max_review_length = models.PositiveSmallIntegerField(_("Maximum Review length"),
+                                                      help_text="Maximum length of review text",
+                                                      validators=[MinValueValidator(1)],
+                                                      default=500)
+
+    class Meta:
+        verbose_name = "Movie Configuration"
+
+    def __str__(self):
+        return "Movie Configuration"
