@@ -1,12 +1,13 @@
 from django.db.models import Count, Q
 from django.http import Http404
-from rest_framework import permissions, mixins
+from rest_framework import permissions, mixins, status
+from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from api.mixins import ListRetrieveViewSet, RetrieveViewSet
 from api.v1.movie.serializers import *
 from apps.movie.filters import AnimeFilter
-from apps.movie.models import Episode, Anime, Season
+from apps.movie.models import Episode, Anime, Season, Subscribe
 
 
 # movide/anime/
@@ -15,9 +16,11 @@ from apps.movie.models import Episode, Anime, Season
 # movie/episode/<episode_pk>/
 # movie/random/<ignore_anime_slug>/
 
-# movie/subscribe/<anime_slug>/
-# movie/rating/<anime_slug>/<rating_star_pk>/
-# movie/review/<season_pk>/<review>/
+# movie/subscribe/
+# movie/subscribe/<anime_pk>/
+
+# movie/rating/<anime_pk>/
+# movie/review/
 
 
 class AnimeViewSet(ListRetrieveViewSet):
@@ -75,3 +78,29 @@ class ReviewCreateViewSet(mixins.CreateModelMixin, GenericViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+
+class SubscribeCreateDeleteViewSet(GenericViewSet):
+    """Create/Delete viewset for Subscribe"""
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = SubscribeSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        """Returns if the player is subscribed to the anime"""
+        instance = Subscribe.objects.filter(user=self.request.user, anime_id=self.kwargs['pk']).first()
+        return Response({'subscribe': instance is not None})
+
+    def create(self, request, *args, **kwargs):
+        """Changed subscribe status and returned it"""
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=False)
+
+        obj, created = Subscribe.objects.get_or_create(
+            anime=serializer.validated_data['anime'],
+            user=request.user,
+            defaults={'anime': serializer.validated_data['anime'], 'user': request.user}
+        )
+
+        if not created:
+            obj.delete()
+        return Response({'subscribe': created}, status=status.HTTP_200_OK)
