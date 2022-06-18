@@ -165,7 +165,6 @@ class Review(models.Model):
     class Meta:
         verbose_name = _("Review")
         verbose_name_plural = _("Reviews")
-        unique_together = [("season", "user")]
 
     def __str__(self):
         return f"Review #{self.pk}"
