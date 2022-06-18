@@ -32,6 +32,7 @@ class Style(models.Model):
     """Style model for Anime model customization"""
     name = models.CharField(_("Name"), unique=True, max_length=150)
     style = models.TextField(_("Style"))
+    background = models.ImageField(_("Background"), blank=True, null=True, upload_to="style/")
 
     def __str__(self):
         return self.name
