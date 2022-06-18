@@ -1,4 +1,4 @@
-let episode_selector, anime_slug, season_pk, episodes;
+let episode_selector, anime_slug, anime_pk, season_pk;
 
 document.addEventListener('DOMContentLoaded', function(){
 
@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     //Getting slug/season to build request url
     anime_slug = episode_selector.getAttribute("anime");
+    anime_pk = episode_selector.getAttribute("pk")
     season_pk = episode_selector.getAttribute("season");
 
     //Getting all episode buttons
