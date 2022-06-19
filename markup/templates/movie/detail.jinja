@@ -8,11 +8,15 @@
     <link href="{{ static("movie/css/detail.css") }}" rel="stylesheet">
 
     <script src="{{ static("movie/js/operations.js") }}"></script>
+
     <script src="{{ static("movie/js/video.min.js") }}"></script>
     <script src="{{ static("movie/js/silvermine-videojs-quality-selector.min.js") }}"></script>
+
     <script src="{{ static("movie/js/change-episode.js") }}"></script>
     <script src="{{ static("movie/js/subscribe.js") }}"></script>
     <script src="{{ static("movie/js/recommended-movie.js") }}"></script>
+
+    <script src="{{ static("movie/js/rater.min.js") }}" charset="utf-8"></script>
 
     {% if object.style %}
         <style>
@@ -31,8 +35,25 @@
             <button id="sub" {% if subscribe %}style="display: none" {% endif %} class="btn btn-success">Subscribe</button>
         </div>
     </div>
-
     <hr>
+
+    {% if rating %}
+        <div id="rate"></div>
+
+        <script>
+                $("#rate").rate({
+                    max_value: {{ settings.max_rating_val }},
+                    step_size: {{ settings.min_rating_val }},
+                    initial_value: {{ rating }},
+                }).on("change", function(ev, data){
+                    if(data.from != data.to) {
+                       request("/api/v1/movie/rating/", "POST", "anime="+ {{ object.pk }} + "&val=" + data.to)
+                    }
+
+                });
+        </script>
+    {% endif %}
+
 
     {% set images = season.images.all() %}
 
