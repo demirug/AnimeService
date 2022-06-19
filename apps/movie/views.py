@@ -9,7 +9,7 @@ from django_jinja.views.generic import DetailView
 
 from apps.movie.filters import AnimeFilter
 from apps.movie.forms import ReviewForm
-from apps.movie.models import Anime, Season, Review, Subscribe, Tag, RatingStar, MovieSettings
+from apps.movie.models import Anime, Season, Review, Subscribe, Tag, MovieSettings
 from shared.mixins.breadcrumbs import BreadCrumbsMixin
 
 
@@ -69,7 +69,6 @@ class AnimeDetailView(BreadCrumbsMixin, DetailView):
             context['form'] = ReviewForm(
                 instance=Review.objects.filter(user=self.request.user, season=context['season']).first())
             context['subscribe'] = Subscribe.objects.filter(anime=anime, user=self.request.user).exists()
-            context['ratings'] = RatingStar.objects.all()
             context['rating_selected'] = self.request.user.ratings.filter(anime=anime).first()
         return context
 

@@ -203,21 +203,9 @@ class AnimeImage(models.Model):
         return f"AnimeImage #{self.pk}"
 
 
-class RatingStar(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-    value = models.PositiveIntegerField(unique=True)
-
-    class Meta:
-        verbose_name = _("Rating Star")
-        verbose_name_plural = _("Rating Stars")
-        ordering = ['value']
-
-    def __str__(self):
-        return self.name
-
-
 class Rating(models.Model):
-    rating = models.ForeignKey(RatingStar, on_delete=models.CASCADE, related_name="ratings")
+    """Anime rating model"""
+    val = models.PositiveSmallIntegerField(default=0)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name="ratings")
     anime = models.ForeignKey(Anime, on_delete=models.CASCADE, related_name="ratings")
 
