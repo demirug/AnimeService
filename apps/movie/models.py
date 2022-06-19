@@ -242,6 +242,14 @@ class MovieSettings(SingletonModel):
                                                       validators=[MinValueValidator(1)],
                                                       default=500)
 
+    min_rating_val = models.PositiveSmallIntegerField(_("Minimum rating value"),
+                                                      validators=[MinValueValidator(1)],
+                                                      default=1)
+
+    max_rating_val = models.PositiveSmallIntegerField(_("Maximum rating value"),
+                                                      validators=[MinValueValidator(1)],
+                                                      default=5)
+
     class Meta:
         verbose_name = "Movie Configuration"
 
