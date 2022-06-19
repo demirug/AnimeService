@@ -30,7 +30,7 @@
 
     <div style="text-align: center;">
         <h4>{{ object }}: {{ season }}</h4>
-        <div id="subscribe" path="{{ url("movie:subscribe", slug=anime.slug) }}">
+        <div id="subscribe">
             <button id="unsub" {% if not subscribe %}style="display: none" {% endif %} class="btn btn-secondary">Unsubscribe</button>
             <button id="sub" {% if subscribe %}style="display: none" {% endif %} class="btn btn-success">Subscribe</button>
         </div>
