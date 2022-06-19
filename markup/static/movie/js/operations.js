@@ -14,11 +14,16 @@ function setCookie(name,value,days) {
     document.cookie = name + "=" + (value || "")  + expires + "; path=/";
 }
 
-function request(url, type = "GET") {
+function request(url, type = "GET", data=null) {
     var request = new XMLHttpRequest();
     request.open(type, url, false );
     if(type === "POST") {
         request.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+        if(data !== null) {
+            request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            request.send(data);
+            return request.responseText;
+        }
     }
     request.send();
     return request.responseText;
