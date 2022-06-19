@@ -4,7 +4,7 @@ from django.utils.html import format_html
 from solo.admin import SingletonModelAdmin
 
 from .forms import AnimeForm, EpisodeForm
-from .models import EpisodeFile, Episode, Quality, Season, Anime, Review, Tag, Style, AnimeImage, RatingStar, \
+from .models import EpisodeFile, Episode, Quality, Season, Anime, Review, Tag, Style, AnimeImage, \
     MovieSettings
 
 
@@ -82,9 +82,6 @@ class SeasonAdmin(admin.ModelAdmin):
     autocomplete_fields = ('anime',)
 
 
-@admin.register(RatingStar)
-class RatingStarAdmin(admin.ModelAdmin):
-    list_display = ['name', 'value']
 
 
 admin.site.register(Tag)
