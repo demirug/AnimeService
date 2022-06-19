@@ -1,3 +1,4 @@
+from django.utils.translation import gettext_lazy
 from rest_framework import serializers
 
 from apps.movie.models import Episode, EpisodeFile, Anime, Season, Quality, Review, MovieSettings, Subscribe, Rating
@@ -114,6 +115,18 @@ class SubscribeSerializer(serializers.ModelSerializer):
 
 class RatingSerializer(serializers.ModelSerializer):
     """Serializer for Rating model"""
+
+    def validate_val(self, val):
+        settings = MovieSettings.get_solo()
+
+        if val > settings.max_rating_val:
+            raise serializers.ValidationError(f"Maximum rating value: {settings.max_rating_val}")
+        if val < settings.min_rating_val:
+            raise serializers.ValidationError(f"Minimum rating value: {settings.min_rating_val}")
+
+        return val
+
     class Meta:
         model = Rating
-        fields = ['anime', 'rating']
+        fields = ['anime', 'val']
+
