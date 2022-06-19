@@ -65,11 +65,19 @@ class AnimeDetailView(BreadCrumbsMixin, DetailView):
         context['reviews'] = context['season'].reviews.order_by("-datetime")\
             .values("text", "datetime", "user__username")
 
+        context["settings"] = MovieSettings.get_solo()
+
         if self.request.user.is_authenticated:
             context['form'] = ReviewForm(
                 instance=Review.objects.filter(user=self.request.user, season=context['season']).first())
+
             context['subscribe'] = Subscribe.objects.filter(anime=anime, user=self.request.user).exists()
-            context['rating_selected'] = self.request.user.ratings.filter(anime=anime).first()
+
+            rating = self.request.user.ratings.filter(anime=anime).first()
+            if rating:
+                context['rating'] = rating.val
+            else:
+                context['rating'] = 0
         return context
 
 
