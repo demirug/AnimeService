@@ -9,13 +9,7 @@ document.addEventListener('DOMContentLoaded', function(){
         btn.addEventListener('click', function(event) {
 
 
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", "/api/v1/movie/subscribe/", false );
-            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            xhr.send("anime=" + anime_pk);
-
-            data = JSON.parse(xhr.responseText);
+            data = JSON.parse(request("/api/v1/movie/subscribe/", "POST", "anime=" + anime_pk));
 
             if(data.subscribe) {
                 unsub_btn.style.display = null;
