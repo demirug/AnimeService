@@ -4,3 +4,22 @@
 .video-js .vjs-remaining-time {
     display: none;
 }
+
+#rate
+{
+    font-size: 35px;
+    font-family: sans-serif;
+}
+.rate-base-layer
+{
+    color: #aaa;
+}
+.rate-hover-layer
+{
+    color: orange;
+}
+
+#rate .rate-base-layer span
+{
+    opacity: 0.5;
+}
