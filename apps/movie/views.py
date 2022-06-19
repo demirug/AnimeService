@@ -77,7 +77,7 @@ class AnimeDetailView(BreadCrumbsMixin, DetailView):
             if rating:
                 context['rating'] = rating.val
             else:
-                context['rating'] = 0
+                context['rating'] = -1
         return context
 
 
