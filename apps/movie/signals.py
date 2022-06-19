@@ -1,10 +1,11 @@
 from django.contrib.sites.models import Site
+from django.db.models import Sum, Avg
 from django.db.models.signals import pre_delete, post_save
 from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 
 from shared.services.email import send_email
-from .models import Tag, Episode
+from .models import Tag, Episode, Rating, Anime
 
 
 @receiver(pre_delete, sender=Tag)
@@ -32,3 +33,12 @@ def episode_handler(sender, instance: Episode, **kwargs):
                             "episode": instance,
                             "anime": anime,
                             })
+
+
+@receiver(post_save, sender=Rating)
+def rating_handler(sender, instance: Rating, **kwargs):
+    """On Rating update, update anime global rating"""
+
+    anime: Anime = instance.anime
+    anime.rating = anime.ratings.filter(val__gt=0).aggregate(Avg("val"))['val__avg']
+    anime.save()
