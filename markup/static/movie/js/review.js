@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $("#review > button[type=button]").click(function () {
+    $("#review > button").click(function () {
 
         var text = CKEDITOR.instances.id_text.getData();
 
