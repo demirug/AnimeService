@@ -13,12 +13,8 @@
         <h4>User settings</h4>
         <br>
         <div class="img-container">
-          {% if object.avatar %}
-            <img id="avatar" class="upper-image" src="{{ object.avatar.url }}" alt="">
-          {% else %}
-            <img id="avatar" class="upper-image" src="{{ static("account/images/default_avatar.png") }}" alt="">
-          {% endif %}
-            <img id="upload" src="{{ static("account/images/upload.png") }}">
+          <img id="avatar" class="upper-image" src="{{ object.get_avatar() }}" alt="">
+          <img id="upload" src="{{ static("account/images/upload.png") }}">
         </div>
     </center>
 
