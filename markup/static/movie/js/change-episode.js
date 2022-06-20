@@ -73,7 +73,7 @@ function parse_Cookie() {
 }
 
 function api_request(anime_pk) {
-     return JSON.parse(request("/api/v1/movie/episode/" + anime_pk))
+     return JSON.parse(request("/api/v1/movie/episode/" + anime_pk).responseText)
 }
 
 function setEpisodeButton_Num(num) {

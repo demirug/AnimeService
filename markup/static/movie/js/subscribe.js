@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function(){
         btn.addEventListener('click', function(event) {
 
 
-            data = JSON.parse(request("/api/v1/movie/subscribe/", "POST", "anime=" + anime_pk));
+            data = JSON.parse(request("/api/v1/movie/subscribe/", "POST", "anime=" + anime_pk).responseText);
 
             if(data.subscribe) {
                 unsub_btn.style.display = null;

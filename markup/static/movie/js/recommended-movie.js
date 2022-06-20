@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     let slug = episode_selector.getAttribute("anime");
 
-    let answer = JSON.parse(request("/api/v1/movie/random/" + slug))
+    let answer = JSON.parse(request("/api/v1/movie/random/" + slug).responseText)
 
     // If detail in response -> recommendation not found (404)
     if(answer.detail) return;

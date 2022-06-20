@@ -22,9 +22,9 @@ function request(url, type = "GET", data=null) {
         if(data !== null) {
             request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             request.send(data);
-            return request.responseText;
+            return request;
         }
     }
     request.send();
-    return request.responseText;
+    return request;
 }
