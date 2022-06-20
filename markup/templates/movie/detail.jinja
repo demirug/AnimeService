@@ -116,7 +116,7 @@
     {% endif %}
     <hr>
 
-    <div id="episode-selector" pk="{{ object.pk }}" anime="{{ object.slug }}" season="{{ season.pk }}">
+    <div id="episode-selector">
         {% if episode_list|length > 1 %}
             {% for eps in episode_list %}
                 <button pk="{{ eps.pk }}" id="episode-{{ eps.number }}" class="btn btn-info">{{ eps.number }}</button>
