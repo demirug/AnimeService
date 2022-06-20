@@ -1,24 +1,19 @@
-document.addEventListener('DOMContentLoaded', function(){
+$(document).ready(function () {
 
-    let subscribe = document.getElementById("subscribe");
+    let sub_btn = $("#sub");
+    let unsub_btn = $("#unsub");
 
-    let sub_btn = document.getElementById("sub");
-    let unsub_btn = document.getElementById("unsub");
+    $("#subscribe > button").click(function () {
 
-    subscribe.querySelectorAll("button").forEach(btn => {
-        btn.addEventListener('click', function(event) {
+        data = JSON.parse(request("/api/v1/movie/subscribe/", "POST", "anime=" + anime_pk).responseText);
 
-
-            data = JSON.parse(request("/api/v1/movie/subscribe/", "POST", "anime=" + anime_pk).responseText);
-
-            if(data.subscribe) {
-                unsub_btn.style.display = null;
-                sub_btn.style.display = "none";
-            } else {
-                unsub_btn.style.display = "none";
-                sub_btn.style.display = null;
-            }
-        });
-    })
+        if(data.subscribe) {
+            unsub_btn.show();
+            sub_btn.hide();
+        } else {
+            unsub_btn.hide();
+            sub_btn.show();
+        }
+    });
 });
 
