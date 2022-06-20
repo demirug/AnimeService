@@ -4,6 +4,7 @@ from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser, PermissionsMixin
 )
+from django.templatetags.static import static
 
 from django.utils.translation import gettext_lazy as _
 from solo.models import SingletonModel
@@ -48,6 +49,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def is_staff(self):
         return self.is_admin
+
+    def get_avatar(self):
+        """If user avatar not exists return default avatar"""
+        if self.avatar:
+            return self.avatar.url
+        return static("account/images/default_avatar.png")
 
 
 class AccountSettings(SingletonModel):
