@@ -13,11 +13,13 @@
     <script src="{{ static("movie/js/silvermine-videojs-quality-selector.min.js") }}"></script>
 
     <script src="{{ static("movie/js/change-episode.js") }}"></script>
-    <script src="{{ static("movie/js/subscribe.js") }}"></script>
     <script src="{{ static("movie/js/recommended-movie.js") }}"></script>
-    <script src="{{ static("movie/js/review.js") }}"></script>
 
-    <script src="{{ static("movie/js/rater.min.js") }}" charset="utf-8"></script>
+     {% if request.user.is_authenticated %}
+        <script src="{{ static("movie/js/subscribe.js") }}"></script>
+        <script src="{{ static("movie/js/review.js") }}"></script>
+        <script src="{{ static("movie/js/rater.min.js") }}" charset="utf-8"></script>
+    {% endif %}
 
     {% if object.style %}
         <style>
@@ -29,8 +31,10 @@
 
 {% block body %}
     <script>
-        var username = "{{ request.user.username }}";
-        var user_logo = "{{ request.user.get_avatar() }}";
+        {% if request.user.is_authenticated %}
+            var username = "{{ request.user.username }}";
+            var user_logo = "{{ request.user.get_avatar() }}";
+        {% endif %}
 
         var anime_slug = "{{ object.slug }}";
         var anime_pk = {{ object.pk }};
@@ -39,10 +43,12 @@
 
     <div style="text-align: center;">
         <h4>{{ object }}: {{ season }}</h4>
-        <div id="subscribe">
-            <button id="unsub" {% if not subscribe %}style="display: none" {% endif %} class="btn btn-secondary">Unsubscribe</button>
-            <button id="sub" {% if subscribe %}style="display: none" {% endif %} class="btn btn-success">Subscribe</button>
-        </div>
+        {% if request.user.is_authenticated %}
+            <div id="subscribe">
+                <button id="unsub" {% if not subscribe %}style="display: none" {% endif %} class="btn btn-secondary">Unsubscribe</button>
+                <button id="sub" {% if subscribe %}style="display: none" {% endif %} class="btn btn-success">Subscribe</button>
+            </div>
+        {% endif %}
     </div>
     <hr>
 
