@@ -4,11 +4,12 @@ $(document).ready(function () {
 
     //Getting all episode buttons
     $("#episode-selector > button").click(function () {
-        if(this.id != "episode-selected") {
+        var episode = $(this)
+        if(episode.attr("id") != "episode-selected") {
 
-            setEpisodeButton_El(this);
-            setCookie(anime_slug + "@" + season_pk, this.attr("pk"))
-            json = api_request(this.attr("pk"))
+            setEpisodeButton_El(episode);
+            setCookie(anime_slug + "@" + season_pk, episode.attr("pk"));
+            json = api_request(episode.attr("pk"));
             playEpisode(json);
 
         }
@@ -18,10 +19,10 @@ $(document).ready(function () {
     if(json == undefined) {
         json = parse_Cookie();
         if (json == undefined) {
-            let elem = $("#episode-selector > button");
+            let elem = $("#episode-selector > button").first();
             if (elem != undefined) {
-                setEpisodeButton_El(elem)
-                json = api_request(elem.getAttribute('pk'));
+                setEpisodeButton_El(elem);
+                json = api_request(elem.attr('pk'));
             }
         }
     }
@@ -33,37 +34,38 @@ $(document).ready(function () {
 function parse_GET() {
     let GET_episode = new URL(window.location.href).searchParams.get("episode");
     if(GET_episode != undefined) {
-        let elem = $("#episode-" + GET_episode)
-        if(elem != undefined) {
-           setCookie(anime_slug + "@" + season_pk, GET_episode)
-           setEpisodeButton_El(elem)
-           return api_request(elem.attr('pk'));
+        let elem = $("#episode-" + GET_episode);
+        if(elem.length) {
+           setCookie(anime_slug + "@" + season_pk, GET_episode);
+           setEpisodeButton_El(elem);
+           return api_request(elem.attr("pk"));
         }
     }
     return undefined;
 }
 
 function parse_Cookie() {
-    let cookie_rs = getCookie(anime_slug + "@" + season_pk)
+    let cookie_rs = getCookie(anime_slug + "@" + season_pk);
     if(cookie_rs != undefined) {
-        let elem = $("#episode-" + cookie_rs)
+        let elem = $("#episode-" + cookie_rs);
         if(elem != undefined) {
-           setEpisodeButton_El(elem)
+           setEpisodeButton_El(elem);
            return api_request(elem.attr('pk'));
         }
     }
     return undefined;
 }
 
-function api_request(anime_pk) {
-     return JSON.parse(request("/api/v1/movie/episode/" + anime_pk).responseText)
+function api_request(episode_pk) {
+     let rqs = request("/api/v1/movie/episode/" + episode_pk + "/");
+     return rqs.status === 200 ? JSON.parse(rqs.responseText) : undefined;
 }
 
 function setEpisodeButton_Num(num) {
     //Set episode selected button by episode number
     let element = document.getElementById("episode-" + num);
-    if(element == undefined) return
-    setEpisodeButton_El(element)
+    if(element == undefined) return;
+    setEpisodeButton_El(element);
 }
 
 function setEpisodeButton_El(element) {
@@ -77,10 +79,10 @@ function setEpisodeButton_El(element) {
         old.id = "episode-" + old.innerText;
     }
 
-    element.attr("class", "btn btn-primary")
-    element.attr("id", "episode-selected")
+    element.attr("class", "btn btn-primary");
+    element.attr("id", "episode-selected");
 
-    episode_pk = element.pk
+    episode_pk = element.pk;
 
 }
 
@@ -88,7 +90,7 @@ function playEpisode(json) {
         files = []
 
         for(let i = 0; i < json.files.length; i++) {
-            files.push([json.files[i].file, json.files[i].quality.name, parseInt(json.files[i].quality.wight), json.files[i].quality.default])
+            files.push([json.files[i].file, json.files[i].quality.name, parseInt(json.files[i].quality.wight), json.files[i].quality.default]);
         }
 
         //Sort video sources by quality
