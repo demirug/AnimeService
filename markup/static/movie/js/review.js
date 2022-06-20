@@ -19,7 +19,9 @@ $(document).ready(function () {
         } else if(rqs.status === 201) {
             CKEDITOR.instances.id_text.setData("");
             // Add review
-            $("#review-list").prepend("<p>" + username + ": " + answer.text + " | Date: " + answer.datetime + "</p>")
+            var htmlObject = $("<p>" + username + ": " + answer.text + " | Date: " + answer.datetime + "</p>");
+            $('#review-list').prepend(htmlObject);
+            $('body, html').animate({ scrollTop: $(htmlObject).offset().top }, 1000);
         }
     });
 })
