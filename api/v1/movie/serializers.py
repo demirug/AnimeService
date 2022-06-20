@@ -1,3 +1,4 @@
+from django.utils.html import strip_tags
 from django.utils.translation import gettext_lazy
 from rest_framework import serializers
 
@@ -88,6 +89,7 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     def validate_text(self, value: str):
         """Checking if review text larger/lower >= settings params"""
+        value = strip_tags(value)
         if len(value) > self.settings.max_review_length:
             raise serializers.ValidationError(f"Maximum length of review text {self.settings.max_review_length} chars")
         if len(value) < self.settings.min_review_length:
