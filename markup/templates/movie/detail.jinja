@@ -138,12 +138,13 @@
         </center>
     {% endif %}
 
-    {% if reviews|length > 0 %}
         <hr>
-        {% for review in reviews %}
-            <p>{{ review.user__username }}: {{review.text | safe }} | Date: {{ review.datetime }}</p>
-        {% endfor %}
-    {% endif %}
+        <div id="review-list">
+            {% for review in reviews %}
+                <p>{{ review.user__username }}: {{review.text | safe }} | Date: {{ review.datetime }}</p>
+            {% endfor %}
+        </div>
+
 
     <script>
       var options = {
