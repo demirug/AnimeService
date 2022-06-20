@@ -66,8 +66,7 @@ class AnimeDetailView(BreadCrumbsMixin, DetailView):
         context["settings"] = MovieSettings.get_solo()
 
         if self.request.user.is_authenticated:
-            context['form'] = ReviewForm(
-                instance=Review.objects.filter(user=self.request.user, season=context['season']).first())
+            context['form'] = ReviewForm()
 
             context['subscribe'] = Subscribe.objects.filter(anime=anime, user=self.request.user).exists()
 
