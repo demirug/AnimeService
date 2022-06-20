@@ -1,41 +1,24 @@
-let episode_selector, anime_slug, anime_pk, season_pk;
+var episode_pk;
 
-document.addEventListener('DOMContentLoaded', function(){
-
-    episode_selector = document.getElementById("episode-selector");
-
-    //If episode selector not exists return
-    if (typeof(episode_selector) == 'undefined' && episode_selector == null) return;
-
-    //Getting slug/season to build request url
-    anime_slug = episode_selector.getAttribute("anime");
-    anime_pk = episode_selector.getAttribute("pk")
-    season_pk = episode_selector.getAttribute("season");
+$(document).ready(function () {
 
     //Getting all episode buttons
-    let elements = episode_selector.querySelectorAll("button");
+    $("#episode-selector > button").click(function () {
+        if(this.id != "episode-selected") {
 
-    for(var i = 0; i < elements.length; i++) {
-        //To all buttons add onclick action
-        elements[i].onclick = function () {
+            setEpisodeButton_El(this);
+            setCookie(anime_slug + "@" + season_pk, this.attr("pk"))
+            json = api_request(this.attr("pk"))
+            playEpisode(json);
 
-            //If clicked button not selected
-            if(this.id != "episode-selected") {
-
-                setEpisodeButton_El(this);
-                setCookie(anime_slug + "@" + season_pk, this.getAttribute("pk"))
-                json = api_request(this.getAttribute("pk"))
-                playEpisode(json);
-
-            }
         }
-    }
+    });
 
     let json = parse_GET();
     if(json == undefined) {
         json = parse_Cookie();
         if (json == undefined) {
-            let elem = document.querySelector("#episode-selector > button");
+            let elem = $("#episode-selector > button");
             if (elem != undefined) {
                 setEpisodeButton_El(elem)
                 json = api_request(elem.getAttribute('pk'));
@@ -50,11 +33,11 @@ document.addEventListener('DOMContentLoaded', function(){
 function parse_GET() {
     let GET_episode = new URL(window.location.href).searchParams.get("episode");
     if(GET_episode != undefined) {
-        let elem = document.getElementById("episode-" + GET_episode)
+        let elem = $("#episode-" + GET_episode)
         if(elem != undefined) {
            setCookie(anime_slug + "@" + season_pk, GET_episode)
            setEpisodeButton_El(elem)
-           return api_request(elem.getAttribute('pk'));
+           return api_request(elem.attr('pk'));
         }
     }
     return undefined;
@@ -63,10 +46,10 @@ function parse_GET() {
 function parse_Cookie() {
     let cookie_rs = getCookie(anime_slug + "@" + season_pk)
     if(cookie_rs != undefined) {
-        let elem = document.getElementById("episode-" + cookie_rs)
+        let elem = $("#episode-" + cookie_rs)
         if(elem != undefined) {
            setEpisodeButton_El(elem)
-           return api_request(elem.getAttribute('pk'));
+           return api_request(elem.attr('pk'));
         }
     }
     return undefined;
@@ -85,7 +68,6 @@ function setEpisodeButton_Num(num) {
 
 function setEpisodeButton_El(element) {
     //Set episode selected button by element
-    episode_selector.setAttribute("episode", element.innerText);
 
     if(element == null) return;
 
@@ -94,8 +76,11 @@ function setEpisodeButton_El(element) {
         old.className = "btn btn-info";
         old.id = "episode-" + old.innerText;
     }
-    element.id = "episode-selected";
-    element.className = "btn btn-primary";
+
+    element.attr("class", "btn btn-primary")
+    element.attr("id", "episode-selected")
+
+    episode_pk = element.pk
 
 }
 
