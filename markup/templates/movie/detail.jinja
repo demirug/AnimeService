@@ -27,6 +27,14 @@
 {% endblock head %}
 
 {% block body %}
+    <script>
+        var username = "{{ request.user.username }}";
+        var user_logo = "{{ request.user.get_avatar() }}";
+
+        var anime_slug = "{{ object.slug }}";
+        var anime_pk = {{ object.pk }};
+        var season_pk = {{ season.pk }};
+    </script>
 
     <div style="text-align: center;">
         <h4>{{ object }}: {{ season }}</h4>
