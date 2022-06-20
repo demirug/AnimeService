@@ -126,12 +126,11 @@
 
 
     {% if form %}
-    <form method="post" action="{{ url("movie:review", slug=object.slug, season=season.number) }}">
-        {% csrf_token %}
+    <div id="review">
         {{ form.media }}
         {{ form.as_p() }}
         <button class="btn btn-primary btn-sm">Send</button>
-    </form>
+    </div>
     {% else %}
         <center>
             <h5>Authorize to post review</h5>
