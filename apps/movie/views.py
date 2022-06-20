@@ -1,15 +1,13 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-from django.views.generic.edit import BaseFormView
 from django_filters.views import FilterView
 from django_jinja.views.generic import DetailView
 
 from apps.movie.filters import AnimeFilter
 from apps.movie.forms import ReviewForm
-from apps.movie.models import Anime, Season, Review, Subscribe, Tag, MovieSettings
+from apps.movie.models import Anime, Season, Subscribe, Tag, MovieSettings
 from shared.mixins.breadcrumbs import BreadCrumbsMixin
 
 
@@ -79,21 +77,3 @@ class AnimeDetailView(BreadCrumbsMixin, DetailView):
             else:
                 context['rating'] = -1
         return context
-
-
-class ReviewCreateUpdateView(LoginRequiredMixin, BaseFormView):
-    form_class = ReviewForm
-
-    def get(self, request, *args, **kwargs):
-        return redirect("movie:home")
-
-    def form_valid(self, form: ReviewForm):
-        season: Season = get_object_or_404(Season, anime__slug=self.kwargs["slug"], number=self.kwargs["season"])
-
-        Review.objects.update_or_create(
-            season=season,
-            user=self.request.user,
-            defaults={'text': form.cleaned_data['text'], 'verified': False}
-        )
-
-        return redirect(season.get_absolute_url())
