@@ -1,6 +1,19 @@
 {% extends 'base.jinja' %}
 
 {% block body %}
-    {{ object.name }}
-    {{ object.content|safe }}
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <center><h4>{{ object.name }}</h4></center>
+                    <hr>
+                    {{ object.content|safe }}
+                    <br>
+                    <div class="text-muted small text-end">
+                        <time >{{ object.date|date("M d, Y") }} at {{ object.date|date("G:i") }}</time>
+                    </div>
+                </div>
+            </div>
+    </div>
+
 {% endblock body %}
