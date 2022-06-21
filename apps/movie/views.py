@@ -30,7 +30,7 @@ class AnimeListView(BreadCrumbsMixin, FilterView):
     def get_queryset(self):
         """Display anime with available seasons if there are episodes"""
         return Anime.objects.annotate(seasons_cnt=Count('seasons')) \
-            .filter(seasons_cnt__gt=0)
+            .filter(seasons_cnt__gt=0).order_by('rating')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
