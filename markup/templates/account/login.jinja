@@ -1,12 +1,36 @@
 {% extends 'base.jinja' %}
-
-{% block title %}Login{% endblock title %}
+{% block head %}
+    <link rel="stylesheet" href="{{ static("account/css/authentication.css") }}">
+{% endblock %}
+{% block title %}Sign in{% endblock title %}
 
 {% block body %}
-<form method="POST">{% csrf_token %}
-    {{ form.as_p() }}
-    <button>Submit</button>
-</form>
-<a href="{{ url("account:register") }}">Not have account yet?</a>
-<a href="{{ url("account:reset") }}">Forgot your password?</a>
+    <div class="container">
+        <div style="padding: 7em 0;">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-4">
+                    <div class="form-wrap py-5">
+                        <h3 class="text-center mb-0">SIGN IN</h3>
+                        <br>
+
+                        <form method="post" class="form-wrap">
+                            {% csrf_token %}
+                            {{ form }}
+                            <label class="" for="flexCheckChecked">Remember me</label>
+                            <br>
+                            <a href="{{ url("account:reset") }}">Forgot Password</a>
+                            <br>
+                            <button type="submit" class="btn form-control btn-primary rounded submit px-3">Login</button>
+                        </form>
+
+                        <div class="w-100 text-center mt-4 text">
+                            <p class="mb-0">Don't have an account?</p>
+                            <a href="{{ url("account:register") }}">Sign Up</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock body %}
