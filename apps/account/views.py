@@ -17,8 +17,24 @@ from django_jinja.views.generic import CreateView, UpdateView
 from shared.mixins.breadcrumbs import BreadCrumbsMixin
 from shared.services.email import send_email
 from .forms import UserCreationForm, AccountUpdateForm, UserPasswordChangeForm, AccountResetForm, \
-    AccountResetConfirmForm
+    AccountResetConfirmForm, AccountLoginForm
 from ..movie.models import Subscribe
+
+
+class AccountLoginView(FormView):
+    form_class = AccountLoginForm
+    template_name = "account/login.jinja"
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect(self.request.GET.get('next') or settings.LOGIN_REDIRECT_URL)
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        login(self.request, form.get_user())
+        if not form.cleaned_data.get("remember_me"):
+            self.request.session.set_expiry(0)
+        return redirect(self.request.GET.get('next') or settings.LOGIN_REDIRECT_URL)
 
 
 class AccountChangePasswordView(LoginRequiredMixin, BreadCrumbsMixin, FormView):

@@ -1,6 +1,7 @@
 from django import forms
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth import authenticate
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.sites.models import Site
 from django.core.exceptions import ValidationError
@@ -213,3 +214,40 @@ class AccountResetConfirmForm(forms.Form):
             raise ValidationError(_("Password can't be as email or nickname"))
 
         return super().clean(*args, **kwargs)
+
+
+class AccountLoginForm(forms.Form):
+
+    login = forms.CharField(label="", widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Login"}))
+
+    password = forms.CharField(label="", widget=forms.PasswordInput(
+        attrs={"class": "form-control",
+               "placeholder": "Password"}
+    ))
+
+    remember_me = forms.BooleanField(label="", required=False, widget=forms.CheckboxInput(attrs={"class": "form-check-input"}))
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.user = None
+
+    def clean(self, *args, **kwargs):
+
+        login = self.cleaned_data.get("login")
+        password = self.cleaned_data.get("password")
+
+        user = User.objects.filter(username=login).first()
+
+        if not user or not user.check_password(password):
+            raise ValidationError(_("Incorrect login or password"))
+
+        if not user.is_active:
+            raise ValidationError(_("Account not active. Please verify email"))
+
+        self.user = user
+
+        return super().clean(*args, **kwargs)
+
+    def get_user(self):
+        return self.user
+
