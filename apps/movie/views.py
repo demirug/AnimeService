@@ -34,7 +34,7 @@ class AnimeListView(BreadCrumbsMixin, FilterView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["popular_tags"] = Tag.objects.annotate(anime_count=Count("anime")).filter(anime_count__gt=0)[:5]
+        context["settings"] = self.settings
         return context
 
 
