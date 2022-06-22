@@ -1,6 +1,6 @@
 .img-container img {
     border-radius: 100px;
-    border: black 2px solid;
+    border: red 2px solid;
     width: 200px;
     height: 200px;
 }
