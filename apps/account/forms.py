@@ -225,7 +225,7 @@ class AccountLoginForm(forms.Form):
                "placeholder": "Password"}
     ))
 
-    remember_me = forms.BooleanField(label="", required=False, widget=forms.CheckboxInput(attrs={"class": "form-check-input"}))
+    remember_me = forms.BooleanField(label="", required=False, widget=forms.CheckboxInput(attrs={"class": "form-check-input", "checked": ""}))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
