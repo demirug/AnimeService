@@ -1,0 +1,32 @@
+.form-wrap {
+    background: #000232;
+    border-radius: 10px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+}
+
+.form-wrap h3 {
+    font-weight: 400;
+    font-size: 18px;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.form-wrap li{
+    color: darkred;
+}
+
+.form-wrap p, label {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.form-group .icon span {
+    color: #fff;
+}
+
+form > input {
+    margin-top: 0.5rem!important;
+    margin-bottom: 0.5rem!important;
+}
