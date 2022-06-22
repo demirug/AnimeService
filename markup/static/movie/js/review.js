@@ -24,8 +24,22 @@ $(document).ready(function () {
             modal.show();
         } else if(rqs.status === 201) {
             CKEDITOR.instances.id_text.setData("");
+
+            var date = new Date(answer.datetime)
+
             // Add review
-            var htmlObject = $("<p>" + username + ": " + answer.text + " | Date: " + answer.datetime + "</p>");
+            var htmlObject = $("                    <div class=\"card mb-4\">\n" +
+                "                      <div class=\"card-body\">\n" +
+                "                        " + answer.text + "\n" +
+                "                        <div class=\"d-flex justify-content-between\">\n" +
+                "                          <div class=\"d-flex flex-row align-items-center\">\n" +
+                "                            <img src=\"" + user_logo + "\" alt=\"avatar\" width=\"25\" height=\"25\" />\n" +
+                "                            <p class=\"small mb-0 ms-2\">" + username + "</p>\n" +
+                "                          </div>\n" +
+                "                            <time class=\"small mb-0 ms-2 text-center\">" + `${$.datepicker.formatDate("M d", date)}, ${date.getFullYear()} at ${date.getHours()}:${date.getMinutes()}` + "</time>\n" +
+                "                        </div>\n" +
+                "                      </div>\n" +
+                "                    </div>")
             $('#review-list').prepend(htmlObject);
             $('body, html').animate({ scrollTop: $(htmlObject).offset().top }, 1000);
         }
