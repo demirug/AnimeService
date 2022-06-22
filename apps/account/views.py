@@ -92,11 +92,14 @@ class AccountSubscribersView(LoginRequiredMixin, BreadCrumbsMixin, ListView):
         return redirect(reverse("account:subscribes"))
 
 
-class AccountRegisterView(CreateView):
+class AccountRegisterView(BreadCrumbsMixin, CreateView):
     """Register user account view"""
     model = get_user_model()
     form_class = UserCreationForm
     template_name = "account/register.jinja"
+
+    def get_breadcrumbs(self):
+        return [(_("Authorization"), reverse("account:login")), (_("Register"),)]
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -161,10 +164,13 @@ class AccountEmailChangeView(LoginRequiredMixin, RedirectView):
         return super().get(request, *args, **kwargs)
 
 
-class AccountResetView(FormView):
+class AccountResetView(BreadCrumbsMixin, FormView):
     """Account reset password view"""
     form_class = AccountResetForm
     template_name = "account/reset.jinja"
+
+    def get_breadcrumbs(self):
+        return [(_("Authorization"), reverse("account:login")), (_("Reset"),)]
 
     def dispatch(self, request, *args, **kwargs):
         if self.request.user.is_authenticated:
