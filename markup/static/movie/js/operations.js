@@ -21,7 +21,7 @@ function request(url, type = "GET", data=null) {
         request.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
         if(data !== null) {
             request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            request.send(data);
+            request.send(new URLSearchParams(data).toString());
             return request;
         }
     }
