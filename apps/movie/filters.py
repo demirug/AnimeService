@@ -1,10 +1,12 @@
 import django_filters
+from django import forms
+from django.utils.translation import gettext_lazy as _
 
 from apps.movie.models import Anime, Tag
 
 
 class AnimeFilter(django_filters.FilterSet):
-    search = django_filters.CharFilter(label='Search', method='name_tag_filter')
+    search = django_filters.CharFilter(label='', widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("Search text here")}), method='name_tag_filter')
 
     def name_tag_filter(self, queryset, name, value):
         """Filter search by name & tags"""
