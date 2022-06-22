@@ -3,7 +3,13 @@ $(document).ready(function () {
 
         var text = CKEDITOR.instances.id_text.getData();
 
-        var rqs = request("/api/v1/movie/review/", "POST", "season=" + season_pk + "&text=" + text);
+        if(text.length === 0) return;
+
+        var formdata = new FormData();
+        formdata.append("season", season_pk);
+        formdata.append("text", text);
+
+        var rqs = request("/api/v1/movie/review/", "POST", formdata);
         var answer = JSON.parse(rqs.responseText);
 
         if(rqs.status === 400) {
