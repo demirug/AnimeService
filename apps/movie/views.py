@@ -1,4 +1,5 @@
 from django.db.models import Count
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -56,6 +57,9 @@ class AnimeDetailView(BreadCrumbsMixin, DetailView):
             context['season'] = get_object_or_404(Season, anime=anime, number=int(self.kwargs['season']))
         else:
             context['season'] = anime.seasons.order_by('number').first()
+
+        if context['season'] is None:
+            raise Http404("Season not found")
 
         context['season_list'] = anime.seasons.values_list('number', flat=True)
         context['episode_list'] = context['season'].episodes.values('number', 'pk')
