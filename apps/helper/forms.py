@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from django.utils.html import strip_tags
 from django.utils.translation import gettext_lazy as _
 
-from apps.helper.models import Question
+from apps.helper.models import Feedback
 
 
 class AdminQuestionForm(forms.ModelForm):
@@ -16,7 +16,7 @@ class AdminQuestionForm(forms.ModelForm):
     answer = forms.CharField(label="", widget=CKEditorUploadingWidget(config_name='question'))
 
     class Meta:
-        model = Question
+        model = Feedback
         fields = ['question', 'email', 'answer']
 
 
@@ -32,7 +32,7 @@ class AuthorizeQuestionForm(forms.ModelForm):
         return question
 
     class Meta:
-        model = Question
+        model = Feedback
         fields = ['question']
 
 
@@ -43,5 +43,5 @@ class UnAuthorizeQuestionForm(forms.ModelForm):
                              widget=forms.EmailInput(attrs={"class": "form-control", "placeholder": _("Email")}))
 
     class Meta:
-        model = Question
+        model = Feedback
         fields = ['email', 'question']

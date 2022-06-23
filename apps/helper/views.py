@@ -5,13 +5,13 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic.edit import CreateView
 
 from apps.helper.forms import AuthorizeQuestionForm, UnAuthorizeQuestionForm
-from apps.helper.models import DefaultAnswer, Question
+from apps.helper.models import FAQ, Feedback
 from shared.mixins.breadcrumbs import BreadCrumbsMixin
 
 
 class AnswersQuestionsView(BreadCrumbsMixin, CreateView):
     """ListView for DefaultAnswer with creating Questions objects"""
-    model = Question
+    model = Feedback
     template_name = "helper/home.jinja"
 
     def get_breadcrumbs(self):
@@ -35,5 +35,5 @@ class AnswersQuestionsView(BreadCrumbsMixin, CreateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['object_list'] = DefaultAnswer.objects.all()
+        context['object_list'] = FAQ.objects.all()
         return context

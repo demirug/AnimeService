@@ -1,17 +1,17 @@
 from django.contrib import admin
 
 from apps.helper.forms import AdminQuestionForm
-from apps.helper.models import DefaultAnswer, Question
+from apps.helper.models import FAQ, Feedback
 from shared.services.email import send_email
 
 
-@admin.register(DefaultAnswer)
+@admin.register(FAQ)
 class DefaultAnswerModelAdmin(admin.ModelAdmin):
     """ModelAdmin for DefaultAnswer model"""
     list_display = ['question', 'slug']
 
 
-@admin.register(Question)
+@admin.register(Feedback)
 class QuestionModelAdmin(admin.ModelAdmin):
     """ModelAdmin for Question model"""
 
