@@ -14,5 +14,5 @@ def send_email(emails, subject, template, context=None):
         emails = [emails]
 
     for email in emails:
-        send_task_mail.delay(subject, html_message, plain_message, email)
+        send_task_mail.delay(subject, html_message, plain_message, [email])
 
