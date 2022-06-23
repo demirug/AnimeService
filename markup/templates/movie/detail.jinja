@@ -13,6 +13,7 @@
     <script src="{{ static("movie/js/silvermine-videojs-quality-selector.min.js") }}"></script>
 
     <script src="{{ static("movie/js/recommended-movie.js") }}"></script>
+    <script src="{{ static("movie/js/change-episode.js") }}"></script>
 
      {% if request.user.is_authenticated %}
         <script src="{{ static("movie/js/subscribe.js") }}"></script>
@@ -23,6 +24,9 @@
 
     {% if object.style %}
         <style>
+            {% if object.style.background %}
+            body { background-image: url({{ object.style.background.url }}); }
+            {% endif %}
             {{ object.style.style }}
         </style>
     {% endif %}
@@ -64,6 +68,18 @@
             <hr>
             {{ season.description }}
             <hr>
+
+            {% set tags = object.tag_list.filter(display=True) %}
+
+            {% if tags %}
+                <div class="tags-links">
+                    <span class="fw-bold me-2">Tags:</span>
+                    {% for tag in tags %}
+                        <a href="{{ url("movie:home") }}?search=%23{{ tag.name }}" >{{ tag }}</a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
             {% if request.user.is_authenticated %}
                 <div id="subscribe" class="mt-3">
                     <button id="unsub" {% if not subscribe %}style="display: none" {% endif %} class="btn btn-secondary">Unsubscribe</button>
@@ -75,83 +91,71 @@
         </div>
 
         <div class="row">
+        {% if rating %}
+            <div id="rate"></div>
+            <script>
+                    $("#rate").rate({
+                        max_value: {{ settings.max_rating_val }},
+                        step_size: {{ settings.min_rating_val }},
+                        initial_value: {{ rating }},
+                    }).on("change", function(ev, data){
+                        if(data.from != data.to) {
+                           request("/api/v1/movie/rating/", "POST", "anime="+ {{ object.pk }} + "&val=" + data.to)
+                        }
 
-            {% if rating %}
-                <div id="rate"></div>
-
-                <script>
-                        $("#rate").rate({
-                            max_value: {{ settings.max_rating_val }},
-                            step_size: {{ settings.min_rating_val }},
-                            initial_value: {{ rating }},
-                        }).on("change", function(ev, data){
-                            if(data.from != data.to) {
-                               request("/api/v1/movie/rating/", "POST", "anime="+ {{ object.pk }} + "&val=" + data.to)
-                            }
-
-                        });
-                </script>
-            {% endif %}
-
-            <div id="seasons" class="mb-2" style="border: 2px black solid; border-radius: 10px">
-                {% if season_list|length > 1 %}
-                    <center>
-                        <h4>Seasons</h4>
-                    </center>
-
+                    });
+            </script>
+        {% endif %}
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col">
+                <select id="seasons" class="form-select form-select-lg mb-3" aria-label=".form-select-lg" {% if season_list|length == 1 %}style="display: none" {% endif %}>
                     {% for num in season_list %}
-                       <a href="{{ url("movie:detail", slug=object.slug, season=num) }}" class="btn {% if season.number == num %}btn-primary{% else %}btn-info{% endif %}">{{ num }}</a>
+                        {% if season.number == num %}
+                            <option value="{{ num }}" selected>Season {{ num }}</option>
+                        {% else %}
+                            <option href="{{ url("movie:detail", slug=object.slug, season=num) }}" value="{{ num }}">Season {{ num }}</option>
+                        {% endif %}
                     {% endfor %}
-                    <div class="mb-2"></div>
+                </select>
+            </div>
+
+            <div class="col">
+                {% if episode_list|length > 0 %}
+                    <select id="episodes" class="form-select form-select-lg mb-3" aria-label=".form-select-lg" {% if episode_list|length == 1 %}style="display: none" {% endif %}>
+                      {% for episode in episode_list %}
+                        <option pk="{{ episode.pk }}" value="{{ episode.number }}">Episode {{ episode.number }}</option>
+                      {% endfor %}
+                    </select>
                 {% endif %}
             </div>
 
-            {% if episode_list|length == 0 %}
-                <center>
-                    <h4>Episodes not found</h4>
-                </center>
-            {% else %}
 
-                <div class="mh-10">
-                    <video id="my-video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" data-setup='{"fluid": true}'></video>
-                </div>
+            <div class="mh-10">
+                <video id="my-video" class="video-js vjs-tech vjs-big-play-centered" controls preload="none" tabindex="-1" data-setup='{"fluid": true}'></video>
+            </div>
 
-                <script>
-                  var options = {
-                       controlBar: {
-                          children: [
-                             'playToggle',
-                             'CurrentTimeDisplay',
-                             'TimeDivider',
-                             'DurationDisplay',
-                             'progressControl',
-                             'volumePanel',
-                             'qualitySelector',
-                             'pictureInPictureToggle',
-                             'fullscreenToggle',
-                          ],
-                       },
-                    };
-                  var player = videojs('my-video', options, function () {});
+            <script>
+              var options = {
+                   controlBar: {
+                      children: [
+                         'playToggle',
+                         'CurrentTimeDisplay',
+                         'TimeDivider',
+                         'DurationDisplay',
+                         'progressControl',
+                         'volumePanel',
+                         'qualitySelector',
+                         'pictureInPictureToggle',
+                         'fullscreenToggle',
+                      ],
+                   },
+                };
+              var player = videojs('my-video', options, function () {});
 
-                </script>
-                <script src="{{ static("movie/js/change-episode.js") }}"></script>
-            {% endif %}
+            </script>
             <hr>
-
-            <div id="episode-selector" class="mb-2" style="border: 2px black solid; border-radius: 10px">
-                {% if episode_list|length > 1 %}
-                    <center>
-                        <h3>Episodes</h3>
-                    </center>
-                    {% for eps in episode_list %}
-                        <button pk="{{ eps.pk }}" id="episode-{{ eps.number }}" class="btn btn-info">{{ eps.number }}</button>
-                    {% endfor %}
-                    <div class="mb-2"></div>
-                {% elif episode_list|length == 1 %}
-                    <button pk="{{ episode_list[0].pk }}" id="episode-{{ episode_list[0].number }}" style="display: none">{{ episode_list[0].number }}</button>
-                {% endif %}
-            </div>
 
             <center>
                 {% if form %}
@@ -199,11 +203,6 @@
           <div class="modal-body">
 
             <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-              <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-              </div>
               <div class="carousel-inner">
                   {% for image in images %}
                     <div class="carousel-item {% if image == images|first %}active{% endif %}">
