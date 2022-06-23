@@ -22,7 +22,7 @@ class Tag(models.Model):
         verbose_name_plural = _("Tags")
 
     def __str__(self):
-        return self.name
+        return f"#{self.name}"
 
     def get_absolute_url(self):
         return f"{reverse('movie:home')}?search=%23{self.name}"
@@ -31,7 +31,7 @@ class Tag(models.Model):
 class Style(models.Model):
     """Style model for Anime model customization"""
     name = models.CharField(_("Name"), unique=True, max_length=150)
-    style = models.TextField(_("Style"))
+    style = models.TextField(_("Style"), blank=True, null=True)
     background = models.ImageField(_("Background"), blank=True, null=True, upload_to="style/")
 
     def __str__(self):
