@@ -23,3 +23,19 @@
 {
     opacity: 0.5;
 }
+
+.tags-links a {
+    padding: 0 0.5rem;
+    display: inline-block;
+    border: var(--bs-border-color) 1px solid;
+    margin-right: 0.25rem;
+    margin-bottom: 0.25rem;
+    margin-left: inherit;
+    line-height: inherit;
+    text-decoration: none;
+}
+
+.tags-links a:hover {
+    color: white;
+    background-color: #0a53be;
+}
