@@ -55,6 +55,10 @@ class AnimeAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj: Anime, form, change):
         """If tags has been changed. Set to m2m rel new tags relation"""
+
+        if not obj.pk:
+            obj.save()
+
         if obj._tags != obj.tags:
             obj.tag_list.clear()
 
