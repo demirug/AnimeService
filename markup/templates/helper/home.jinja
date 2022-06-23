@@ -1,0 +1,35 @@
+{% extends 'base.jinja' %}
+
+{% block body %}
+    <div class="container">
+        <center>
+            <h3>FAQ</h3>
+        </center>
+        <hr>
+
+        {% for object in object_list %}
+            <button class="btn btn-lg" style="border-radius: 10px" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_{{ object.pk }}" aria-expanded="false">
+            ⬤ {{ object.question }}
+            </button>
+            <br>
+            <div class="collapse mt-2" id="collapse_{{ object.pk }}">
+                <div class="card card-body">{{ object.answer|safe }}</div>
+            </div>
+
+        {% endfor %}
+        <hr>
+
+            <div class="px-4 py-5" style="border: 1px solid black; border-radius: 10px">
+                <h3>Ask your question</h3>
+                <hr>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.media }}
+                    {{ form.as_p() }}
+                    <button class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div class="mt-3"></div>
+    </div>
+
+{% endblock body %}
