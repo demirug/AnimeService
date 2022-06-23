@@ -4,11 +4,19 @@ from django.core.exceptions import ValidationError
 from django.utils.html import strip_tags
 from django.utils.translation import gettext_lazy as _
 
-from apps.helper.models import Feedback
+from apps.helper.models import Feedback, FAQ
 
 
-class AdminQuestionForm(forms.ModelForm):
-    """Question for admin panel"""
+class FAQForm(forms.ModelForm):
+    answer = forms.CharField(label=_("Answer"), widget=CKEditorUploadingWidget())
+
+    class Meta:
+        model = FAQ
+        fields = "__all__"
+
+
+class FeedbackAdminForm(forms.ModelForm):
+    """Feedback for admin panel"""
     question = forms.CharField()
 
     email = forms.EmailField()
@@ -20,8 +28,8 @@ class AdminQuestionForm(forms.ModelForm):
         fields = ['question', 'email', 'answer']
 
 
-class AuthorizeQuestionForm(forms.ModelForm):
-    """Question form for authorized users"""
+class AuthorizeFeedbackForm(forms.ModelForm):
+    """Feedback form for authorized users"""
     question = forms.CharField(label="", widget=CKEditorUploadingWidget(config_name='question'))
 
     def clean_question(self):
@@ -36,8 +44,8 @@ class AuthorizeQuestionForm(forms.ModelForm):
         fields = ['question']
 
 
-class UnAuthorizeQuestionForm(forms.ModelForm):
-    """Question form for unauthorized users"""
+class UnAuthorizeFeedbackForm(forms.ModelForm):
+    """Feedback form for unauthorized users"""
     question = forms.CharField(label="", widget=CKEditorUploadingWidget(config_name='question'))
     email = forms.EmailField(label="",
                              widget=forms.EmailInput(attrs={"class": "form-control", "placeholder": _("Email")}))

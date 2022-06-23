@@ -4,13 +4,13 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic.edit import CreateView
 
-from apps.helper.forms import AuthorizeQuestionForm, UnAuthorizeQuestionForm
+from apps.helper.forms import AuthorizeFeedbackForm, UnAuthorizeFeedbackForm
 from apps.helper.models import FAQ, Feedback
 from shared.mixins.breadcrumbs import BreadCrumbsMixin
 
 
-class AnswersQuestionsView(BreadCrumbsMixin, CreateView):
-    """ListView for DefaultAnswer with creating Questions objects"""
+class FeedbackFAQView(BreadCrumbsMixin, CreateView):
+    """ListView for FAQ with creating Feedback objects"""
     model = Feedback
     template_name = "helper/home.jinja"
 
@@ -20,13 +20,13 @@ class AnswersQuestionsView(BreadCrumbsMixin, CreateView):
     def get_form_class(self):
         """Return form depending on player authorization status"""
         if self.request.user.is_authenticated:
-            return AuthorizeQuestionForm
+            return AuthorizeFeedbackForm
         else:
-            return UnAuthorizeQuestionForm
+            return UnAuthorizeFeedbackForm
 
     def form_valid(self, form):
         question = form.save(commit=False)
-        if type(form) == AuthorizeQuestionForm:
+        if type(form) == AuthorizeFeedbackForm:
             question.email = self.request.user.email
         question.save()
 

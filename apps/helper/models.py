@@ -1,11 +1,9 @@
 from django.db import models
-from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 
 class FAQ(models.Model):
     """Model for Answer presets"""
-    slug = models.SlugField(_("Slug"))
     question = models.CharField(_("Question"), max_length=300)
     answer = models.TextField(_("Answer"))
 
@@ -15,9 +13,6 @@ class FAQ(models.Model):
 
     def __str__(self):
         return self.question
-
-    def get_absolute_url(self):
-        return reverse("helper:detail", kwargs={"slug": self.slug})
 
 
 class Feedback(models.Model):

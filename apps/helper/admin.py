@@ -1,21 +1,22 @@
 from django.contrib import admin
 
-from apps.helper.forms import AdminQuestionForm
+from apps.helper.forms import FeedbackAdminForm, FAQForm
 from apps.helper.models import FAQ, Feedback
 from shared.services.email import send_email
 
 
 @admin.register(FAQ)
-class DefaultAnswerModelAdmin(admin.ModelAdmin):
-    """ModelAdmin for DefaultAnswer model"""
-    list_display = ['question', 'slug']
+class FAQModelAdmin(admin.ModelAdmin):
+    """ModelAdmin for FAQ model"""
+    list_display = ['question']
+    form = FAQForm
 
 
 @admin.register(Feedback)
 class QuestionModelAdmin(admin.ModelAdmin):
     """ModelAdmin for Question model"""
 
-    form = AdminQuestionForm
+    form = FeedbackAdminForm
     list_display = ('question', 'email', 'answered', 'datetime')
     list_filter = ('answered', 'datetime')
     fieldsets = (
