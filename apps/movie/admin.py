@@ -52,6 +52,7 @@ class AnimeAdmin(admin.ModelAdmin):
     form = AnimeForm
     search_fields = ('name',)
     autocomplete_fields = ('style',)
+    readonly_fields = ('rating',)
 
     def save_model(self, request, obj: Anime, form, change):
         """If tags has been changed. Set to m2m rel new tags relation"""
