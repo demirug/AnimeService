@@ -59,6 +59,7 @@ INSTALLED_APPS = [
 
     'shared',
     'apps.menu',
+    'apps.helper',
     'apps.news',
     'apps.textpage',
     'apps.account',
