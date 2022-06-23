@@ -14,7 +14,7 @@ CKEDITOR_CONFIGS = {
             ['Indent', 'Outdent'],
             ['Maximize'],
         ],
-        'removePlugins': 'exportpdf'
+        'removePlugins': 'exportpdf, elementspath'
     },
 
     'review': {
@@ -25,7 +25,14 @@ CKEDITOR_CONFIGS = {
             ['Link', 'Unlink'],
             ['RemoveFormat']
         ],
-        'removePlugins': 'exportpdf'
+        'removePlugins': 'exportpdf, elementspath'
+    },
+
+    'question': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [],
+        'removePlugins': 'exportpdf, elementspath',
+        'autoParagraph': False,
     }
 }
 
