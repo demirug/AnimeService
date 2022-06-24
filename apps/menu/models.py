@@ -12,7 +12,7 @@ class Element(models.Model):
 
     url = models.CharField(_("URL"),
                            max_length=200,
-                           help_text=_('Example: https://google.com or /testPage'),
+                           help_text=_('Example: https://google.com/ or /testPage/'),
                            validators=[URLValidator]
                            )
     target = models.CharField(_("Url type"), max_length=2, choices=TargetType.choices, default=TargetType.SELF)
