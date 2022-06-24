@@ -5,10 +5,13 @@ from django.utils.html import strip_tags
 from django.utils.translation import gettext_lazy as _
 
 from apps.helper.models import Feedback, FAQ
+from shared.mixins.translate import TranslateFormWidgetMixin
 
 
-class FAQForm(forms.ModelForm):
-    answer = forms.CharField(label=_("Answer"), widget=CKEditorUploadingWidget())
+class FAQForm(TranslateFormWidgetMixin, forms.ModelForm):
+
+    def get_widgets(self) -> dict:
+        return {"answer": CKEditorUploadingWidget()}
 
     class Meta:
         model = FAQ
