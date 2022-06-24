@@ -1,5 +1,6 @@
 import os
 
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.validators import FileExtensionValidator, MinValueValidator
 from django.db import models
@@ -41,7 +42,8 @@ class Style(models.Model):
 class Anime(models.Model):
     """Anime object model"""
     name = models.CharField(_("Name"), max_length=150)
-    slug = models.SlugField(unique=True, blank=True)
+    lang = models.CharField(_("Language"), max_length=10, choices=settings.LANGUAGES, default=settings.LANGUAGE_CODE)
+    slug = models.SlugField(blank=True)
     poster = models.ImageField(_("Poster"), upload_to="posters/%Y/%m/%d/")
     style = models.ForeignKey(Style, null=True, blank=True, related_name="anime", on_delete=models.SET_NULL)
     tags = models.TextField(_("Tags"), blank=True)
@@ -51,6 +53,7 @@ class Anime(models.Model):
     class Meta:
         verbose_name = _("Anime")
         verbose_name_plural = _("Anime's")
+        unique_together = [('slug', 'lang')]
         ordering = ['name']
 
     def __init__(self, *args, **kwargs):
