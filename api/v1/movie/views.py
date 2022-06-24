@@ -1,7 +1,7 @@
 from django.db.models import Count, Q
 from django.http import Http404
 from django.shortcuts import get_object_or_404
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy as _, get_language
 from rest_framework import permissions, mixins, status
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
@@ -31,10 +31,12 @@ class AnimeViewSet(ListRetrieveViewSet):
     """
     ViewSet for all Anime objects
     """
-    queryset = Anime.objects.all()
     serializer_class = AnimeSerializer
     lookup_field = "slug"
     filterset_class = AnimeFilter
+
+    def get_queryset(self):
+        return Anime.objects.get_lang_queryset()
 
 
 class AnimeRandomViewSet(ListRetrieveViewSet):
@@ -42,12 +44,14 @@ class AnimeRandomViewSet(ListRetrieveViewSet):
     ViewSet return random Anime /random/<ignore_slug=None>
     If ignore_slug given anime with that slug will be ignored
     """
-    queryset = Anime.objects.all()
     serializer_class = AnimeSerializer
     lookup_field = "slug"
 
+    def get_queryset(self):
+        return Anime.objects.get_lang_queryset()
+
     def get_object(self):
-        random_object = self.queryset.annotate(seasons_cnt=Count("seasons")) \
+        random_object = self.get_queryset().annotate(seasons_cnt=Count("seasons")) \
             .filter(seasons_cnt__gt=0)
         # If ignore param given
         if 'slug' in self.kwargs:

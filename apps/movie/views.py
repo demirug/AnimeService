@@ -1,8 +1,7 @@
 from django.db.models import Count
-from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy as _, get_language
 from django_filters.views import FilterView
 from django_jinja.views.generic import DetailView
 
@@ -31,8 +30,8 @@ class AnimeListView(RemovePageMixin, BreadCrumbsMixin, FilterView):
 
     def get_queryset(self):
         """Display anime with available seasons if there are episodes"""
-        return Anime.objects.annotate(seasons_cnt=Count('seasons')) \
-            .filter(seasons_cnt__gt=0).order_by('rating')
+        return Anime.objects.get_lang_queryset().annotate(seasons_cnt=Count('seasons')) \
+            .filter(seasons_cnt__gt=0, lang=get_language()).order_by('rating')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -44,6 +43,10 @@ class AnimeDetailView(BreadCrumbsMixin, DetailView):
     """Controller to display Anime View"""
     model = Anime
     template_name = "movie/detail.jinja"
+
+    def get_queryset(self):
+        return Anime.objects.get_lang_queryset().annotate(seasons_cnt=Count('seasons')) \
+            .filter(seasons_cnt__gt=0, lang=get_language()).order_by('rating')
 
     def get_breadcrumbs(self):
         return [(_("Home"), reverse("home")), (_("Anime"), reverse("movie:home")), (self.object.name,)]
@@ -58,9 +61,6 @@ class AnimeDetailView(BreadCrumbsMixin, DetailView):
             context['season'] = get_object_or_404(Season, anime=anime, number=int(self.kwargs['season']))
         else:
             context['season'] = anime.seasons.order_by('number').first()
-
-        if context['season'] is None:
-            raise Http404("Season not found")
 
         context['season_list'] = anime.seasons.values_list('number', flat=True)
         context['episode_list'] = context['season'].episodes.values('number', 'pk')
