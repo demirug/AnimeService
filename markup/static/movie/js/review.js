@@ -41,7 +41,7 @@ $(document).ready(function () {
                 "                      </div>\n" +
                 "                    </div>")
             $('#review-list').prepend(htmlObject);
-            $('body, html').animate({ scrollTop: $(htmlObject).offset().top }, 1000);
+            $('body, html').animate({ scrollTop: $(htmlObject).offset().top }, 300);
         }
     });
 })
