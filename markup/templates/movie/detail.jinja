@@ -168,25 +168,25 @@
                 {% endif %}
 
             <div class="mb-4"></div>
-            {% if reviews %}
-                <hr>
                 <div id="review-list" class="col-md-8 col-lg-6">
-                     {% for review in reviews %}
-                        <div class="card mb-4">
-                          <div class="card-body">
-                            {{ review.text|safe }}
-                            <div class="d-flex justify-content-between">
-                              <div class="d-flex flex-row align-items-center">
-                                <img src="{{ review.user.get_avatar() }}" alt="avatar" width="25" height="25" />
-                                <p class="small mb-0 ms-2">{{ review.user.username }}</p>
+                    {% if reviews %}
+                        <hr>
+                        {% for review in reviews %}
+                            <div class="card mb-4">
+                              <div class="card-body">
+                                {{ review.text|safe }}
+                                <div class="d-flex justify-content-between">
+                                  <div class="d-flex flex-row align-items-center">
+                                    <img src="{{ review.user.get_avatar() }}" alt="avatar" width="25" height="25" />
+                                    <p class="small mb-0 ms-2">{{ review.user.username }}</p>
+                                  </div>
+                                    <time class="small mb-0 ms-2 text-center">{{ review.datetime|date("M d, Y") }} at {{ review.datetime|date("G:i") }}</time>
+                                </div>
                               </div>
-                                <time class="small mb-0 ms-2 text-center">{{ review.datetime|date("M d, Y") }} at {{ review.datetime|date("G:i") }}</time>
                             </div>
-                          </div>
-                        </div>
-                    {% endfor %}
+                        {% endfor %}
+                    {% endif %}
                 </div>
-            {% endif %}
 
             </center>
 
