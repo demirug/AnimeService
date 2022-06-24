@@ -18,6 +18,7 @@ eventlet = "*"
 django-ckeditor = "*"
 django-filter = "*"
 django-solo = "*"
+django-modeltranslation = "*"
 
 [dev-packages]
 

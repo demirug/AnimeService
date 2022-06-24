@@ -157,6 +157,14 @@
             "markers": "python_version >= '3.6'",
             "version": "==2.0.0"
         },
+        "django-modeltranslation": {
+            "hashes": [
+                "sha256:52e321bf1deef94acfe4f8127dddcdf51640e8177bdfe0e57ecc629712ab4968",
+                "sha256:70fbd09b323b23ee8a939ff9f4851378396f0f83ae9d75f13a79c6e40d43436e"
+            ],
+            "index": "pypi",
+            "version": "==0.18.2"
+        },
         "django-redis": {
             "hashes": [
                 "sha256:1d037dc02b11ad7aa11f655d26dac3fb1af32630f61ef4428860a2e29ff92026",
