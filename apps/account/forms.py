@@ -82,7 +82,7 @@ class UserChangeForm(forms.ModelForm):
 class AccountUpdateForm(forms.ModelForm):
     """Form for changing user data"""
     avatar = forms.ImageField(label=False, required=False, widget=forms.FileInput(attrs={"style": "display: none;"}))
-    email = forms.EmailField(label="Email", widget=forms.EmailInput(attrs={"class": "form-control"}))
+    email = forms.EmailField(label=_("Email"), widget=forms.EmailInput(attrs={"class": "form-control"}))
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request')
@@ -218,11 +218,11 @@ class AccountResetConfirmForm(forms.Form):
 
 class AccountLoginForm(forms.Form):
 
-    login = forms.CharField(label="", widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Login"}))
+    login = forms.CharField(label="", widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("Login")}))
 
     password = forms.CharField(label="", widget=forms.PasswordInput(
         attrs={"class": "form-control",
-               "placeholder": "Password"}
+               "placeholder": _("Password")}
     ))
 
     remember_me = forms.BooleanField(label="", required=False, widget=forms.CheckboxInput(attrs={"class": "form-check-input", "checked": ""}))

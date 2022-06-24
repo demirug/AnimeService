@@ -175,7 +175,7 @@ class Review(models.Model):
         verbose_name_plural = _("Reviews")
 
     def __str__(self):
-        return f"Review #{self.pk}"
+        return _("Review #%s") % self.pk
 
 
 class Subscribe(models.Model):
@@ -206,7 +206,7 @@ class AnimeImage(models.Model):
         ordering = ['wight']
 
     def __str__(self):
-        return f"AnimeImage #{self.pk}"
+        return _("AnimeImage #%s") % self.pk
 
 
 class Rating(models.Model):
