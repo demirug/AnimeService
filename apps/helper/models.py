@@ -29,5 +29,5 @@ class Feedback(models.Model):
         ordering = ['answered']
 
     def __str__(self):
-        return f"Question #{self.pk}"
+        return f"Feedback #{self.pk}"
 
