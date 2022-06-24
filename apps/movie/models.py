@@ -125,7 +125,7 @@ class Episode(models.Model):
         return f"Episode {self.number}"
 
     def get_absolute_url(self):
-        return f"{self.season.get_absolute_url()}?episode={self.number}"
+        return f"{self.season.get_absolute_url()}?e={self.number}"
 
 
 def anime_path(instance, filename):
