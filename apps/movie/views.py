@@ -10,9 +10,10 @@ from apps.movie.filters import AnimeFilter
 from apps.movie.forms import ReviewForm
 from apps.movie.models import Anime, Season, Subscribe, Tag, MovieSettings
 from shared.mixins.breadcrumbs import BreadCrumbsMixin
+from shared.mixins.paginator import RemovePageMixin
 
 
-class AnimeListView(BreadCrumbsMixin, FilterView):
+class AnimeListView(RemovePageMixin, BreadCrumbsMixin, FilterView):
     """Controller to display List of Anime's"""
 
     model = Anime
