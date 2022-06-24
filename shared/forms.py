@@ -7,7 +7,6 @@ from app import settings
 class LanguageForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
-        print(get_language())
         kwargs.update(initial={
             'language': get_language()
         })
