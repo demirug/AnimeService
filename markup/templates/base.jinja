@@ -46,6 +46,13 @@
                   </ul>
                 <ul class="navbar-nav mb-2 mb-lg-0">
 
+                    <li class="nav-item dropdown">
+                        <form action="{{ url("set_language") }}" method="post">
+                            {% csrf_token %}
+                            {{ language_form().as_p() }}
+                        </form>
+                    </li>
+
                     {% if user.is_authenticated %}
                         <a class="nav-link" href="{{ url("account:profile") }}" tabindex="-1" aria-disabled="true">Account</a>
                         <a class="nav-link" href="{{ url("account:logout") }}" tabindex="-1" aria-disabled="true">Logout</a>
