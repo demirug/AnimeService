@@ -8,6 +8,7 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from solo.models import SingletonModel
 
+from apps.movie.managers import AnimeManager
 from shared.services.slugify import unique_slugify
 
 ALLOWED_VIDEO_FORMATS = ['webm', 'mpg', 'ogg', 'mp4', 'mpeg']
@@ -49,6 +50,8 @@ class Anime(models.Model):
     tags = models.TextField(_("Tags"), blank=True)
     tag_list = models.ManyToManyField(Tag, blank=True, related_name="anime")
     rating = models.PositiveIntegerField(_("Rating"), default=0)
+
+    objects = AnimeManager()
 
     class Meta:
         verbose_name = _("Anime")
