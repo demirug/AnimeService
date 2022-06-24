@@ -19,7 +19,7 @@ $(document).ready(function () {
         json = parse_Cookie();
         if (json == undefined) {
             let elem = $("#episodes > option").first();
-            if (elem != undefined) {
+            if (elem.length) {
                 elem.attr("selected", "")
                 json = api_request(elem.attr('pk'));
             }
