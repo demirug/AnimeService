@@ -19,7 +19,7 @@ class Feedback(models.Model):
     """Model for Questions"""
     question = models.TextField(_("Question"))
     email = models.EmailField(_("Email"))
-    answer = models.TextField(_("Answer"), blank=True, null=True)
+    answer = models.TextField(_("Answer"), blank=True)
     answered = models.BooleanField(_("Answered"), default=False)
     datetime = models.DateTimeField(auto_now_add=True)
 
