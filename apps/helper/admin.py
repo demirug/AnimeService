@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.utils.html import format_html, strip_tags
+from django.utils.translation import gettext_lazy
 
 from apps.helper.forms import FeedbackAdminForm, FAQForm
 from apps.helper.models import FAQ, Feedback
@@ -13,21 +15,34 @@ class FAQModelAdmin(admin.ModelAdmin):
 
 
 @admin.register(Feedback)
-class QuestionModelAdmin(admin.ModelAdmin):
+class FeedbackModelAdmin(admin.ModelAdmin):
     """ModelAdmin for Question model"""
 
     form = FeedbackAdminForm
-    list_display = ('question', 'email', 'answered', 'datetime')
+    list_display = ('question_strip', 'email', 'answered', 'datetime')
     list_filter = ('answered', 'datetime')
     fieldsets = (
-        ('Question', {'fields': ('email', 'question')}),
+        ('Question', {'fields': ('email', 'question_format', 'datetime')}),
         ('Answer', {'fields': ('answer',)})
     )
-    readonly_fields = ('question', 'email', 'datetime')
+    readonly_fields = ('question', 'email', 'datetime', 'question_format')
+
+    def question_strip(self, instance):
+        """Remove html tags and limit by 50 chars"""
+        quest: str = strip_tags(instance.question)
+        if len(quest) > 50:
+            return quest[:50] + " ..."
+        return quest
+
+    def question_format(self, instance):
+        """Insert question to template with html tags"""
+        return format_html(instance.question)
+
+    question_strip.short_description = question_format.short_description = gettext_lazy("Question")
 
     def get_readonly_fields(self, request, obj=None):
         """Add answer to readonly fields if answer given"""
-        fields = super(QuestionModelAdmin, self).get_readonly_fields(request, obj)
+        fields = super().get_readonly_fields(request, obj)
         if obj.answered:
             fields += ('answer',)
         return fields
@@ -39,12 +54,8 @@ class QuestionModelAdmin(admin.ModelAdmin):
         send_email(obj.email, "Answer on question", "email/helper_answer.jinja",
                    context={"answer": obj.answer, "question": obj.question})
 
-        super(QuestionModelAdmin, self).save_model(request, obj, form, change)
+        super().save_model(request, obj, form, change)
 
     def has_add_permission(self, request):
         """Disable adding questions"""
-        return False
-
-    def has_delete_permission(self, request, obj=None):
-        """Disable deleting questions"""
         return False
