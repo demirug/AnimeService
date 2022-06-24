@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html, strip_tags
 from django.utils.translation import gettext_lazy
+from modeltranslation.admin import TranslationAdmin
 
 from apps.helper.forms import FeedbackAdminForm, FAQForm
 from apps.helper.models import FAQ, Feedback
@@ -8,7 +9,7 @@ from shared.services.email import send_email
 
 
 @admin.register(FAQ)
-class FAQModelAdmin(admin.ModelAdmin):
+class FAQModelAdmin(TranslationAdmin):
     """ModelAdmin for FAQ model"""
     list_display = ['question']
     form = FAQForm

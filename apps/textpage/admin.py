@@ -1,13 +1,13 @@
 from django.contrib import admin
-from django.contrib.admin import ModelAdmin
 from django.utils.html import format_html
+from modeltranslation.admin import TranslationAdmin
 
 from apps.textpage.forms import TextPageAdminForm
 from apps.textpage.models import TextPage
 
 
 @admin.register(TextPage)
-class TextPageAdmin(ModelAdmin):
+class TextPageAdmin(TranslationAdmin):
     form = TextPageAdminForm
     search_fields = ('name',)
     list_display = ['name', 'draft', 'created_at']
