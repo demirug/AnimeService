@@ -21,7 +21,7 @@ class FeedbackAdminForm(forms.ModelForm):
 
     email = forms.EmailField()
 
-    answer = forms.CharField(label="", widget=CKEditorUploadingWidget(config_name='question'))
+    answer = forms.CharField(widget=CKEditorUploadingWidget(config_name='question'))
 
     class Meta:
         model = Feedback
