@@ -8,7 +8,7 @@ from django_jinja.views.generic import DetailView
 
 from apps.movie.filters import AnimeFilter
 from apps.movie.forms import ReviewForm
-from apps.movie.models import Anime, Season, Subscribe, Tag, MovieSettings
+from apps.movie.models import Anime, Season, Subscribe, MovieSettings
 from shared.mixins.breadcrumbs import BreadCrumbsMixin
 from shared.mixins.paginator import RemovePageMixin
 

@@ -1,5 +1,6 @@
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django import forms
+from django.utils.translation import gettext_lazy as _
 
 from apps.movie.models import Review, Anime, Episode
 
@@ -26,5 +27,5 @@ class EpisodeForm(forms.ModelForm):
         model = Episode
         fields = "__all__"
         labels = {
-            "season": "Anime"
+            "season": _("Anime")
         }

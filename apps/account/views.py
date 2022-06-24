@@ -22,6 +22,7 @@ from ..movie.models import Subscribe
 
 
 class AccountLoginView(FormView):
+    """View for login user"""
     form_class = AccountLoginForm
     template_name = "account/login.jinja"
 
@@ -32,17 +33,20 @@ class AccountLoginView(FormView):
 
     def form_valid(self, form):
         login(self.request, form.get_user())
+
+        # If remember me button pressed -> expiry session
         if not form.cleaned_data.get("remember_me"):
             self.request.session.set_expiry(0)
         return redirect(self.request.GET.get('next') or settings.LOGIN_REDIRECT_URL)
 
 
 class AccountChangePasswordView(LoginRequiredMixin, BreadCrumbsMixin, FormView):
+    """View for changing user password"""
     form_class = UserPasswordChangeForm
     template_name = "account/change_password.jinja"
 
     def get_breadcrumbs(self):
-        return [(_("Home"), reverse("home")), (_("Profile"), reverse("account:profile")), ("Change password",)]
+        return [(_("Home"), reverse("home")), (_("Profile"), reverse("account:profile")), (_("Change password"),)]
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -64,7 +68,7 @@ class AccountProfileView(LoginRequiredMixin, BreadCrumbsMixin, UpdateView):
     form_class = AccountUpdateForm
 
     def get_breadcrumbs(self):
-        return [(_("Home"), reverse("home")), ("Profile",)]
+        return [(_("Home"), reverse("home")), (_("Profile"),)]
 
     def get_object(self, queryset=None):
         return self.request.user
@@ -84,7 +88,7 @@ class AccountSubscribersView(LoginRequiredMixin, BreadCrumbsMixin, ListView):
         return self.request.user.subscribes.select_related("anime").all()
 
     def get_breadcrumbs(self):
-        return [(_("Home"), reverse("home")), (_("Profile"), reverse("account:profile")), ("Subscribes",)]
+        return [(_("Home"), reverse("home")), (_("Profile"), reverse("account:profile")), (_("Subscribes"),)]
 
     def post(self, request: WSGIRequest, *args, **kwargs):
         if "slug" in request.POST:
@@ -132,7 +136,7 @@ class ValidateEmailView(TemplateView):
             user.save()
 
             return super().dispatch(request, *args, **kwargs)
-        raise Http404("Incorrect user token")
+        raise Http404(_("Incorrect token"))
 
 
 class AccountEmailChangeView(LoginRequiredMixin, RedirectView):
@@ -155,7 +159,7 @@ class AccountEmailChangeView(LoginRequiredMixin, RedirectView):
         ).hexdigest()[::2]
 
         if _token != check_token:
-            raise Http404("Incorrect token")
+            raise Http404(_("Incorrect token"))
 
         messages.success(self.request, _('Email has been changed success'))
         user.email = _email

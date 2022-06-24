@@ -1,5 +1,5 @@
 from django.utils.html import strip_tags
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
 from apps.movie.models import Episode, EpisodeFile, Anime, Season, Quality, Review, MovieSettings, Subscribe, Rating
@@ -34,16 +34,16 @@ class EpisodeFileSerializer(serializers.ModelSerializer):
 
 class EpisodeSerializer(serializers.ModelSerializer):
     """Serializer for Episode model. Displaying all files"""
-    url = serializers.HyperlinkedIdentityField(view_name='api:episode-detail', lookup_field='pk')
+    api_url = serializers.HyperlinkedIdentityField(view_name='api:episode-detail', lookup_field='pk')
 
     class Meta:
         model = Episode
-        fields = ['number', 'url']
+        fields = ['number', 'api_url']
 
 
 class SeasonSerializer(serializers.ModelSerializer):
     """Serializer for season model"""
-    url = serializers.HyperlinkedIdentityField(view_name='api:season-detail', lookup_field='pk')
+    api_url = serializers.HyperlinkedIdentityField(view_name='api:season-detail', lookup_field='pk')
 
     class Meta:
         model = Season
@@ -91,16 +91,16 @@ class ReviewSerializer(serializers.ModelSerializer):
         """Checking if review text larger/lower >= settings params"""
         value = strip_tags(value)
         if len(value) > self.settings.max_review_length:
-            raise serializers.ValidationError(f"Maximum length of review text {self.settings.max_review_length} chars")
+            raise serializers.ValidationError(_("Maximum length of review text %s chars") % self.settings.max_review_length)
         if len(value) < self.settings.min_review_length:
-            raise serializers.ValidationError(f"Minimum length of review text {self.settings.min_review_length} chars")
+            raise serializers.ValidationError(_("Minimum length of review text %s chars") % self.settings.min_review_length)
         return value
 
     def validate_season(self, value):
         """Checking if count of user reviews >= settings params"""
         if Review.objects.filter(user=self.context['request'].user,
                                  season_id=value).count() >= self.settings.max_reviews_per_season:
-            raise serializers.ValidationError(f"Maximum count of reviews {self.settings.max_reviews_per_season}")
+            raise serializers.ValidationError(_("Maximum count of reviews %s") % self.settings.max_reviews_per_season)
         return value
 
     class Meta:
@@ -122,9 +122,9 @@ class RatingSerializer(serializers.ModelSerializer):
         settings = MovieSettings.get_solo()
 
         if val > settings.max_rating_val:
-            raise serializers.ValidationError(f"Maximum rating value: {settings.max_rating_val}")
+            raise serializers.ValidationError(_("Maximum rating value: %s") % settings.max_rating_val)
         if val < settings.min_rating_val:
-            raise serializers.ValidationError(f"Minimum rating value: {settings.min_rating_val}")
+            raise serializers.ValidationError(_("Minimum rating value: %s") % settings.min_rating_val)
 
         return val
 

@@ -61,7 +61,7 @@ class Anime(models.Model):
         return self.name
 
     def save(self, **kwargs):
-        """Creating unique slug for model if slug not setted"""
+        """Creating unique slug for model if slug not set"""
         if not self.slug:
             unique_slugify(self, f"{self.name}")
         super().save(**kwargs)
@@ -84,7 +84,7 @@ class Season(models.Model):
         ordering = ['number']
 
     def __str__(self):
-        return f"{self.anime.name} | Season #{self.number}"
+        return _("%s | Season #%s") % (self.anime.name, self.number)
 
     def get_absolute_url(self):
         return reverse("movie:detail", kwargs={"slug": self.anime.slug, "season": self.number})
@@ -122,7 +122,7 @@ class Episode(models.Model):
         ordering = ['number']
 
     def __str__(self):
-        return f"Episode {self.number}"
+        return _("Episode %s") % self.number
 
     def get_absolute_url(self):
         return f"{self.season.get_absolute_url()}?e={self.number}"
@@ -218,27 +218,27 @@ class Rating(models.Model):
 class MovieSettings(SingletonModel):
     """Model of Movie settings"""
     movie_per_page = models.PositiveSmallIntegerField(_("Movie per page"),
-                                                      help_text="How many movies will be shown per page",
+                                                      help_text=_("How many movies will be shown per page"),
                                                       validators=[MinValueValidator(1)],
                                                       default=10)
 
     paginator_pages_show = models.PositiveSmallIntegerField(_("Paginator pages show"),
-                                                            help_text="How many additional pages will be shown in paginator",
+                                                            help_text=_("How many additional pages will be shown in paginator"),
                                                             validators=[MinValueValidator(1)],
                                                             default=3)
 
     max_reviews_per_season = models.PositiveSmallIntegerField(_("Reviews per season"),
-                                                              help_text="How many reviews can a user send on an season",
+                                                              help_text=_("How many reviews can a user send on an season"),
                                                               validators=[MinValueValidator(1)],
                                                               default=2)
 
     min_review_length = models.PositiveSmallIntegerField(_("Min Review length"),
-                                                      help_text="Minimum length of review text",
+                                                      help_text=_("Minimum length of review text"),
                                                       validators=[MinValueValidator(1)],
                                                       default=20)
 
     max_review_length = models.PositiveSmallIntegerField(_("Maximum Review length"),
-                                                      help_text="Maximum length of review text",
+                                                      help_text=_("Maximum length of review text"),
                                                       validators=[MinValueValidator(1)],
                                                       default=500)
 
@@ -251,7 +251,7 @@ class MovieSettings(SingletonModel):
                                                       default=5)
 
     class Meta:
-        verbose_name = "Movie Configuration"
+        verbose_name = _("Movie Configuration")
 
     def __str__(self):
-        return "Movie Configuration"
+        return _("Movie Configuration")

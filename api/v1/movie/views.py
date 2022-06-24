@@ -1,6 +1,7 @@
 from django.db.models import Count, Q
 from django.http import Http404
 from django.shortcuts import get_object_or_404
+from django.utils.translation import gettext_lazy as _
 from rest_framework import permissions, mixins, status
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
@@ -53,11 +54,11 @@ class AnimeRandomViewSet(ListRetrieveViewSet):
             random_object = random_object.filter(~Q(slug=self.kwargs['slug']))
 
         if not random_object:
-            raise Http404("Recommendation Anime not found")
+            raise Http404(_("Recommended Anime not found"))
         return random_object.order_by("?").first()
 
     def list(self, request, *args, **kwargs):
-        """ If no argument not given return object without fulter"""
+        """ If no argument not given return object without filter"""
         # Yeah i know that is shit but it's working
         return super(AnimeRandomViewSet, self).retrieve(request, *args, **kwargs)
 

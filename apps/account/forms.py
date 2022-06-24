@@ -40,10 +40,10 @@ class UserCreationForm(forms.ModelForm):
         config = AccountSettings.get_solo()
 
         if len(password2) < config.min_password_len:
-            raise ValidationError(_(f"Minimum password length {config.min_password_len} chars"))
+            raise ValidationError(_("Minimum password length %s chars") % config.min_password_len)
 
         if len(password2) > config.max_password_len:
-            raise ValidationError(_(f"Maximum password length {config.max_password_len} chars"))
+            raise ValidationError(_("Maximum password length %s chars") % config.max_password_len)
 
         if password2 == email or password2 == username:
             raise ValidationError(_("Password can't be as email or nickname"))
@@ -163,10 +163,10 @@ class UserPasswordChangeForm(forms.Form):
         config = AccountSettings.get_solo()
 
         if len(new_password2) < config.min_password_len:
-            raise ValidationError(_(f"Minimum password length {config.min_password_len} chars"))
+            raise ValidationError(_("Minimum password length %s chars") % config.min_password_len)
 
         if len(new_password2) > config.max_password_len:
-            raise ValidationError(_(f"Maximum password length {config.max_password_len} chars"))
+            raise ValidationError(_("Maximum password length %s chars") % config.max_password_len)
 
         return new_password2
 
@@ -205,13 +205,13 @@ class AccountResetConfirmForm(forms.Form):
         config = AccountSettings.get_solo()
 
         if len(password2) < config.min_password_len:
-            raise ValidationError(_(f"Minimum password length {config.min_password_len} chars"))
+            raise ValidationError(_("Minimum password length %s chars") % config.min_password_len)
 
         if len(password2) > config.max_password_len:
-            raise ValidationError(_(f"Maximum password length {config.min_password_len} chars"))
+            raise ValidationError(_("Maximum password length %s chars") % config.min_password_len)
 
         if password2 == self.user.email or password2 == self.user.username:
-            raise ValidationError(_("Password can't be as email or nickname"))
+            raise ValidationError(_("Password can't be as email or username"))
 
         return super().clean(*args, **kwargs)
 

@@ -27,7 +27,7 @@ def episode_handler(sender, instance: Episode, **kwargs):
         if len(subscribers) == 0:
             return
 
-        send_email(subscribers, _(f"New Episode {anime.name} #{instance.number}"), "email/new_episode.jinja",
+        send_email(subscribers, _("New Episode %s #%s") % (anime.name, instance.number), "email/new_episode.jinja",
                    context={"url": "{domain}{url}".format(domain=Site.objects.get_current().domain,
                                                           url=instance.get_absolute_url()),
                             "episode": instance,

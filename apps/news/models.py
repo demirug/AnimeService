@@ -29,23 +29,23 @@ class News(models.Model):
     def save(self, **kwargs):
         """Creating unique slug for model if slug not set"""
         if not self.slug:
-            unique_slugify(self, f"{self.name}")
+            unique_slugify(self, self.name)
         super().save(**kwargs)
 
 
 class NewsSettings(SingletonModel):
     """Model of News settings"""
     news_per_page = models.PositiveSmallIntegerField(_("News per page"),
-                                                     help_text="How many news will be shown per page",
+                                                     help_text=_("How many news will be shown per page"),
                                                      validators=[MinValueValidator(1)],
                                                      default=10)
     paginator_pages_show = models.PositiveSmallIntegerField(_("Paginator pages show"),
-                                                            help_text="How many additional pages will be shown in paginator",
+                                                            help_text=_("How many additional pages will be shown in paginator"),
                                                             validators=[MinValueValidator(1)],
                                                             default=3)
 
     class Meta:
-        verbose_name = "News Configuration"
+        verbose_name = _("News Configuration")
 
     def __str__(self):
-        return "News Configuration"
+        return _("News Configuration")

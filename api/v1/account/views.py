@@ -6,6 +6,7 @@ from api.v1.account.serializers import UserSerializer
 
 
 class CurrentUserView(APIView):
+    """Return current user params"""
     permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request):

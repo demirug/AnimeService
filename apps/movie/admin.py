@@ -87,7 +87,5 @@ class SeasonAdmin(admin.ModelAdmin):
     autocomplete_fields = ('anime',)
 
 
-
-
 admin.site.register(Tag)
 admin.site.register(MovieSettings, SingletonModelAdmin)
