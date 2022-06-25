@@ -89,10 +89,10 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     def validate_text(self, value: str):
         """Checking if review text larger/lower >= settings params"""
-        value = strip_tags(value)
-        if len(value) > self.settings.max_review_length:
+        val_len = len(value := strip_tags(value))
+        if val_len > self.settings.max_review_length:
             raise serializers.ValidationError(_("Maximum length of review text %s chars") % self.settings.max_review_length)
-        if len(value) < self.settings.min_review_length:
+        if val_len < self.settings.min_review_length:
             raise serializers.ValidationError(_("Minimum length of review text %s chars") % self.settings.min_review_length)
         return value
 
