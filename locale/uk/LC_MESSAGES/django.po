@@ -1,0 +1,699 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-06-25 16:44+0300\n"
+"PO-Revision-Date: 2022-06-25 17:23+0202\n"
+"Last-Translator: Anonymous User <admin@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
+"X-Translated-Using: django-rosetta 0.9.8\n"
+
+#: .\api\v1\movie\serializers.py:94
+#, python-format
+msgid "Maximum length of review text %s chars"
+msgstr "Максимальна довжина відгуку %s символів"
+
+#: .\api\v1\movie\serializers.py:96
+#, python-format
+msgid "Minimum length of review text %s chars"
+msgstr "Мінімальна довжина відгуку %s символів"
+
+#: .\api\v1\movie\serializers.py:103
+#, python-format
+msgid "Maximum count of reviews %s"
+msgstr "Максимальна кількість відгуків %s"
+
+#: .\api\v1\movie\serializers.py:125
+#, python-format
+msgid "Maximum rating value: %s"
+msgstr "Мінімальне значення рейтингу %s"
+
+#: .\api\v1\movie\serializers.py:127
+#, python-format
+msgid "Minimum rating value: %s"
+msgstr "Максимальна значення рейтингу %s"
+
+#: .\api\v1\movie\views.py:61
+msgid "Recommended Anime not found"
+msgstr "Рекомендоване аніме не знайдено"
+
+#: .\apps\account\forms.py:17
+msgid "Username"
+msgstr "Им'я користувача"
+
+#: .\apps\account\forms.py:18 .\apps\account\forms.py:85
+#: .\apps\account\models.py:32 .\apps\helper\forms.py:54
+#: .\apps\helper\models.py:21
+msgid "Email"
+msgstr "Email"
+
+#: .\apps\account\forms.py:20 .\apps\account\forms.py:187
+#: .\apps\account\forms.py:225
+msgid "Password"
+msgstr "Пароль"
+
+#: .\apps\account\forms.py:22 .\apps\account\forms.py:143
+#: .\apps\account\forms.py:189
+msgid "Confirm password"
+msgstr "Підтвердження паролю"
+
+#: .\apps\account\forms.py:38 .\apps\account\forms.py:203
+msgid "Passwords don't match"
+msgstr "Паролі мають бути однаковими"
+
+#: .\apps\account\forms.py:43 .\apps\account\forms.py:166
+#: .\apps\account\forms.py:208
+#, python-format
+msgid "Minimum password length %s chars"
+msgstr "Мінімальна довжина паролю %s символів"
+
+#: .\apps\account\forms.py:46 .\apps\account\forms.py:169
+#: .\apps\account\forms.py:211
+#, python-format
+msgid "Maximum password length %s chars"
+msgstr "Максимальна довжина паролю %s символів"
+
+#: .\apps\account\forms.py:49
+msgid "Password can't be as email or nickname"
+msgstr "Пароль не може бути схожим на email чи ім'я користувача"
+
+#: .\apps\account\forms.py:56
+msgid ""
+"User already registered. Verify your account with the code sent to your "
+"email"
+msgstr ""
+"Користувач вже зареєстрований. Підтвердить email кодом висланим на email "
+
+#: .\apps\account\forms.py:57 .\apps\account\models.py:26
+msgid "User with that nickname already exists"
+msgstr "Користувач з таким ім'ям вже існує"
+
+#: .\apps\account\forms.py:98
+msgid "User with that email already exists"
+msgstr "Користувач з таким email вже існує"
+
+#: .\apps\account\forms.py:111
+msgid "Change email"
+msgstr "Зміна email"
+
+#: .\apps\account\forms.py:114
+msgid "Confirm email changing at mailbox"
+msgstr "Підтвердить зміну email. Код відправлено на поштову скриньку"
+
+#: .\apps\account\forms.py:131
+msgid "Old password"
+msgstr "Старий пароль"
+
+#: .\apps\account\forms.py:137
+msgid "New password"
+msgstr "Новий пароль"
+
+#: .\apps\account\forms.py:152
+msgid "Incorrect old password"
+msgstr "Некоректний старий пароль"
+
+#: .\apps\account\forms.py:161
+msgid "Passwords not match"
+msgstr "Паролі не збігаються"
+
+#: .\apps\account\forms.py:214
+msgid "Password can't be as email or username"
+msgstr "Пароль не може бути як email чи ім'я користувача"
+
+#: .\apps\account\forms.py:221 .\markup\templates\account\login.jinja:23
+#: .\markup\templates\account\registered.jinja:11
+#: .\markup\templates\account\verified.jinja:10
+#: .\markup\templates\base.jinja:60
+msgid "Login"
+msgstr "Ім'я користувача"
+
+#: .\apps\account\forms.py:242
+msgid "Incorrect login or password"
+msgstr "Некоректне ім'я користувача чи пароль"
+
+#: .\apps\account\forms.py:245
+msgid "Account not active. Please verify email"
+msgstr "Аккаунт не активований. Підтвердить його кодом з email"
+
+#: .\apps\account\models.py:21
+msgid "username"
+msgstr "Ім'я користувача"
+
+#: .\apps\account\models.py:36
+msgid "Avatar"
+msgstr "Аватар"
+
+#: .\apps\account\models.py:63
+msgid "Minimum password length of user account"
+msgstr "Мінімальна довжина паролю користувача"
+
+#: .\apps\account\models.py:64
+msgid "Maximum password length of user account"
+msgstr "Максимальна довжина паролю користувача"
+
+#: .\apps\account\signals.py:15
+#, python-format
+msgid "Welcome to %s"
+msgstr "Вітаємо на %s"
+
+#: .\apps\account\views.py:49 .\apps\account\views.py:71
+#: .\apps\account\views.py:91 .\apps\helper\views.py:18
+#: .\apps\movie\views.py:30 .\apps\movie\views.py:53 .\apps\news\views.py:32
+#: .\apps\textpage\views.py:14
+msgid "Home"
+msgstr "Головна"
+
+#: .\apps\account\views.py:49 .\apps\account\views.py:71
+#: .\apps\account\views.py:91 .\markup\templates\account\profile.jinja:3
+msgid "Profile"
+msgstr "Профіль"
+
+#: .\apps\account\views.py:49
+#: .\markup\templates\account\change_password.jinja:5
+#: .\markup\templates\account\change_password.jinja:13
+#: .\markup\templates\account\profile.jinja:36
+msgid "Change password"
+msgstr "Зміна паролю"
+
+#: .\apps\account\views.py:59
+msgid "Password has been changed"
+msgstr "Пароль змінений "
+
+#: .\apps\account\views.py:91
+msgid "Subscribes"
+msgstr "Підписки"
+
+#: .\apps\account\views.py:106 .\apps\account\views.py:177
+msgid "Authorization"
+msgstr "Авторізація"
+
+#: .\apps\account\views.py:106 .\markup\templates\account\register.jinja:20
+msgid "Register"
+msgstr "Реєстрація"
+
+#: .\apps\account\views.py:139 .\apps\account\views.py:162
+#: .\apps\account\views.py:211
+msgid "Incorrect token"
+msgstr "Некоректний токен"
+
+#: .\apps\account\views.py:164
+msgid "Email has been changed success"
+msgstr "Email був змінений"
+
+#: .\apps\account\views.py:177 .\markup\templates\account\reset.jinja:5
+#: .\markup\templates\account\reset_confirm.jinja:5
+#: .\markup\templates\account\reset_sent.jinja:3
+#: .\markup\templates\account\reset_sent.jinja:8
+msgid "Reset"
+msgstr "Сброс"
+
+#: .\apps\account\views.py:194
+msgid "Reset account"
+msgstr "Сброс аккаунта"
+
+#: .\apps\account\views.py:227
+msgid "Password changed success"
+msgstr "Пароль змінено успішно"
+
+#: .\apps\helper\admin.py:42 .\apps\helper\models.py:7
+#: .\apps\helper\models.py:20
+msgid "Question"
+msgstr "Питання"
+
+#: .\apps\helper\forms.py:27 .\apps\helper\models.py:8
+#: .\apps\helper\models.py:22
+msgid "Answer"
+msgstr "Відповідь"
+
+#: .\apps\helper\forms.py:42
+msgid "Minimum length of question 20 chars"
+msgstr "Мінімальна довжина питання 20 символів"
+
+#: .\apps\helper\models.py:11 .\apps\helper\models.py:12
+#: .\markup\templates\helper\home.jinja:6
+msgid "FAQ"
+msgstr "FAQ"
+
+#: .\apps\helper\models.py:23
+msgid "Answered"
+msgstr "Дана відповідь"
+
+#: .\apps\helper\models.py:27 .\markup\templates\helper\home.jinja:23
+msgid "Feedback"
+msgstr "Зворотній зв'язок"
+
+#: .\apps\helper\models.py:28
+msgid "Feedbacks"
+msgstr "Зворотний зв'язок"
+
+#: .\apps\helper\models.py:32
+#, python-format
+msgid "Feedback #%s"
+msgstr "Повідомлення №%s"
+
+#: .\apps\helper\views.py:18
+msgid "Questions"
+msgstr "Поширені запитання"
+
+#: .\apps\helper\views.py:33
+msgid "Your question has been sent. Check your email for a reply"
+msgstr "Ваше питання було надіслано. Очікуйте відповідь на email"
+
+#: .\apps\menu\models.py:11 .\apps\movie\models.py:20
+#: .\apps\movie\models.py:36 .\apps\movie\models.py:46
+#: .\apps\movie\models.py:83 .\apps\movie\models.py:103
+#: .\apps\news\models.py:12 .\apps\textpage\models.py:8
+msgid "Name"
+msgstr "Назва"
+
+#: .\apps\menu\models.py:13
+msgid "URL"
+msgstr "URL"
+
+#: .\apps\menu\models.py:15
+msgid "Example: https://google.com/ or /testPage/"
+msgstr "Приклад: https://google.com/ чи /testPage/"
+
+#: .\apps\menu\models.py:18
+msgid "Url type"
+msgstr "Тип URL"
+
+#: .\apps\menu\models.py:19
+msgid "Position"
+msgstr "Позиція"
+
+#: .\apps\menu\models.py:20
+msgid "Enabled"
+msgstr "Вмикнено"
+
+#: .\apps\menu\models.py:28
+msgid "Element"
+msgstr "Елемент"
+
+#: .\apps\menu\models.py:29
+msgid "Elements"
+msgstr "Елементи"
+
+#: .\apps\movie\constants.py:7
+msgid "Film"
+msgstr "Фільм"
+
+#: .\apps\movie\constants.py:8
+msgid "Serial"
+msgstr "Серіал"
+
+#: .\apps\movie\filters.py:9
+msgid "Search text here"
+msgstr "Текст для пошуку"
+
+#: .\apps\movie\forms.py:29 .\apps\movie\forms.py:33
+msgid ""
+"To change type to film, please remove all anime seasons and episodes except "
+"one"
+msgstr ""
+"Для зміни типу на ФІЛЬМ, видалить усі сезони та серії окрім 1 екземпляру"
+
+#: .\apps\movie\forms.py:47
+msgid "Can't add more season to Anime with 'FILM' type"
+msgstr "Неможливо додати сезон для Аніме з типом ФІЛЬМ"
+
+#: .\apps\movie\forms.py:62
+msgid "Can't add more episodes to Anime with 'FILM' type"
+msgstr "Неможливо додати епізод для Аніме з типом ФІЛЬМ"
+
+#: .\apps\movie\forms.py:69 .\apps\movie\models.py:59 .\apps\movie\views.py:30
+#: .\apps\movie\views.py:53
+msgid "Anime"
+msgstr "Аніме"
+
+#: .\apps\movie\models.py:21
+msgid "Display"
+msgstr "Відображення"
+
+#: .\apps\movie\models.py:24
+msgid "Tag"
+msgstr "Тег"
+
+#: .\apps\movie\models.py:25 .\apps\movie\models.py:52
+#: .\markup\templates\movie\detail.jinja:77
+msgid "Tags"
+msgstr "Теги"
+
+#: .\apps\movie\models.py:37
+msgid "Style"
+msgstr "Стиль"
+
+#: .\apps\movie\models.py:38
+msgid "Background"
+msgstr "Задній фон"
+
+#: .\apps\movie\models.py:47
+msgid "Language"
+msgstr "Мова"
+
+#: .\apps\movie\models.py:48
+msgid "Content type"
+msgstr "Тип"
+
+#: .\apps\movie\models.py:50
+msgid "Poster"
+msgstr "Постер"
+
+#: .\apps\movie\models.py:54 .\apps\movie\models.py:221
+msgid "Rating"
+msgstr "Рейтинг"
+
+#: .\apps\movie\models.py:60
+msgid "Anime's"
+msgstr "Аниме"
+
+#: .\apps\movie\models.py:84
+msgid "Description"
+msgstr "Опис"
+
+#: .\apps\movie\models.py:89 .\markup\templates\movie\detail.jinja:117
+#: .\markup\templates\movie\detail.jinja:119
+msgid "Season"
+msgstr "Сезон"
+
+#: .\apps\movie\models.py:90
+msgid "Seasons"
+msgstr "Сезони"
+
+#: .\apps\movie\models.py:95
+#, python-format
+msgid "%s | Season #%s"
+msgstr "%s | Сезон #%s"
+
+#: .\apps\movie\models.py:108 .\apps\movie\models.py:109
+msgid "Quality"
+msgstr "Якість"
+
+#: .\apps\movie\models.py:127 .\markup\templates\movie\detail.jinja:129
+msgid "Episode"
+msgstr "Епізод"
+
+#: .\apps\movie\models.py:128
+msgid "Episodes"
+msgstr "Епізоди"
+
+#: .\apps\movie\models.py:133
+#, python-format
+msgid "Episode %s"
+msgstr "Епізод %s"
+
+#: .\apps\movie\models.py:154
+msgid "Episode File"
+msgstr "Файл епізода"
+
+#: .\apps\movie\models.py:155
+msgid "Episode Files"
+msgstr "Файли епізодов"
+
+#: .\apps\movie\models.py:170 .\apps\movie\models.py:176
+msgid "Review"
+msgstr "Відгук"
+
+#: .\apps\movie\models.py:177 .\markup\templates\movie\detail.jinja:163
+msgid "Reviews"
+msgstr "Відгуки"
+
+#: .\apps\movie\models.py:180
+#, python-format
+msgid "Review #%s"
+msgstr "Відгук #%s"
+
+#: .\apps\movie\models.py:206
+msgid "Anime Image"
+msgstr "Фотографія з аніме"
+
+#: .\apps\movie\models.py:207
+msgid "Anime Images"
+msgstr "Фотографії з аніме"
+
+#: .\apps\movie\models.py:211
+#, python-format
+msgid "AnimeImage #%s"
+msgstr "Фотографія з аніме #%s"
+
+#: .\apps\movie\models.py:222
+msgid "Ratings"
+msgstr "Рейтинги"
+
+#: .\apps\movie\models.py:228
+msgid "Movie per page"
+msgstr "Аніме на сторінку"
+
+#: .\apps\movie\models.py:229
+msgid "How many movies will be shown per page"
+msgstr "Скільки Аніме буде відображено на сторінці"
+
+#: .\apps\movie\models.py:233 .\apps\news\models.py:42
+msgid "Paginator pages show"
+msgstr "Скільки сторінок показує пагінатор"
+
+#: .\apps\movie\models.py:234 .\apps\news\models.py:43
+msgid "How many additional pages will be shown in paginator"
+msgstr "Скільки додаткових сторінок будуть показані в пагінаторі"
+
+#: .\apps\movie\models.py:238
+msgid "Reviews per season"
+msgstr "Відгуків на сезон"
+
+#: .\apps\movie\models.py:239
+msgid "How many reviews can a user send on an season"
+msgstr "Скільки відгуків може залишити користувач на сезон"
+
+#: .\apps\movie\models.py:243
+msgid "Min Review length"
+msgstr "Мінімальна довжина відгука"
+
+#: .\apps\movie\models.py:244
+msgid "Minimum length of review text"
+msgstr "Мінімальна довжина відгука"
+
+#: .\apps\movie\models.py:248
+msgid "Maximum Review length"
+msgstr "Максимальна довжина відгука"
+
+#: .\apps\movie\models.py:249
+msgid "Maximum length of review text"
+msgstr "Максимальна довжина відгука"
+
+#: .\apps\movie\models.py:253
+msgid "Minimum rating value"
+msgstr "Мінімальний рейтинг"
+
+#: .\apps\movie\models.py:257
+msgid "Maximum rating value"
+msgstr "Максимальний рейтинг"
+
+#: .\apps\movie\models.py:262
+msgid "Movie Configuration"
+msgstr "Movie Configuration"
+
+#: .\apps\movie\signals.py:30
+#, python-format
+msgid "New Episode %s #%s"
+msgstr "Новий епізод %s #%s"
+
+#: .\apps\news\models.py:14
+msgid "Short description"
+msgstr "Короткий опис"
+
+#: .\apps\news\models.py:15 .\apps\textpage\models.py:10
+msgid "Content"
+msgstr "Контент"
+
+#: .\apps\news\models.py:16
+msgid "Date"
+msgstr "Дата"
+
+#: .\apps\news\models.py:19 .\apps\news\models.py:20
+#: .\markup\templates\news\list.jinja:8
+msgid "News"
+msgstr "Новини"
+
+#: .\apps\news\models.py:38
+msgid "News per page"
+msgstr "Новин на сторінку"
+
+#: .\apps\news\models.py:39
+msgid "How many news will be shown per page"
+msgstr "Скільки новин відображається на сторінці"
+
+#: .\apps\news\models.py:48
+msgid "News Configuration"
+msgstr "News Configuration"
+
+#: .\apps\textpage\models.py:11
+msgid "Draft"
+msgstr "Чернетка"
+
+#: .\apps\textpage\models.py:13
+msgid "Creation date"
+msgstr "Дата створення"
+
+#: .\apps\textpage\models.py:16
+msgid "Text page"
+msgstr "Текстова сторінка"
+
+#: .\apps\textpage\models.py:17
+msgid "Text pages"
+msgstr "Текстові сторінки"
+
+#: .\markup\templates\account\change_password.jinja:20
+#: .\markup\templates\account\profile.jinja:30
+#: .\markup\templates\account\reset.jinja:20
+#: .\markup\templates\helper\home.jinja:29
+msgid "Submit"
+msgstr "Підтвердити"
+
+#: .\markup\templates\account\login.jinja:5
+msgid "Sign in"
+msgstr "Вхід"
+
+#: .\markup\templates\account\login.jinja:13
+msgid "SIGN IN"
+msgstr "Вхід"
+
+#: .\markup\templates\account\login.jinja:19
+msgid "Remember me"
+msgstr "Запам'ятати мене"
+
+#: .\markup\templates\account\login.jinja:21
+msgid "Forgot Password"
+msgstr "Забув пароль"
+
+#: .\markup\templates\account\login.jinja:27
+msgid "Don't have an account?"
+msgstr "Нема аккаунта?"
+
+#: .\markup\templates\account\login.jinja:28
+#: .\markup\templates\account\profile.jinja:18
+msgid "Sign Up"
+msgstr "Реєстрація"
+
+#: .\markup\templates\account\profile.jinja:37
+msgid "Edit subscribers"
+msgstr "Редагувати підпісників"
+
+#: .\markup\templates\account\register.jinja:5
+msgid "Sign up"
+msgstr "Реєстрація"
+
+#: .\markup\templates\account\register.jinja:13
+msgid "SIGN UP"
+msgstr "Реєстрація"
+
+#: .\markup\templates\account\registered.jinja:4
+msgid "Registered"
+msgstr "Зареєстрований"
+
+#: .\markup\templates\account\registered.jinja:9
+msgid "You have been registered"
+msgstr "Ви були зареєстровані"
+
+#: .\markup\templates\account\registered.jinja:10
+msgid "Please verify your account email and login"
+msgstr "Підтвердить ваш email"
+
+#: .\markup\templates\account\reset.jinja:13
+msgid "Reset password"
+msgstr "Скинути пароль"
+
+#: .\markup\templates\account\reset_confirm.jinja:13
+msgid "RESET CONFIRM"
+msgstr "Підтвердження скинення паролю"
+
+#: .\markup\templates\account\reset_confirm.jinja:20
+msgid "Confirm"
+msgstr "Підтвердити"
+
+#: .\markup\templates\account\reset_sent.jinja:9
+msgid "Reset email has been sent to your mailbox"
+msgstr "Код для скинення паролю був відправлений на ваш email"
+
+#: .\markup\templates\account\reset_sent.jinja:10
+msgid "Okay"
+msgstr "Добре"
+
+#: .\markup\templates\account\subscribers.jinja:6
+msgid "Subscribers"
+msgstr "Підписники"
+
+#: .\markup\templates\account\subscribers.jinja:23
+#: .\markup\templates\movie\list.jinja:31
+msgid "View"
+msgstr "Переглянути"
+
+#: .\markup\templates\account\subscribers.jinja:24
+#: .\markup\templates\movie\detail.jinja:86
+msgid "Unsubscribe"
+msgstr "Відписатись"
+
+#: .\markup\templates\account\verified.jinja:3
+msgid "Verified"
+msgstr "Підтверджений"
+
+#: .\markup\templates\account\verified.jinja:8
+msgid "Your account has been verified"
+msgstr "Ваш аккаунт підтверджено"
+
+#: .\markup\templates\account\verified.jinja:9
+msgid "Please login"
+msgstr "Будь ласка, увійдіть"
+
+#: .\markup\templates\base.jinja:57
+msgid "Account"
+msgstr "Аккаунт"
+
+#: .\markup\templates\base.jinja:58
+msgid "Logout"
+msgstr "Вихід"
+
+#: .\markup\templates\movie\detail.jinja:62
+#: .\markup\templates\movie\detail.jinja:201
+msgid "Screenshots"
+msgstr "Скріншоти"
+
+#: .\markup\templates\movie\detail.jinja:87
+msgid "Subscribe"
+msgstr "Підписатись"
+
+#: .\markup\templates\movie\detail.jinja:167
+msgid "Send"
+msgstr "Відправити"
+
+#: .\markup\templates\movie\detail.jinja:219
+#: .\markup\templates\movie\list.jinja:46
+#: .\markup\templates\movie\list.jinja:50
+#: .\markup\templates\news\list.jinja:34 .\markup\templates\news\list.jinja:37
+msgid "Previous"
+msgstr "Попередня"
+
+#: .\markup\templates\movie\detail.jinja:223
+#: .\markup\templates\movie\list.jinja:66
+#: .\markup\templates\movie\list.jinja:70
+#: .\markup\templates\news\list.jinja:52 .\markup\templates\news\list.jinja:55
+msgid "Next"
+msgstr "Наступна"
+
+#: .\markup\templates\movie\detail.jinja:230
+msgid "Close"
+msgstr "Зачинити"
+
+#: .\markup\templates\movie\list.jinja:17
+msgid "Search"
+msgstr "Пошук"
+#, fuzzy
