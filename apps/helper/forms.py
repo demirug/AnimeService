@@ -24,7 +24,7 @@ class FeedbackAdminForm(forms.ModelForm):
 
     email = forms.EmailField()
 
-    answer = forms.CharField(label=_("Answer"), widget=CKEditorUploadingWidget(config_name='question'))
+    answer = forms.CharField(label=_("Answer"), widget=CKEditorUploadingWidget(config_name='no-elements'))
 
     class Meta:
         model = Feedback
@@ -33,7 +33,7 @@ class FeedbackAdminForm(forms.ModelForm):
 
 class AuthorizeFeedbackForm(forms.ModelForm):
     """Feedback form for authorized users"""
-    question = forms.CharField(label="", widget=CKEditorUploadingWidget(config_name='question'))
+    question = forms.CharField(label="", widget=CKEditorUploadingWidget(config_name='no-elements'))
 
     def clean_question(self):
         question = self.cleaned_data['question']
@@ -49,7 +49,7 @@ class AuthorizeFeedbackForm(forms.ModelForm):
 
 class UnAuthorizeFeedbackForm(forms.ModelForm):
     """Feedback form for unauthorized users"""
-    question = forms.CharField(label="", widget=CKEditorUploadingWidget(config_name='question'))
+    question = forms.CharField(label="", widget=CKEditorUploadingWidget(config_name='no-elements'))
     email = forms.EmailField(label="",
                              widget=forms.EmailInput(attrs={"class": "form-control", "placeholder": _("Email")}))
 

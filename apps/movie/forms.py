@@ -7,7 +7,7 @@ from apps.movie.models import Review, Anime, Episode
 
 class ReviewForm(forms.ModelForm):
 
-    text = forms.CharField(label="", widget=CKEditorUploadingWidget(config_name='review'))
+    text = forms.CharField(label="", widget=CKEditorUploadingWidget(config_name='no-elements'))
 
     class Meta:
         model = Review

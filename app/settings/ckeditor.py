@@ -17,18 +17,7 @@ CKEDITOR_CONFIGS = {
         'removePlugins': 'exportpdf, elementspath'
     },
 
-    'review': {
-        'toolbar': 'Custom',
-        'toolbar_Custom': [
-            ['Bold', 'Italic', 'Underline'],
-            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-            ['Link', 'Unlink'],
-            ['RemoveFormat']
-        ],
-        'removePlugins': 'exportpdf, elementspath'
-    },
-
-    'question': {
+    'no-elements': {
         'toolbar': 'Custom',
         'toolbar_Custom': [],
         'removePlugins': 'exportpdf, elementspath',
