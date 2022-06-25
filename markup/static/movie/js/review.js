@@ -26,9 +26,8 @@ $(document).ready(function () {
             CKEDITOR.instances.id_text.setData("");
 
             var date = new Date(answer.datetime)
-
             // Add review
-            var htmlObject = $("                    <div class=\"card mb-4\">\n" +
+            var htmlObject = $("<div class=\"card mb-4\">\n" +
                 "                      <div class=\"card-body\">\n" +
                 "                        " + answer.text + "\n" +
                 "                        <div class=\"d-flex justify-content-between\">\n" +
@@ -36,7 +35,7 @@ $(document).ready(function () {
                 "                            <img src=\"" + user_logo + "\" alt=\"avatar\" width=\"25\" height=\"25\" />\n" +
                 "                            <p class=\"small mb-0 ms-2\">" + username + "</p>\n" +
                 "                          </div>\n" +
-                "                            <time class=\"small mb-0 ms-2 text-center\">" + `${$.datepicker.formatDate("M d", date)}, ${date.getFullYear()} at ${date.getHours()}:${date.getMinutes()}` + "</time>\n" +
+                "                            <time class=\"small mb-0 ms-2 text-center\">" + `${date.getDate()}.${("0" + (date.getMonth() + 1).toString()).slice(-2)}.${date.getFullYear()}, ${date.getHours()}:${("0" + date.getMinutes().toString()).slice(-2)}` + "</time>\n" +
                 "                        </div>\n" +
                 "                      </div>\n" +
                 "                    </div>")
