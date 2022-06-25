@@ -1,3 +1,4 @@
+from django.conf import settings
 from jinja2 import Environment
 
 from shared.forms import LanguageForm
@@ -10,5 +11,6 @@ def environment(**options):
     env.globals.update({
         'menu_objects': menu_objects,
         'language_form': LanguageForm,
+        'site_name': settings.SITE_NAME
     })
     return env
