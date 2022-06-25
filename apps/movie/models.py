@@ -8,6 +8,7 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from solo.models import SingletonModel
 
+from apps.movie.constants import AnimeType
 from apps.movie.managers import AnimeManager
 from shared.services.slugify import unique_slugify
 
@@ -44,6 +45,7 @@ class Anime(models.Model):
     """Anime object model"""
     name = models.CharField(_("Name"), max_length=150)
     lang = models.CharField(_("Language"), max_length=10, choices=settings.LANGUAGES, default=settings.LANGUAGE_CODE)
+    type = models.CharField(_("Content type"), max_length=2, choices=AnimeType.choices, default=AnimeType.SERIAL)
     slug = models.SlugField(blank=True)
     poster = models.ImageField(_("Poster"), upload_to="posters/%Y/%m/%d/")
     style = models.ForeignKey(Style, null=True, blank=True, related_name="anime", on_delete=models.SET_NULL)
