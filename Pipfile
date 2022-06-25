@@ -19,6 +19,7 @@ django-ckeditor = "*"
 django-filter = "*"
 django-solo = "*"
 django-modeltranslation = "*"
+django-rosetta = "*"
 
 [dev-packages]
 
