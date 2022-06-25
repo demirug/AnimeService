@@ -16,6 +16,7 @@ urlpatterns = [
     re_path(r'^rosetta/', include('rosetta.urls'))
 ]
 
+urlpatterns += i18n_patterns(
     path("", NewsListView.as_view(), name="home"),
     path("news/<slug:slug>/", NewsDetailView.as_view(), name="news"),
 
