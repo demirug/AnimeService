@@ -16,7 +16,9 @@
     <script src="{{ static("movie/js/change-episode.js") }}"></script>
 
      {% if request.user.is_authenticated %}
-        <script src="{{ static("movie/js/subscribe.js") }}"></script>
+        {% if object.type != "FI" %}
+            <script src="{{ static("movie/js/subscribe.js") }}"></script>
+        {% endif %}
         <script src="{{ static("movie/js/review.js") }}"></script>
         <script src="{{ static("movie/js/rater.min.js") }}" charset="utf-8"></script>
     {% endif %}
@@ -79,7 +81,7 @@
                 </div>
             {% endif %}
 
-            {% if request.user.is_authenticated %}
+            {% if request.user.is_authenticated and object.type != "FI" %}
                 <div id="subscribe" class="mt-3">
                     <button id="unsub" {% if not subscribe %}style="display: none" {% endif %} class="btn btn-secondary">Unsubscribe</button>
                     <button id="sub" {% if subscribe %}style="display: none" {% endif %} class="btn btn-success">Subscribe</button>
