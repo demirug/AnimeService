@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 from solo.admin import SingletonModelAdmin
 
-from .forms import AnimeForm, EpisodeForm
+from .forms import AnimeForm, EpisodeForm, SeasonForm
 from .models import EpisodeFile, Episode, Quality, Season, Anime, Review, Tag, Style, AnimeImage, \
     MovieSettings
 
@@ -84,6 +84,7 @@ class AnimeImageInline(SortableInlineAdminMixin, admin.TabularInline):
 
 @admin.register(Season)
 class SeasonAdmin(admin.ModelAdmin):
+    form = SeasonForm
     inlines = [AnimeImageInline]
     search_fields = ('anime__name',)
     autocomplete_fields = ('anime',)
