@@ -48,4 +48,4 @@ class NewsSettings(SingletonModel):
         verbose_name = _("News Configuration")
 
     def __str__(self):
-        return _("News Configuration")
+        return "News Configuration"

@@ -260,4 +260,4 @@ class MovieSettings(SingletonModel):
         verbose_name = _("Movie Configuration")
 
     def __str__(self):
-        return _("Movie Configuration")
+        return "Movie Configuration"
