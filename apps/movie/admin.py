@@ -27,7 +27,8 @@ class EpisodeAdmin(admin.ModelAdmin):
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
     list_filter = ['verified', 'datetime']
-    readonly_fields = ['datetime', 'user', 'season_link']
+    readonly_fields = ['datetime', 'user', 'season_link', 'text']
+    fields = ['text', 'datetime', 'user', 'season_link', 'verified']
 
     def has_add_permission(self, request):
         return False
