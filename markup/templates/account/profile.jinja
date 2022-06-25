@@ -1,6 +1,6 @@
 {% extends 'base.jinja' %}
 
-{% block title %}Profile{% endblock title %}
+{% block title %}{{ _("Profile") }}{% endblock title %}
 
 {% block head %}
     <link rel="stylesheet" href="{{ static("account/css/profile.css") }}">
@@ -15,7 +15,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-6 col-lg-4">
                     <div class="form-wrap py-5">
-                        <h3 class="text-center mb-0">User settings</h3>
+                        <h3 class="text-center mb-0">{{ _("Sign Up") }}</h3>
                         <br>
                         <center>
                         <div class="img-container">
@@ -27,14 +27,14 @@
                             {% csrf_token %}
                             {{ form }}
                             <br>
-                            <button type="submit" class="btn form-control btn-primary rounded submit px-3">Submit</button>
+                            <button type="submit" class="btn form-control btn-primary rounded submit px-3">{{ _("Submit") }}</button>
                         </form>
 
                         <br>
 
                         <div class="d-flex bd-highlight mt-4">
-                            <a href="{{ url("account:password_change") }}" class="btn btn-success me-auto p-2 bd-highlight">Change password</a>
-                            <a href="{{ url("account:subscribes") }}" class="btn btn-success p-2 bd-highlight">Edit subscribers</a>
+                            <a href="{{ url("account:password_change") }}" class="btn btn-success me-auto p-2 bd-highlight">{{ _("Change password") }}</a>
+                            <a href="{{ url("account:subscribes") }}" class="btn btn-success p-2 bd-highlight">{{ _("Edit subscribers") }}</a>
                         </div>
 
                     </div>

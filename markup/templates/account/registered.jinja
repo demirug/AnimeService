@@ -1,13 +1,13 @@
 
 {% extends 'base.jinja' %}
 
-{% block title %}Registered{% endblock title %}
+{% block title %}{{ _("Registered") }}{% endblock title %}
 
 {% block body %}
     <br>
     <center>
-        <h5>You have been registered</h5>
-        <p>Please verify your account email and login</p>
-         <a class="btn btn-primary" href="{{ url("account:login") }}">Login</a>
+        <h5>{{ _("You have been registered") }}</h5>
+        <p>{{ _("Please verify your account email and login") }}</p>
+         <a class="btn btn-primary" href="{{ url("account:login") }}">{{ _("Login") }}</a>
     </center>
 {% endblock body %}

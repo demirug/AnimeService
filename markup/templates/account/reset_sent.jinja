@@ -1,12 +1,12 @@
 {% extends 'base.jinja' %}
 
-{% block title %}Reset{% endblock title %}
+{% block title %}{{ _("Reset") }}{% endblock title %}
 
 {% block body %}
     <br>
     <center>
-        <h4>Reset</h4>
-        <p>Reset email has been sent to your mailbox</p>
-        <a class="btn btn-success" href="{{ url("home") }}">Okay</a>
+        <h4>{{ _("Reset") }}</h4>
+        <p>{{ _("Reset email has been sent to your mailbox") }}</p>
+        <a class="btn btn-success" href="{{ url("home") }}">{{ _("Okay") }}</a>
     </center>
 {% endblock body %}

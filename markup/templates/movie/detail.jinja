@@ -59,7 +59,7 @@
 
             {% if images %}
                 <center class="mb-2">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Screenshots</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">{{ _("Screenshots") }}</button>
                 </center>
             {% endif %}
 
@@ -74,7 +74,7 @@
 
             {% if tags %}
                 <div class="tags-links">
-                    <span class="fw-bold me-2">Tags:</span>
+                    <span class="fw-bold me-2">{{ _("Tags") }}:</span>
                     {% for tag in tags %}
                         <a href="{{ url("movie:home") }}?search=%23{{ tag.name }}" >{{ tag }}</a>
                     {% endfor %}
@@ -83,8 +83,8 @@
 
             {% if request.user.is_authenticated and object.type != "FI" %}
                 <div id="subscribe" class="mt-3">
-                    <button id="unsub" {% if not subscribe %}style="display: none" {% endif %} class="btn btn-secondary">Unsubscribe</button>
-                    <button id="sub" {% if subscribe %}style="display: none" {% endif %} class="btn btn-success">Subscribe</button>
+                    <button id="unsub" {% if not subscribe %}style="display: none" {% endif %} class="btn btn-secondary">{{ _("Unsubscribe") }}</button>
+                    <button id="sub" {% if subscribe %}style="display: none" {% endif %} class="btn btn-success">{{ _("Subscribe") }}</button>
                 </div>
             {% endif %}
         </div>
@@ -114,9 +114,9 @@
                 <select id="seasons" class="form-select form-select-lg mb-3" aria-label=".form-select-lg" {% if season_list|length == 1 %}style="display: none" {% endif %}>
                     {% for num in season_list %}
                         {% if season.number == num %}
-                            <option value="{{ num }}" selected>Season {{ num }}</option>
+                            <option value="{{ num }}" selected>{{ _("Season") }} {{ num }}</option>
                         {% else %}
-                            <option href="{{ url("movie:detail", slug=object.slug, season=num) }}" value="{{ num }}">Season {{ num }}</option>
+                            <option href="{{ url("movie:detail", slug=object.slug, season=num) }}" value="{{ num }}">{{ _("Season") }} {{ num }}</option>
                         {% endif %}
                     {% endfor %}
                 </select>
@@ -126,7 +126,7 @@
                 {% if episode_list|length > 0 %}
                     <select id="episodes" class="form-select form-select-lg mb-3" aria-label=".form-select-lg" {% if episode_list|length == 1 %}style="display: none" {% endif %}>
                       {% for episode in episode_list %}
-                        <option pk="{{ episode.pk }}" value="{{ episode.number }}">Episode {{ episode.number }}</option>
+                        <option pk="{{ episode.pk }}" value="{{ episode.number }}">{{ _("Episode") }} {{ episode.number }}</option>
                       {% endfor %}
                     </select>
                 {% endif %}
@@ -160,11 +160,11 @@
 
             <center>
                 {% if form %}
-                    <h4 class="text-center">Reviews</h4>
+                    <h4 class="text-center">{{ _("Reviews") }}</h4>
                     <div id="review">
                         {{ form.media }}
                         {{ form.as_p() }}
-                        <button class="btn btn-primary btn-sm">Send</button>
+                        <button class="btn btn-primary btn-sm">{{ _("Send") }}</button>
                     </div>
                 {% endif %}
 
@@ -198,7 +198,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Screenshots</h5>
+            <h5 class="modal-title" id="exampleModalLabel">{{ _("Screenshots") }}</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -216,18 +216,18 @@
             
               <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
+                <span class="visually-hidden">{{ _("Previous") }}</span>
               </button>
               <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
+                <span class="visually-hidden">{{ _("Next") }}</span>
               </button>
             {% endif %}
             </div>
 
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _("Close") }}</button>
           </div>
         </div>
       </div>

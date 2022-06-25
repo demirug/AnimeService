@@ -3,7 +3,7 @@
 {% block head %}
 
 {% endblock %}
-{% block title %}Subscribers{% endblock title %}
+{% block title %}{{ _("Subscribers") }}{% endblock title %}
 
 {% block body %}
 
@@ -20,8 +20,8 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ object.anime.name }}</h5>
                             <p class="card-text">Rating: {{ object.anime.rating }}</p>
-                            <a href="{{ object.anime.get_absolute_url() }}" class="btn btn-primary"><i class="fas fa-link"></i>View</a>
-                            <button class="btn btn-danger"><i class="fas fa-link"></i>Unsubscribe</button>
+                            <a href="{{ object.anime.get_absolute_url() }}" class="btn btn-primary"><i class="fas fa-link"></i>{{ _("View") }}</a>
+                            <button class="btn btn-danger"><i class="fas fa-link"></i>{{ _("Unsubscribe") }}</button>
                         </div>
                 </div>
              </form>

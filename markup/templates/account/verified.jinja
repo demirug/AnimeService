@@ -1,12 +1,12 @@
 {% extends 'base.jinja' %}
 
-{% block title %}Login{% endblock title %}
+{% block title %}{{ _("Verified") }}{% endblock title %}
 
 {% block body %}
     <br>
     <center>
-        <h3>Your account has been verified</h3>
-        <h4>Please login</h4>
-        <a href="{% url('account:login') %}">Login</a>
+        <h3>{{ _("Your account has been verified") }}</h3>
+        <h4>{{ _("Please login") }}</h4>
+        <a href="{% url('account:login') %}">{{ _("Login") }}</a>
     </center>
 {% endblock body %}

@@ -2,7 +2,7 @@
 {% block head %}
     <link rel="stylesheet" href="{{ static("account/css/authentication.css") }}">
 {% endblock %}
-{% block title %}Reset{% endblock title %}
+{% block title %}{{ _("Reset") }}{% endblock title %}
 
 {% block body %}
     <div class="container">
@@ -10,14 +10,14 @@
             <div class="row justify-content-center">
                 <div class="col-md-6 col-lg-4">
                     <div class="form-wrap py-5">
-                        <h3 class="text-center mb-0">RESET CONFIRM</h3>
+                        <h3 class="text-center mb-0">{{ _("RESET CONFIRM") }}</h3>
                         <br>
 
                         <form method="post" class="form-wrap">
                             {% csrf_token %}
                             {{ form }}
                             <br>
-                            <button type="submit" class="btn form-control btn-primary rounded submit px-3">Confirm</button>
+                            <button type="submit" class="btn form-control btn-primary rounded submit px-3">{{ _("Confirm") }}</button>
                         </form>
 
                     </div>
