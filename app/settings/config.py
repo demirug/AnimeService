@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
-    'rosetta',
     'debug_toolbar',
     'django_jinja',
     'django_filters',
