@@ -7,22 +7,29 @@
 			<div class="col-md-12">
                 <center><h4>{{ _("News") }}</h4></center>
                 <br>
-                {% for object in page_obj %}
-                    <article class="card card-full hover-a py-4 post-1123 post type-post status-publish format-standard has-post-thumbnail hentry category-cars category-travel tag-racing tag-travel" id="post-1123">
-                        <div class="card-body pt-3 pt-sm-0 pt-md-3 pt-lg-0">
-                            <!--title-->
-                            <h3 class="card-title h2 h3-sm h2-md">
-                                <a href="{{ object.get_absolute_url() }}">{{ object.name }}</a>
-                            </h3>
-                            <!--description-->
-                            <p class="card-text">{{ object.description|safe }}</p>
-                            <div class="card-text mb-2 text-muted small">
-                                <time class="news-date">{{ object.date|date("d.m.Y, G:i") }}</time>
+                {% if page_obj %}
+                    {% for object in page_obj %}
+                        <article class="card card-full hover-a py-4 post-1123 post type-post status-publish format-standard has-post-thumbnail hentry category-cars category-travel tag-racing tag-travel" id="post-1123">
+                            <div class="card-body pt-3 pt-sm-0 pt-md-3 pt-lg-0">
+                                <!--title-->
+                                <h3 class="card-title h2 h3-sm h2-md">
+                                    <a href="{{ object.get_absolute_url() }}">{{ object.name }}</a>
+                                </h3>
+                                <!--description-->
+                                <p class="card-text">{{ object.description|safe }}</p>
+                                <div class="card-text mb-2 text-muted small">
+                                    <time class="news-date">{{ object.date|date("d.m.Y, G:i") }}</time>
+                                </div>
                             </div>
-                        </div>
-                    </article>
-                    <br>
-                {% endfor %}
+                        </article>
+                        <br>
+                    {% endfor %}
+                {% else %}
+                    <hr>
+                    <center>
+                        <h5>{{ _("News not found") }}</h5>
+                    </center>
+                {% endif %}
             </div>
     	</div>
     </div>
