@@ -21,7 +21,8 @@
         <!-- End Search -->
 
         <div class="row">
-            {% for object in object_list %}
+            {% if page_obj %}
+            {% for object in page_obj %}
                 <div class="col-md-auto">
                     <div class="card mb-3" style="width: 20rem;">
                     <img src="{{ object.poster.url }}" class="card-img-top" alt="...">
@@ -33,6 +34,12 @@
                     </div>
                 </div>
             {% endfor %}
+            {% else %}
+                <hr>
+                <center>
+                    <h5>{{ _("Animes not found") }}</h5>
+                </center>
+            {% endif %}
         </div>
     </div>
     <!-- End content -->
