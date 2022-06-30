@@ -43,7 +43,8 @@ class SeasonForm(forms.ModelForm):
     def clean(self):
         """Block creating seasons if 1 season exists in FILM Anime"""
         if self.instance.pk is None:
-            if self.cleaned_data['anime'].seasons.count() >= 1:
+            anime: Anime = self.cleaned_data['anime']
+            if anime.type == AnimeType.FILM and anime.seasons.count() >= 1:
                 raise ValidationError(_("Can't add more season to Anime with 'FILM' type"))
 
         return super(SeasonForm, self).clean()
@@ -58,7 +59,7 @@ class EpisodeForm(forms.ModelForm):
     def clean(self):
 
         if self.instance.pk is None:
-            if self.cleaned_data['season'].episodes.count() >= 1:
+            if self.cleaned_data['season'].anime.type == AnimeType.FILM and self.cleaned_data['season'].episodes.count() >= 1:
                 raise ValidationError(_("Can't add more episodes to Anime with 'FILM' type"))
 
         return super().clean()
