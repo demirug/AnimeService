@@ -5,7 +5,8 @@ from django.db.models import QuerySet
 from django.utils.translation import gettext_lazy as _
 
 from apps.movie.constants import AnimeType
-from apps.movie.models import Review, Anime, Episode, Season
+from apps.movie.models import Review, Anime, Episode, Season, MovieSettings
+from shared.mixins.translate import TranslateFormWidgetMixin
 
 
 class ReviewForm(forms.ModelForm):
@@ -68,3 +69,13 @@ class EpisodeForm(forms.ModelForm):
         model = Episode
         fields = "__all__"
         labels = {"season": _("Anime")}
+
+
+class MovieSettingsForm(TranslateFormWidgetMixin, forms.ModelForm):
+
+    def get_widgets(self) -> dict:
+        return {"new_episode_email": CKEditorUploadingWidget()}
+
+    class Meta:
+        model = MovieSettings
+        fields = "__all__"

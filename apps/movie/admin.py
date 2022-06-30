@@ -1,9 +1,10 @@
 from adminsortable2.admin import SortableAdminMixin, SortableInlineAdminMixin
 from django.contrib import admin
 from django.utils.html import format_html
+from modeltranslation.admin import TranslationAdmin
 from solo.admin import SingletonModelAdmin
 
-from .forms import AnimeForm, EpisodeForm, SeasonForm
+from .forms import AnimeForm, EpisodeForm, SeasonForm, MovieSettingsForm
 from .models import EpisodeFile, Episode, Quality, Season, Anime, Review, Tag, Style, AnimeImage, \
     MovieSettings
 
@@ -91,5 +92,9 @@ class SeasonAdmin(admin.ModelAdmin):
     autocomplete_fields = ('anime',)
 
 
+@admin.register(MovieSettings)
+class MovieSettingAdmin(TranslationAdmin, SingletonModelAdmin):
+    form = MovieSettingsForm
+
+
 admin.site.register(Tag)
-admin.site.register(MovieSettings, SingletonModelAdmin)
