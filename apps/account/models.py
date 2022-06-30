@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 
@@ -34,7 +35,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
 
     avatar = models.ImageField(_('Avatar'), upload_to="account/%Y/%m/%d", blank=True)
-
+    lang = models.CharField(_("Language"), max_length=10, choices=settings.LANGUAGES, default=settings.LANGUAGE_CODE)
     is_active = models.BooleanField(default=False)
 
     is_admin = models.BooleanField(default=False)
