@@ -5,13 +5,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.tokens import default_token_generator as generator
 from django.contrib.sites.models import Site
 from django.core.handlers.wsgi import WSGIRequest
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy, reverse
 from django.utils.crypto import salted_hmac
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy as _, get_language
 
 from django.views.generic import TemplateView, RedirectView, ListView, FormView
+from django.views.i18n import set_language
 from django_jinja.views.generic import CreateView, UpdateView
 
 from shared.mixins.breadcrumbs import BreadCrumbsMixin
@@ -37,7 +38,21 @@ class AccountLoginView(FormView):
         # If remember me button pressed -> expiry session
         if not form.cleaned_data.get("remember_me"):
             self.request.session.set_expiry(0)
-        return redirect(self.request.GET.get('next') or settings.LOGIN_REDIRECT_URL)
+
+        # Load language from user
+        response = HttpResponseRedirect(redirect_to=self.request.GET.get('next') or settings.LOGIN_REDIRECT_URL)
+
+        response.set_cookie(
+            settings.LANGUAGE_COOKIE_NAME, form.get_user().lang,
+            max_age=settings.LANGUAGE_COOKIE_AGE,
+            path=settings.LANGUAGE_COOKIE_PATH,
+            domain=settings.LANGUAGE_COOKIE_DOMAIN,
+            secure=settings.LANGUAGE_COOKIE_SECURE,
+            httponly=settings.LANGUAGE_COOKIE_HTTPONLY,
+            samesite=settings.LANGUAGE_COOKIE_SAMESITE,
+        )
+
+        return response
 
 
 class AccountChangePasswordView(LoginRequiredMixin, BreadCrumbsMixin, FormView):
@@ -111,7 +126,10 @@ class AccountRegisterView(BreadCrumbsMixin, CreateView):
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        user = form.save()
+        user = form.save(commit=False)
+        user.lang = get_language()
+        user.save()
+
         return render(self.request, "account/registered.jinja", context={"user": user})
 
 
