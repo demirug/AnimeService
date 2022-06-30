@@ -5,7 +5,7 @@ from modeltranslation.admin import TranslationAdmin
 
 from apps.helper.forms import FeedbackAdminForm, FAQForm
 from apps.helper.models import FAQ, Feedback
-from shared.services.email import send_email
+from shared.services.email import send_template_email
 
 
 @admin.register(FAQ)
@@ -52,8 +52,8 @@ class FeedbackModelAdmin(admin.ModelAdmin):
         """Send email to user with given answer"""
         if change and obj.answer:
             obj.answered = True
-        send_email(obj.email, "Answer on question", "email/helper_answer.jinja",
-                   context={"answer": obj.answer, "question": obj.question})
+        send_template_email(obj.email, "Answer on question", "email/helper_answer.jinja",
+                            context={"answer": obj.answer, "question": obj.question})
 
         super().save_model(request, obj, form, change)
 

@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.utils.crypto import salted_hmac
 from django.utils.translation import gettext_lazy as _
 from apps.account.models import User, AccountSettings
-from shared.services.email import send_email
+from shared.services.email import send_template_email
 
 
 class UserCreationForm(forms.ModelForm):
@@ -108,8 +108,8 @@ class AccountUpdateForm(forms.ModelForm):
         url = '{domain}{path}'.format(domain=Site.objects.get_current().domain,
                                       path=reverse("account:change_email", kwargs={"email": _email, "token": _token}))
 
-        send_email(_email, _("Change email"), "email/change_email.jinja",
-                   context={"email": _email, "url": url})
+        send_template_email(_email, _("Change email"), "email/change_email.jinja",
+                            context={"email": _email, "url": url})
 
         messages.success(self.request, _('Confirm email changing at mailbox'))
 

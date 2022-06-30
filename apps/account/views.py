@@ -16,7 +16,7 @@ from django.views.i18n import set_language
 from django_jinja.views.generic import CreateView, UpdateView
 
 from shared.mixins.breadcrumbs import BreadCrumbsMixin
-from shared.services.email import send_email
+from shared.services.email import send_template_email
 from .forms import UserCreationForm, AccountUpdateForm, UserPasswordChangeForm, AccountResetForm, \
     AccountResetConfirmForm, AccountLoginForm
 from ..movie.models import Subscribe
@@ -220,7 +220,7 @@ class AccountResetView(BreadCrumbsMixin, FormView):
             url = '{domain}{path}'.format(domain=Site.objects.get_current().domain,
                                           path=reverse("account:reset_confirm", kwargs={"email": _email, "token": token}))
 
-            send_email(_email, _("Reset account"), "email/reset_account.jinja", context={"url": url})
+            send_template_email(_email, _("Reset account"), "email/reset_account.jinja", context={"url": url})
 
         return render(self.request, "account/reset_sent.jinja", context={})
 
