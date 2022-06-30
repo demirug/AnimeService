@@ -258,6 +258,13 @@ class MovieSettings(SingletonModel):
                                                       validators=[MinValueValidator(1)],
                                                       default=5)
 
+    new_episode_email_title = models.CharField(_("Title of email"), max_length=50,
+                                               default="New Episode {name} #{number}")
+
+    new_episode_email = models.TextField(_("New episode email"),
+                                         default="New episode {name} #{number} at our site, "
+                                                 "Click to watch {url}")
+
     class Meta:
         verbose_name = _("Movie Configuration")
 
