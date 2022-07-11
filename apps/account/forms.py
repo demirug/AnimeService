@@ -1,7 +1,7 @@
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django import forms
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth import authenticate
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.sites.models import Site
 from django.core.exceptions import ValidationError
@@ -9,7 +9,21 @@ from django.urls import reverse
 from django.utils.crypto import salted_hmac
 from django.utils.translation import gettext_lazy as _
 from apps.account.models import User, AccountSettings
+from shared.mixins.translate import TranslateFormWidgetMixin
 from shared.services.email import send_template_email
+
+
+class AccountSettingsForm(TranslateFormWidgetMixin, forms.ModelForm):
+
+    def get_widgets(self) -> dict:
+        return {"change_email": CKEditorUploadingWidget(),
+                "registered_email": CKEditorUploadingWidget(),
+                "reset_email": CKEditorUploadingWidget()
+                }
+
+    class Meta:
+        model = AccountSettings
+        fields = "__all__"
 
 
 class UserCreationForm(forms.ModelForm):
@@ -217,15 +231,16 @@ class AccountResetConfirmForm(forms.Form):
 
 
 class AccountLoginForm(forms.Form):
-
-    login = forms.CharField(label="", widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("Login")}))
+    login = forms.CharField(label="",
+                            widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("Login")}))
 
     password = forms.CharField(label="", widget=forms.PasswordInput(
         attrs={"class": "form-control",
                "placeholder": _("Password")}
     ))
 
-    remember_me = forms.BooleanField(label="", required=False, widget=forms.CheckboxInput(attrs={"class": "form-check-input", "checked": ""}))
+    remember_me = forms.BooleanField(label="", required=False,
+                                     widget=forms.CheckboxInput(attrs={"class": "form-check-input", "checked": ""}))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -250,4 +265,3 @@ class AccountLoginForm(forms.Form):
 
     def get_user(self):
         return self.user
-
