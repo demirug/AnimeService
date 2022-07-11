@@ -28,7 +28,7 @@ class FeedbackModelAdmin(admin.ModelAdmin):
         ('Question', {'fields': ('email', 'question_format', 'lang', 'datetime')}),
         ('Answer', {'fields': ('answer',)})
     )
-    readonly_fields = ('question', 'email', 'datetime', 'question_format')
+    readonly_fields = ('question', 'lang', 'email', 'datetime', 'question_format')
 
     def question_strip(self, instance):
         """Remove html tags and limit by 50 chars"""
