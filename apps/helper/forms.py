@@ -4,8 +4,18 @@ from django.core.exceptions import ValidationError
 from django.utils.html import strip_tags
 from django.utils.translation import gettext_lazy as _
 
-from apps.helper.models import Feedback, FAQ
+from apps.helper.models import Feedback, FAQ, HelperSettings
 from shared.mixins.translate import TranslateFormWidgetMixin
+
+
+class HelperSettingsForm(TranslateFormWidgetMixin, forms.ModelForm):
+
+    def get_widgets(self) -> dict:
+        return {"feedback_email": CKEditorUploadingWidget()}
+
+    class Meta:
+        model = HelperSettings
+        fields = "__all__"
 
 
 class FAQForm(TranslateFormWidgetMixin, forms.ModelForm):

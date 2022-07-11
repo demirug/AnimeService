@@ -2,9 +2,10 @@ from django.contrib import admin
 from django.utils.html import format_html, strip_tags
 from django.utils.translation import gettext_lazy
 from modeltranslation.admin import TranslationAdmin
+from solo.admin import SingletonModelAdmin
 
-from apps.helper.forms import FeedbackAdminForm, FAQForm
-from apps.helper.models import FAQ, Feedback
+from apps.helper.forms import FeedbackAdminForm, FAQForm, HelperSettingsForm
+from apps.helper.models import FAQ, Feedback, HelperSettings
 from shared.services.email import send_template_email
 
 
@@ -60,3 +61,8 @@ class FeedbackModelAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         """Disable adding questions"""
         return False
+
+
+@admin.register(HelperSettings)
+class HelperSettingsAdmin(TranslationAdmin, SingletonModelAdmin):
+    form = HelperSettingsForm
