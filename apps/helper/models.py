@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from solo.models import SingletonModel
@@ -20,6 +21,7 @@ class Feedback(models.Model):
     """Model for Questions"""
     question = models.TextField(_("Question"))
     email = models.EmailField(_("Email"))
+    lang = models.CharField(_("Language"), max_length=10, default=settings.LANGUAGE_CODE)
     answer = models.TextField(_("Answer"), blank=True)
     answered = models.BooleanField(_("Answered"), default=False)
     datetime = models.DateTimeField(auto_now_add=True)
