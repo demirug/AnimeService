@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy as _, get_language
 from django.views.generic.edit import CreateView
 
 from apps.helper.forms import AuthorizeFeedbackForm, UnAuthorizeFeedbackForm
@@ -26,6 +26,7 @@ class FeedbackFAQView(BreadCrumbsMixin, CreateView):
 
     def form_valid(self, form):
         question = form.save(commit=False)
+        question.lang = get_language()
         if type(form) == AuthorizeFeedbackForm:
             question.email = self.request.user.email
         question.save()
