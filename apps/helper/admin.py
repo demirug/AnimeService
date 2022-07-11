@@ -21,10 +21,10 @@ class FeedbackModelAdmin(admin.ModelAdmin):
     """ModelAdmin for Question model"""
 
     form = FeedbackAdminForm
-    list_display = ('question_strip', 'email', 'answered', 'datetime')
-    list_filter = ('answered', 'datetime')
+    list_display = ('question_strip', 'email', 'answered', 'lang', 'datetime')
+    list_filter = ('answered', 'lang', 'datetime')
     fieldsets = (
-        ('Question', {'fields': ('email', 'question_format', 'datetime')}),
+        ('Question', {'fields': ('email', 'question_format', 'lang', 'datetime')}),
         ('Answer', {'fields': ('answer',)})
     )
     readonly_fields = ('question', 'email', 'datetime', 'question_format')
