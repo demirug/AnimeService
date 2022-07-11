@@ -21,7 +21,7 @@ class Feedback(models.Model):
     """Model for Questions"""
     question = models.TextField(_("Question"))
     email = models.EmailField(_("Email"))
-    lang = models.CharField(_("Language"), max_length=10, default=settings.LANGUAGE_CODE)
+    lang = models.CharField(_("Language"), max_length=10, choices=settings.LANGUAGES, default=settings.LANGUAGE_CODE)
     answer = models.TextField(_("Answer"), blank=True)
     answered = models.BooleanField(_("Answered"), default=False)
     datetime = models.DateTimeField(auto_now_add=True)
