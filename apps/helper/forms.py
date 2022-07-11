@@ -47,9 +47,13 @@ class AuthorizeFeedbackForm(forms.ModelForm):
 
     def clean_question(self):
         question = self.cleaned_data['question']
+        settings = HelperSettings.get_solo()
 
-        if len(strip_tags(question)) < 20:
-            raise ValidationError(_("Minimum length of question 20 chars"))
+        if len(strip_tags(question)) < settings.min_feedback_len:
+            raise ValidationError(_("Minimum length of question %s chars") % settings.min_feedback_len)
+
+        if len(strip_tags(question)) > settings.max_feedback_len:
+            raise ValidationError(_("Maximum length of question %s chars") % settings.max_feedback_len)
         return question
 
     class Meta:
