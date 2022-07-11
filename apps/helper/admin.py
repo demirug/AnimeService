@@ -6,7 +6,8 @@ from solo.admin import SingletonModelAdmin
 
 from apps.helper.forms import FeedbackAdminForm, FAQForm, HelperSettingsForm
 from apps.helper.models import FAQ, Feedback, HelperSettings
-from shared.services.email import send_template_email
+from shared.services.email import send_email
+from shared.services.translation import get_field_data_by_lang
 
 
 @admin.register(FAQ)
@@ -51,10 +52,14 @@ class FeedbackModelAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         """Send email to user with given answer"""
-        if change and obj.answer:
+        if change and obj.answer and not obj.answered:
             obj.answered = True
-        send_template_email(obj.email, "Answer on question", "email/helper_answer.jinja",
-                            context={"answer": obj.answer, "question": obj.question})
+
+            settings: HelperSettings = HelperSettings.get_solo()
+            title: str = get_field_data_by_lang(settings, obj.lang, "feedback_email_title")
+            context: str = get_field_data_by_lang(settings, obj.lang, "feedback_email").format(question=obj.question,
+                                                                                               answer=obj.answer)
+            send_email(obj.email, title, context)
 
         super().save_model(request, obj, form, change)
 
