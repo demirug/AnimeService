@@ -4,7 +4,7 @@ from django.db.models.signals import pre_delete, post_save
 from django.dispatch import receiver
 
 from shared.services.email import send_email
-from shared.services.translation import get_field_data_by_user_lang
+from shared.services.translation import get_field_data_by_lang
 from .models import Tag, Episode, Rating, Anime, MovieSettings
 
 
@@ -32,12 +32,14 @@ def episode_handler(sender, instance: Episode, **kwargs):
             for subscriber in subscribers:
                 # If user language like anime language
                 if subscriber.user.lang == anime.lang:
-                    title = get_field_data_by_user_lang(settings, subscriber.user, "new_episode_email_title").format(name=anime.name,
-                                                                                                                number=instance.number)
+                    title = get_field_data_by_lang(settings, subscriber.user.lang, "new_episode_email_title").format(
+                        name=anime.name,
+                        number=instance.number)
 
-                    context = get_field_data_by_user_lang(settings, subscriber.user, "new_episode_email").format(name=anime.name,
-                                                                                                            number=instance.number,
-                                                                                                            url=url_path)
+                    context = get_field_data_by_lang(settings, subscriber.user.lang, "new_episode_email").format(
+                        name=anime.name,
+                        number=instance.number,
+                        url=url_path)
 
                     send_email(subscriber.user.email, title, context)
 
