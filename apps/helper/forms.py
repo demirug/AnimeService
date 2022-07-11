@@ -61,9 +61,8 @@ class AuthorizeFeedbackForm(forms.ModelForm):
         fields = ['question']
 
 
-class UnAuthorizeFeedbackForm(forms.ModelForm):
+class UnAuthorizeFeedbackForm(AuthorizeFeedbackForm):
     """Feedback form for unauthorized users"""
-    question = forms.CharField(label="", widget=CKEditorUploadingWidget(config_name='no-elements'))
     email = forms.EmailField(label="",
                              widget=forms.EmailInput(attrs={"class": "form-control", "placeholder": _("Email")}))
 
