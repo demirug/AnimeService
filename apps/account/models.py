@@ -64,6 +64,15 @@ class AccountSettings(SingletonModel):
     min_password_len = models.PositiveIntegerField(help_text=_("Minimum password length of user account"), default=8)
     max_password_len = models.PositiveIntegerField(help_text=_("Maximum password length of user account"), default=64)
 
+    change_email_title = models.CharField(_("Title for change email"), max_length=50, default="Change email")
+    change_email = models.TextField(_("Change email title"), default="To verify your new email address pls open url {url}")
+
+    registered_email_title = models.CharField(_("Title for registered email"), max_length=50, default="Verify account")
+    registered_email = models.TextField(_("Change email title"), default="Hello {name} you have been registered success. Verify your account {url}")
+
+    reset_email_title = models.CharField(_("Title for reset email"), max_length=50, default="Reset your account password")
+    reset_email = models.TextField(_("Change email title"), default="Reset your account password {url}")
+
     def __str__(self):
         return "User Configuration"
 
