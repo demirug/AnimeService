@@ -7,10 +7,11 @@ from django.contrib.sites.models import Site
 from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.utils.crypto import salted_hmac
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy as _, get_language
 from apps.account.models import User, AccountSettings
 from shared.mixins.translate import TranslateFormWidgetMixin
-from shared.services.email import send_template_email
+from shared.services.email import send_email
+from shared.services.translation import get_field_data_by_lang
 
 
 class AccountSettingsForm(TranslateFormWidgetMixin, forms.ModelForm):
@@ -122,8 +123,11 @@ class AccountUpdateForm(forms.ModelForm):
         url = '{domain}{path}'.format(domain=Site.objects.get_current().domain,
                                       path=reverse("account:change_email", kwargs={"email": _email, "token": _token}))
 
-        send_template_email(_email, _("Change email"), "email/change_email.jinja",
-                            context={"email": _email, "url": url})
+        obj: AccountSettings = AccountSettings.get_solo()
+        title = get_field_data_by_lang(obj, get_language(), "change_email_title")
+        context = get_field_data_by_lang(obj, get_language(), "change_email").format(url=url)
+
+        send_email(_email, title, context)
 
         messages.success(self.request, _('Confirm email changing at mailbox'))
 
