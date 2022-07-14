@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-14 19:17+0300\n"
+"POT-Creation-Date: 2022-07-14 21:48+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -197,6 +197,7 @@ msgstr "Головна"
 
 #: .\apps\account\views.py:86 .\apps\account\views.py:108
 #: .\apps\account\views.py:128 .\markup\templates\account\profile.jinja:3
+#: .\markup\templates\account\profile.jinja:18
 msgid "Profile"
 msgstr "Профіль"
 
@@ -614,7 +615,6 @@ msgid "Don't have an account?"
 msgstr "Нема аккаунта?"
 
 #: .\markup\templates\account\login.jinja:28
-#: .\markup\templates\account\profile.jinja:18
 msgid "Sign Up"
 msgstr "Реєстрація"
 
@@ -698,7 +698,7 @@ msgstr "Аккаунт"
 
 #: .\markup\templates\base.jinja:58
 msgid "Logout"
-msgstr ""
+msgstr "Вийти"
 
 #: .\markup\templates\movie\detail.jinja:62
 #: .\markup\templates\movie\detail.jinja:201
