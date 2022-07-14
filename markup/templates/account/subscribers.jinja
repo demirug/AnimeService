@@ -11,21 +11,29 @@
     <div class="container mx-auto">
 
         <div class="row">
-            {% for object in object_list %}
-             <form method="POST" class="col-md-auto">
-                {% csrf_token %}
-                <input style="display: none;" type="text" name="slug" value="{{ object.anime.slug }}">
-                <div class="card mb-3" style="width: 20rem;">
-                    <img src="{{ object.anime.poster.url }}" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ object.anime.name }}</h5>
-                            <p class="card-text">Rating: {{ object.anime.rating }}</p>
-                            <a href="{{ object.anime.get_absolute_url() }}" class="btn btn-primary"><i class="fas fa-link"></i>{{ _("View") }}</a>
-                            <button class="btn btn-danger"><i class="fas fa-link"></i>{{ _("Unsubscribe") }}</button>
-                        </div>
-                </div>
-             </form>
-            {% endfor %}
+            {% if object_list %}
+                {% for object in object_list %}
+                 <form method="POST" class="col-md-auto">
+                    {% csrf_token %}
+                    <input style="display: none;" type="text" name="slug" value="{{ object.anime.slug }}">
+                    <div class="card mb-3" style="width: 20rem;">
+                        <img src="{{ object.anime.poster.url }}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ object.anime.name }}</h5>
+                                <p class="card-text">Rating: {{ object.anime.rating }}</p>
+                                <a href="{{ object.anime.get_absolute_url() }}" class="btn btn-primary"><i class="fas fa-link"></i>{{ _("View") }}</a>
+                                <button class="btn btn-danger"><i class="fas fa-link"></i>{{ _("Unsubscribe") }}</button>
+                            </div>
+                    </div>
+                 </form>
+                {% endfor %}
+            {% else %}
+
+                <hr>
+                <center>
+                    <h5>{{ _("Subscribes not found") }}</h5>
+                </center>
+            {% endif %}
         </div>
     </div>
     <!-- End content -->
