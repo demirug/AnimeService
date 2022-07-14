@@ -1,5 +1,4 @@
 from django.urls import path, include
-import django.contrib.auth.views as auth_views
 from apps.account.views import *
 
 urlpatterns = [
@@ -7,7 +6,7 @@ urlpatterns = [
     path("set_lang/", set_user_language, name="set_lang"),
     path("login/", AccountLoginView.as_view(), name="login"),
     path("register/", AccountRegisterView.as_view(), name="register"),
-    path("logout/", auth_views.LogoutView.as_view(next_page="home"), name="logout"),
+    path("logout/", AccountLogoutView.as_view(), name="logout"),
 
     path("profile/", include([
         path("", AccountProfileView.as_view(), name="profile"),

@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth import get_user_model, update_session_auth_hash, login
+from django.contrib.auth import get_user_model, update_session_auth_hash, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.tokens import default_token_generator as generator
 from django.contrib.sites.models import Site
@@ -10,6 +10,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy, reverse
 from django.utils.crypto import salted_hmac
 from django.utils.translation import gettext_lazy as _, get_language
+from django.views import View
 
 from django.views.generic import TemplateView, RedirectView, ListView, FormView
 from django.views.i18n import set_language
@@ -17,6 +18,7 @@ from django_jinja.views.generic import CreateView, UpdateView
 
 from shared.mixins.breadcrumbs import BreadCrumbsMixin
 from shared.services.email import send_email
+from shared.services.next_url import get_next_url
 from shared.services.translation import get_field_data_by_lang
 from .forms import UserCreationForm, AccountUpdateForm, UserPasswordChangeForm, AccountResetForm, \
     AccountResetConfirmForm, AccountLoginForm
@@ -35,6 +37,13 @@ def set_user_language(request):
     return response
 
 
+class AccountLogoutView(View):
+    """View for logout user"""
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return HttpResponseRedirect(get_next_url(request))
+
+
 class AccountLoginView(FormView):
     """View for login user"""
     form_class = AccountLoginForm
@@ -42,7 +51,7 @@ class AccountLoginView(FormView):
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return redirect(self.request.GET.get('next') or settings.LOGIN_REDIRECT_URL)
+            return redirect(get_next_url(self.request, settings.LOGIN_REDIRECT_URL))
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
