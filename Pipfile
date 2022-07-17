@@ -19,6 +19,7 @@ django-ckeditor = "*"
 django-filter = "*"
 django-solo = "*"
 django-modeltranslation = "*"
+coverage = "*"
 
 [dev-packages]
 
