@@ -58,7 +58,7 @@ class AnimeDetailView(BreadCrumbsMixin, DetailView):
 
         anime: Anime = self.object
 
-        if anime.type is AnimeType.FILM:
+        if anime.type == AnimeType.FILM:
             context['season'] = anime.seasons.first()
         else:
             if "season" in self.kwargs:
@@ -77,7 +77,7 @@ class AnimeDetailView(BreadCrumbsMixin, DetailView):
         if self.request.user.is_authenticated:
             context['form'] = ReviewForm()
 
-            if anime.type is AnimeType.SERIAL:
+            if anime.type == AnimeType.SERIAL:
                 context['subscribe'] = Subscribe.objects.filter(anime=anime, user=self.request.user).exists()
 
             rating = self.request.user.ratings.filter(anime=anime).first()

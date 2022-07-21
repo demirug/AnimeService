@@ -36,7 +36,7 @@ class AnimeForm(forms.ModelForm):
 
     class Meta:
         model = Anime
-        exclude = ['tag_list']
+        exclude = ['tag_list', 'rating']
 
 
 class SeasonForm(forms.ModelForm):
