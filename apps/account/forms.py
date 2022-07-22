@@ -235,7 +235,7 @@ class AccountResetConfirmForm(forms.Form):
 
 
 class AccountLoginForm(forms.Form):
-    login = forms.CharField(label="",
+    username = forms.CharField(label="",
                             widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("Login")}))
 
     password = forms.CharField(label="", widget=forms.PasswordInput(
@@ -252,7 +252,7 @@ class AccountLoginForm(forms.Form):
 
     def clean(self, *args, **kwargs):
 
-        login = self.cleaned_data.get("login")
+        login = self.cleaned_data.get("username")
         password = self.cleaned_data.get("password")
 
         user = User.objects.filter(username=login).first()
