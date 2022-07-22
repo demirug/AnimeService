@@ -47,7 +47,7 @@
                 <ul class="navbar-nav mb-2 mb-lg-0">
 
                     <li class="nav-item dropdown">
-                        <form action="{{ url("account:set_lang") }}" method="post">
+                        <form action="{{ url("set_language") }}" method="post">
                             {% csrf_token %}
                             {{ language_form().as_p() }}
                         </form>

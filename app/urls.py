@@ -12,6 +12,7 @@ urlpatterns = [
     path('api/', include(('api.urls', 'api'))),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('admin/', admin.site.urls),
+    path('i18n/', include('django.conf.urls.i18n')),
 ]
 
 urlpatterns += i18n_patterns(

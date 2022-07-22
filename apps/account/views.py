@@ -26,17 +26,6 @@ from .models import AccountSettings
 from ..movie.models import Subscribe
 
 
-def set_user_language(request):
-    """Set changed language to user model"""
-    response = set_language(request)
-    if settings.LANGUAGE_COOKIE_NAME in response.cookies:
-        lang_code = response.cookies[settings.LANGUAGE_COOKIE_NAME].coded_value
-        if request.user.is_authenticated and request.user.lang != lang_code:
-            request.user.lang = lang_code
-            request.user.save()
-    return response
-
-
 class AccountLogoutView(View):
     """View for logout user"""
     def get(self, request, *args, **kwargs):

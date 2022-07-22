@@ -3,7 +3,6 @@ from apps.account.views import *
 
 urlpatterns = [
     path("verify/<str:username>/<str:token>/", ValidateEmailView.as_view(), name="verify"),
-    path("set_lang/", set_user_language, name="set_lang"),
     path("login/", AccountLoginView.as_view(), name="login"),
     path("register/", AccountRegisterView.as_view(), name="register"),
     path("logout/", AccountLogoutView.as_view(), name="logout"),
