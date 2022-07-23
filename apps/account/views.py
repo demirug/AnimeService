@@ -101,8 +101,13 @@ class AccountProfileView(LoginRequiredMixin, BreadCrumbsMixin, UpdateView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs.update({'request': self.request})
+        kwargs.update({'user': self.request.user})
         return kwargs
+
+    def form_valid(self, form):
+        if 'email' in form.changed_data:
+            messages.success(self.request, _('Confirm email changing at mailbox'))
+        return super().form_valid(form)
 
 
 class AccountSubscribersView(LoginRequiredMixin, BreadCrumbsMixin, ListView):

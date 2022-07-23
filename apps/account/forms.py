@@ -100,7 +100,7 @@ class AccountUpdateForm(forms.ModelForm):
     email = forms.EmailField(label=_("Email"), widget=forms.EmailInput(attrs={"class": "form-control"}))
 
     def __init__(self, *args, **kwargs):
-        self.request = kwargs.pop('request')
+        self.user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
 
     def clean_email(self):
@@ -112,26 +112,28 @@ class AccountUpdateForm(forms.ModelForm):
         if User.objects.filter(email=_email).exists():
             raise ValidationError(_("User with that email already exists"))
 
+        self._send_validation_token(_email)
+
+        return self.user.email
+
+    def _send_validation_token(self, email):
+
         # Generate user email token
         _token = salted_hmac(
-            self.request.user.pk,
-            f"{self.request.user.email}{_email}",
+            self.user.pk,
+            f"{self.user.email}{email}",
             secret=settings.SECRET_KEY,
             algorithm='sha1'
         ).hexdigest()[::2]
 
         url = '{domain}{path}'.format(domain=Site.objects.get_current().domain,
-                                      path=reverse("account:change_email", kwargs={"email": _email, "token": _token}))
+                                      path=reverse("account:change_email", kwargs={"email": email, "token": _token}))
 
         obj: AccountSettings = AccountSettings.get_solo()
         title = get_field_data_by_lang(obj, get_language(), "change_email_title")
         context = get_field_data_by_lang(obj, get_language(), "change_email").format(url=url)
 
-        send_email(_email, title, context)
-
-        messages.success(self.request, _('Confirm email changing at mailbox'))
-
-        return self.request.user.email
+        send_email(email, title, context)
 
     class Meta:
         model = User
