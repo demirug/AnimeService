@@ -37,7 +37,20 @@ class AccountTestCase(TestCase):
 
     def test_user_avatar(self):
         self.assertEqual(self.user.get_avatar(), static("account/images/default_avatar.png"))
+        self.user.avatar = tempfile.NamedTemporaryFile(suffix=".jpg").name
+        self.user.save()
 
+        self.assertNotEqual(self.user.get_avatar(), static("account/images/default_avatar.png"))
+
+    def test_str(self):
+        self.assertEqual(str(self.user), self.user.username)
+
+    def test_is_staff(self):
+        self.assertTrue(self.user.is_staff)
+
+        loc_user = User.objects.create_user(username="test2", email="test2@gmail.com", is_active=True, password="test2")
+        self.assertFalse(loc_user.is_staff)
+        
     def test_email(self):
         User.objects.create_user(username="test_2", email="test_2@gmail.com", password="test_2")
 
