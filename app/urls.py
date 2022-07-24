@@ -28,3 +28,8 @@ urlpatterns += i18n_patterns(
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += [path('__debug__/', include('debug_toolbar.urls'))]
+
+handler400 = "app.views.bad_request_view"
+handler403 = "app.views.permission_denied_view"
+handler404 = "app.views.not_found_view"
+handler500 = "app.views.server_error_view"
