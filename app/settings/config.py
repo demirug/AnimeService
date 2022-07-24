@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
 
     'shared',
+    'api',
     'apps.menu',
     'apps.helper',
     'apps.news',
