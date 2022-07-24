@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-14 21:48+0300\n"
+"POT-Creation-Date: 2022-07-24 12:08+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -49,13 +49,29 @@ msgstr "Максимальна значення рейтингу %s"
 msgid "Recommended Anime not found"
 msgstr "Рекомендоване аніме не знайдено"
 
-#: .\app\settings\config.py:188
+#: .\app\settings\config.py:190
 msgid "English"
 msgstr ""
 
-#: .\app\settings\config.py:189
+#: .\app\settings\config.py:191
 msgid "Українськa"
 msgstr ""
+
+#: .\app\views.py:8
+msgid "Bad request"
+msgstr "Поганий запрос"
+
+#: .\app\views.py:13
+msgid "Permission denied"
+msgstr "У вас недостатньо прав"
+
+#: .\app\views.py:18
+msgid "The page cant be found"
+msgstr "Сторінка не знайдена"
+
+#: .\app\views.py:23
+msgid "Server error"
+msgstr "Помилка сервера"
 
 #: .\apps\account\forms.py:32
 msgid "Username"
@@ -67,28 +83,28 @@ msgstr "Им'я користувача"
 msgid "Email"
 msgstr ""
 
-#: .\apps\account\forms.py:35 .\apps\account\forms.py:205
-#: .\apps\account\forms.py:243
+#: .\apps\account\forms.py:35 .\apps\account\forms.py:207
+#: .\apps\account\forms.py:245
 msgid "Password"
 msgstr "Пароль"
 
-#: .\apps\account\forms.py:37 .\apps\account\forms.py:161
-#: .\apps\account\forms.py:207
+#: .\apps\account\forms.py:37 .\apps\account\forms.py:163
+#: .\apps\account\forms.py:209
 msgid "Confirm password"
 msgstr "Підтвердження паролю"
 
-#: .\apps\account\forms.py:53 .\apps\account\forms.py:221
+#: .\apps\account\forms.py:53 .\apps\account\forms.py:223
 msgid "Passwords don't match"
 msgstr "Паролі мають бути однаковими"
 
-#: .\apps\account\forms.py:58 .\apps\account\forms.py:184
-#: .\apps\account\forms.py:226
+#: .\apps\account\forms.py:58 .\apps\account\forms.py:186
+#: .\apps\account\forms.py:228
 #, python-format
 msgid "Minimum password length %s chars"
 msgstr "Мінімальна довжина паролю %s символів"
 
-#: .\apps\account\forms.py:61 .\apps\account\forms.py:187
-#: .\apps\account\forms.py:229
+#: .\apps\account\forms.py:61 .\apps\account\forms.py:189
+#: .\apps\account\forms.py:231
 #, python-format
 msgid "Maximum password length %s chars"
 msgstr "Максимальна довжина паролю %s символів"
@@ -111,42 +127,38 @@ msgstr "Користувач з таким ім'ям вже існує"
 msgid "User with that email already exists"
 msgstr "Користувач з таким email вже існує"
 
-#: .\apps\account\forms.py:132
-msgid "Confirm email changing at mailbox"
-msgstr "Підтвердить зміну email. Код відправлено на поштову скриньку"
-
-#: .\apps\account\forms.py:149
+#: .\apps\account\forms.py:151
 msgid "Old password"
 msgstr "Старий пароль"
 
-#: .\apps\account\forms.py:155
+#: .\apps\account\forms.py:157
 msgid "New password"
 msgstr "Новий пароль"
 
-#: .\apps\account\forms.py:170
+#: .\apps\account\forms.py:172
 msgid "Incorrect old password"
 msgstr "Некоректний старий пароль"
 
-#: .\apps\account\forms.py:179
+#: .\apps\account\forms.py:181
 msgid "Passwords not match"
 msgstr "Паролі не збігаються"
 
-#: .\apps\account\forms.py:232
+#: .\apps\account\forms.py:234
 msgid "Password can't be as email or username"
 msgstr "Пароль не може бути як email чи ім'я користувача"
 
-#: .\apps\account\forms.py:239 .\markup\templates\account\login.jinja:23
+#: .\apps\account\forms.py:241 .\markup\templates\account\login.jinja:23
 #: .\markup\templates\account\registered.jinja:11
 #: .\markup\templates\account\verified.jinja:10
 #: .\markup\templates\base.jinja:60
 msgid "Login"
 msgstr "Увійти"
 
-#: .\apps\account\forms.py:261
+#: .\apps\account\forms.py:263
 msgid "Incorrect login or password"
 msgstr "Некоректне ім'я користувача чи пароль"
 
-#: .\apps\account\forms.py:264
+#: .\apps\account\forms.py:266
 msgid "Account not active. Please verify email"
 msgstr "Аккаунт не активований. Підтвердить його кодом з email"
 
@@ -188,59 +200,63 @@ msgstr ""
 msgid "Title for reset email"
 msgstr ""
 
-#: .\apps\account\views.py:86 .\apps\account\views.py:108
-#: .\apps\account\views.py:128 .\apps\helper\views.py:18
+#: .\apps\account\views.py:75 .\apps\account\views.py:97
+#: .\apps\account\views.py:122 .\apps\helper\views.py:18
 #: .\apps\movie\views.py:30 .\apps\movie\views.py:53 .\apps\news\views.py:32
 #: .\apps\textpage\views.py:14
 msgid "Home"
 msgstr "Головна"
 
-#: .\apps\account\views.py:86 .\apps\account\views.py:108
-#: .\apps\account\views.py:128 .\markup\templates\account\profile.jinja:3
+#: .\apps\account\views.py:75 .\apps\account\views.py:97
+#: .\apps\account\views.py:122 .\markup\templates\account\profile.jinja:3
 #: .\markup\templates\account\profile.jinja:18
 msgid "Profile"
 msgstr "Профіль"
 
-#: .\apps\account\views.py:86
+#: .\apps\account\views.py:75
 #: .\markup\templates\account\change_password.jinja:5
 #: .\markup\templates\account\change_password.jinja:13
 #: .\markup\templates\account\profile.jinja:36
 msgid "Change password"
 msgstr "Зміна паролю"
 
-#: .\apps\account\views.py:96
+#: .\apps\account\views.py:85
 msgid "Password has been changed"
 msgstr ""
 
-#: .\apps\account\views.py:128
+#: .\apps\account\views.py:109
+msgid "Confirm email changing at mailbox"
+msgstr "Підтвердить зміну email. Код відправлено на поштову скриньку"
+
+#: .\apps\account\views.py:122
 msgid "Subscribes"
 msgstr "Підписки"
 
-#: .\apps\account\views.py:143 .\apps\account\views.py:217
+#: .\apps\account\views.py:137 .\apps\account\views.py:211
 msgid "Authorization"
 msgstr "Авторізація"
 
-#: .\apps\account\views.py:143 .\markup\templates\account\register.jinja:20
+#: .\apps\account\views.py:137 .\markup\templates\account\register.jinja:20
 msgid "Register"
 msgstr "Реєстрація"
 
-#: .\apps\account\views.py:179 .\apps\account\views.py:202
-#: .\apps\account\views.py:255
+#: .\apps\account\views.py:173 .\apps\account\views.py:196
+#: .\apps\account\views.py:249
 msgid "Incorrect token"
 msgstr "Некоректний токен"
 
-#: .\apps\account\views.py:204
+#: .\apps\account\views.py:198
 msgid "Email has been changed success"
 msgstr "Email був змінений"
 
-#: .\apps\account\views.py:217 .\markup\templates\account\reset.jinja:5
+#: .\apps\account\views.py:211 .\markup\templates\account\reset.jinja:5
 #: .\markup\templates\account\reset_confirm.jinja:5
 #: .\markup\templates\account\reset_sent.jinja:3
 #: .\markup\templates\account\reset_sent.jinja:8
 msgid "Reset"
 msgstr "Сброс"
 
-#: .\apps\account\views.py:271
+#: .\apps\account\views.py:265
 msgid "Password changed success"
 msgstr "Пароль змінено успішно"
 
@@ -699,6 +715,10 @@ msgstr "Аккаунт"
 #: .\markup\templates\base.jinja:58
 msgid "Logout"
 msgstr "Вийти"
+
+#: .\markup\templates\error.jinja:16
+msgid "Return to main"
+msgstr "Повернутись на головну"
 
 #: .\markup\templates\movie\detail.jinja:62
 #: .\markup\templates\movie\detail.jinja:201
