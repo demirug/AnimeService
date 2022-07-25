@@ -78,7 +78,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 
-    'apps.account.languagemiddleware.LanguageUpdateMiddleware',
+    'shared.middlewares.translation.LanguageUpdateMiddleware',
 ]
 
 INTERNAL_IPS = [
