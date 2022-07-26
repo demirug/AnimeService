@@ -34,7 +34,7 @@ class EpisodeFileSerializer(serializers.ModelSerializer):
 
 class EpisodeSerializer(serializers.ModelSerializer):
     """Serializer for Episode model. Displaying all files"""
-    api_url = serializers.HyperlinkedIdentityField(view_name='api:episode-detail', lookup_field='pk')
+    api_url = serializers.HyperlinkedIdentityField(view_name='api:v1:episode-detail', lookup_field='pk')
 
     class Meta:
         model = Episode
@@ -43,7 +43,7 @@ class EpisodeSerializer(serializers.ModelSerializer):
 
 class SeasonSerializer(serializers.ModelSerializer):
     """Serializer for season model"""
-    api_url = serializers.HyperlinkedIdentityField(view_name='api:season-detail', lookup_field='pk')
+    api_url = serializers.HyperlinkedIdentityField(view_name='api:v1:season-detail', lookup_field='pk')
 
     class Meta:
         model = Season
@@ -60,7 +60,7 @@ class AnimeSerializer(serializers.ModelSerializer):
     seasons = SeasonSerializer(many=True)
 
     poster = serializers.ReadOnlyField(source='poster.url')
-    url = serializers.HyperlinkedIdentityField(view_name='api:anime-detail', lookup_field='slug')
+    url = serializers.HyperlinkedIdentityField(view_name='api:v1:anime-detail', lookup_field='slug')
 
     class Meta:
         model = Anime
