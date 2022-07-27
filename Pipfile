@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 django = "==3.2"
 pillow = "*"
-python-dotenv = "*"
 django-jinja = "*"
 jinja2 = "*"
 django-debug-toolbar = "==3.4.0"
@@ -14,12 +13,13 @@ djangorestframework = "*"
 django-admin-sortable2 = "*"
 celery = "*"
 django-redis = "*"
-eventlet = "*"
 django-ckeditor = "*"
 django-filter = "*"
 django-solo = "*"
 django-modeltranslation = "*"
 coverage = "*"
+gunicorn = "*"
+psycopg2 = "*"
 
 [dev-packages]
 

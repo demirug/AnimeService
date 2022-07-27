@@ -1,5 +1,6 @@
 .idea
 .env
+.env.db
 staticfiles/
 __pycache__/
 media
