@@ -1,0 +1,47 @@
+version: "3.9"
+services:
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/home/app/web/staticfiles
+      - media_volume:/home/app/web/media
+    ports:
+      - 80:80
+    depends_on:
+      - web
+  web:
+    build: .
+    command: gunicorn --bind 0.0.0.0:8000 app.wsgi
+    volumes:
+      - static_volume:/home/app/web/staticfiles
+      - media_volume:/home/app/web/media
+    expose:
+      - 8000
+    env_file:
+      - .env
+    depends_on:
+      - db
+  celery:
+    build: .
+    command: celery -A app worker -l info
+    env_file:
+      - .env
+    links:
+      - redis
+    depends_on:
+      - redis
+  redis:
+    image: redis
+    volumes:
+      - redis_data:/data
+  db:
+    image: postgres:10
+    env_file:
+      - .env.db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
+  redis_data:
