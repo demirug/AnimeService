@@ -20,6 +20,7 @@ django-modeltranslation = "*"
 coverage = "*"
 gunicorn = "*"
 psycopg2 = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
