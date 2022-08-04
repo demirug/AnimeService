@@ -66,8 +66,8 @@ class AnimeDetailView(BreadCrumbsMixin, DetailView):
             else:
                 context['season'] = anime.seasons.order_by('number').first()
 
-            context['season_list'] = anime.seasons.values_list('number', flat=True)
-            context['episode_list'] = context['season'].episodes.values('number', 'pk')
+        context['season_list'] = anime.seasons.values_list('number', flat=True)
+        context['episode_list'] = context['season'].episodes.values('number', 'pk')
 
         context['reviews'] = context['season'].reviews.select_related("user").order_by("-datetime")
 
