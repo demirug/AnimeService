@@ -1,5 +1,4 @@
 .idea
-.env
 .env.db
 staticfiles/
 __pycache__/
