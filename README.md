@@ -53,4 +53,4 @@ POSTGRES_DB=testbase
 ```
 
 ---
-__Project review https://youtu.be/0g5SU5b0yv8__
+__Project review https://youtu.be/Eqie1PW7sCM__
