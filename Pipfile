@@ -21,6 +21,7 @@ coverage = "*"
 gunicorn = "*"
 psycopg2 = "*"
 python-dotenv = "*"
+channels = "*"
 
 [dev-packages]
 

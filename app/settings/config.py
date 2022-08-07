@@ -37,6 +37,7 @@ ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -85,6 +86,8 @@ MIDDLEWARE = [
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+ASGI_APPLICATION = 'app.asgi.application'
 
 ROOT_URLCONF = 'app.urls'
 
