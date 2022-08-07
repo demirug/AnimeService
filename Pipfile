@@ -22,6 +22,7 @@ gunicorn = "*"
 psycopg2 = "*"
 python-dotenv = "*"
 channels = "*"
+channels-redis = "*"
 
 [dev-packages]
 
