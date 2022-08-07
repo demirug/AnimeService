@@ -64,7 +64,8 @@ INSTALLED_APPS = [
     'apps.news',
     'apps.textpage',
     'apps.account',
-    'apps.movie'
+    'apps.movie',
+    'apps.chat',
 ]
 
 MIDDLEWARE = [
