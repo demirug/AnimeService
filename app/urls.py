@@ -4,6 +4,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
+from apps.chat.views import ChatView
 from apps.helper.views import FeedbackFAQView
 from apps.news.views import *
 from apps.textpage.views import TextPageDetailView
@@ -23,6 +24,7 @@ urlpatterns += i18n_patterns(
     path("anime/", include(("apps.movie.urls", "movie"))),
     path("", include(("apps.account.urls", "account"))),
     path("page/<slug:slug>/", TextPageDetailView.as_view(), name="textpage"),
+    path("chat/", ChatView.as_view(), name="chat"),
 )
 
 if settings.DEBUG:
