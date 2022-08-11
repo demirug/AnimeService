@@ -1,5 +1,5 @@
 var chatSocket = null;
-const url = 'ws://' + window.location.host + '/chat/'
+const url = (window.location.protocol === 'https:' ? "wss://" : "ws://") + window.location.host + '/ws/chat/'
 var username = null;
 
 $(document).ready(function () {
