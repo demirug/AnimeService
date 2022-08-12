@@ -1,11 +1,14 @@
+import os
+
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django import forms
 from django.core.exceptions import ValidationError
 from django.db.models import QuerySet
 from django.utils.translation import gettext_lazy as _
 
+from app.settings import MEDIA_ROOT
 from apps.movie.constants import AnimeType
-from apps.movie.models import Review, Anime, Episode, Season, MovieSettings
+from apps.movie.models import Review, Anime, Episode, Season, MovieSettings, EpisodeFile, extension_validation
 from shared.mixins.translate import TranslateFormWidgetMixin
 
 
@@ -69,6 +72,30 @@ class EpisodeForm(forms.ModelForm):
         model = Episode
         fields = "__all__"
         labels = {"season": _("Anime")}
+
+
+class EpisodeFileForm(forms.ModelForm):
+
+    def clean_path(self):
+        """Validate of file exists"""
+        path = self.cleaned_data['path']
+        if path:
+            if not os.path.exists(os.path.join(MEDIA_ROOT, path)):
+                raise ValidationError(_("File not found"))
+        return path
+
+    def clean(self):
+        """Validate file or path given"""
+        data = self.cleaned_data
+        if 'file' in data and 'path' in data:
+            if not data['file'] and not data['path']:
+                raise ValidationError(_("A FILE or FILE PATH is required"))
+
+        return data
+
+    class Meta:
+        model = EpisodeFile
+        fields = "__all__"
 
 
 class MovieSettingsForm(TranslateFormWidgetMixin, forms.ModelForm):
