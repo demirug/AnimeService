@@ -16,7 +16,12 @@ class QualitySerializer(serializers.ModelSerializer):
 class FileSerializer(serializers.ModelSerializer):
     """Serializer for EpisodeFile model. Including quality relations"""
     quality = QualitySerializer()
-    file = serializers.ReadOnlyField(source='file.url')
+    file = serializers.SerializerMethodField()
+
+    def get_file(self, obj):
+        if obj.file.name:
+            return obj.file.url
+        return obj.path
 
     class Meta:
         model = EpisodeFile
