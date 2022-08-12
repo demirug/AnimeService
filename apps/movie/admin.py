@@ -4,13 +4,14 @@ from django.utils.html import format_html
 from modeltranslation.admin import TranslationAdmin
 from solo.admin import SingletonModelAdmin
 
-from .forms import AnimeForm, EpisodeForm, SeasonForm, MovieSettingsForm
+from .forms import AnimeForm, EpisodeForm, SeasonForm, MovieSettingsForm, EpisodeFileForm
 from .models import EpisodeFile, Episode, Quality, Season, Anime, Review, Tag, Style, AnimeImage, \
     MovieSettings
 
 
 class EpisodeFileInline(admin.TabularInline):
     model = EpisodeFile
+    form = EpisodeFileForm
     extra = 1
 
 

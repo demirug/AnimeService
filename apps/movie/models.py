@@ -2,6 +2,7 @@ import os
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator, MinValueValidator
 from django.db import models
 from django.urls import reverse
@@ -144,9 +145,16 @@ def anime_path(instance, filename):
         filename)
 
 
+def extension_validation(object):
+    data = object.split('.')
+    if len(data) == 1 or data[1] not in ALLOWED_VIDEO_FORMATS:
+        raise ValidationError("Not supported extension")
+
+
 class EpisodeFile(models.Model):
     """Episode File model, unique constraint quality and episode"""
-    file = models.FileField(upload_to=anime_path, validators=[FileExtensionValidator(ALLOWED_VIDEO_FORMATS)])
+    file = models.FileField(upload_to=anime_path, blank=True, validators=[FileExtensionValidator(ALLOWED_VIDEO_FORMATS)])
+    path = models.CharField("File path", max_length=150, blank=True, validators=[extension_validation])
     quality = models.ForeignKey(Quality, on_delete=models.CASCADE)
     episode = models.ForeignKey(Episode, on_delete=models.CASCADE, related_name="files")
 
@@ -154,10 +162,6 @@ class EpisodeFile(models.Model):
         verbose_name = _("Episode File")
         verbose_name_plural = _("Episode Files")
         unique_together = [('quality', 'episode')]
-
-    def extension(self):
-        name, extension = os.path.splitext(self.file.name)
-        return extension[1:]
 
     def __str__(self):
         return f"{self.episode}/{self.quality}"
@@ -231,24 +235,26 @@ class MovieSettings(SingletonModel):
                                                       default=10)
 
     paginator_pages_show = models.PositiveSmallIntegerField(_("Paginator pages show"),
-                                                            help_text=_("How many additional pages will be shown in paginator"),
+                                                            help_text=_(
+                                                                "How many additional pages will be shown in paginator"),
                                                             validators=[MinValueValidator(1)],
                                                             default=3)
 
     max_reviews_per_season = models.PositiveSmallIntegerField(_("Reviews per season"),
-                                                              help_text=_("How many reviews can a user send on an season"),
+                                                              help_text=_(
+                                                                  "How many reviews can a user send on an season"),
                                                               validators=[MinValueValidator(1)],
                                                               default=2)
 
     min_review_length = models.PositiveSmallIntegerField(_("Min Review length"),
-                                                      help_text=_("Minimum length of review text"),
-                                                      validators=[MinValueValidator(1)],
-                                                      default=20)
+                                                         help_text=_("Minimum length of review text"),
+                                                         validators=[MinValueValidator(1)],
+                                                         default=20)
 
     max_review_length = models.PositiveSmallIntegerField(_("Maximum Review length"),
-                                                      help_text=_("Maximum length of review text"),
-                                                      validators=[MinValueValidator(1)],
-                                                      default=500)
+                                                         help_text=_("Maximum length of review text"),
+                                                         validators=[MinValueValidator(1)],
+                                                         default=500)
 
     min_rating_val = models.PositiveSmallIntegerField(_("Minimum rating value"),
                                                       validators=[MinValueValidator(1)],
